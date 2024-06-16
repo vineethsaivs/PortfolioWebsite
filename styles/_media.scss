@@ -279,3 +279,18 @@
         }
     }
 }
+
+// new
+@media screen and (max-width: 1250px) {
+    #favourite-sports .blogs {
+      grid-template-columns: repeat(2, 1fr);
+      margin-top: 6rem;
+    }
+  }
+  
+  @media screen and (max-width: 660px) {
+    #favourite-sports .blogs {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+// new
