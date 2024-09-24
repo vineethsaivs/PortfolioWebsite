@@ -326,6 +326,85 @@
                 </div>
             </div>
         </section>
+        <section class="container" id="research-projects">
+            <div class="blogs-content">
+                <div class="main-title">
+                    <h2>Research <span>Work</span><span class="bg-text">Research Work</span></h2>
+                </div>
+                <div class="blogs">
+        
+                    <!-- Project 1 -->
+                    <div class="blog" 
+                         data-title="Audit Logging for Cyber-Physical Systems with Machine Learning" 
+                         data-description="In this project, I focused on mitigating adversarial effects in cyber-physical systems, particularly in robot programming. By integrating audit logging and machine learning techniques, the system ensures secure and reliable programming environments. My work involves using advanced algorithms to detect anomalies or adversarial behaviors that may compromise system integrity. Through robust audit logging mechanisms, this solution safeguards systems from attacks, providing real-time feedback to avoid disruptions during robot programming.
+                         Technical Details: The machine learning models utilized in this project include a combination of spiking neural networks (SNNs) and Graph Neural Networks (GNNs) to accurately model the dependencies within the robot programming tasks. SNNs, which are inspired by biological neurons, offer real-time capabilities suited for event-driven tasks in cyber-physical systems. Adversarial training is applied using PGD (Projected Gradient Descent) to create adversarial examples during training, enhancing the model's resilience against real-world attacks. Additionally, the audit logging system integrates blockchain technology to ensure tamper-proof logs and secure storage, making it highly suitable for IoT-driven and real-time environments.
+                         Technologies: Machine Learning, Audit Logging, Cybersecurity, Robot Programming, SNNs, GNNs, Blockchain.
+                         Keywords: Adversarial ML, Cyber-Physical Systems, Secure Robot Programming, Spiking Neural Networks, Blockchain." 
+                         data-professor="Dr. Sepehr Amir-Mohammadian">
+                        <img src="img/audit_logging.webp" alt="">
+                        <div class="blog-text">
+                            <h4>Audit Logging for Cyber-Physical Systems with Machine Learning</h4>
+                            <p><strong>Description:</strong> Mitigating adversarial effects in robot programming through audit logging and machine learning. The system safeguards against attacks, providing real-time feedback to ensure secure operations.</p>
+                            <p><strong>Professor:</strong> Dr. Sepehr Amir-Mohammadian</p>
+                        </div>
+                    </div>
+        
+                    <!-- Project 2 -->
+                    <div class="blog" 
+                         data-title="Release Notes Classification and Prioritization Using Deep Learning" 
+                         data-description="This project aims to revolutionize how software release notes are classified and prioritized. I developed a system to automatically categorize release notes based on keywords and contextual importance using state-of-the-art deep learning models. The system then ranks these updates in terms of priority and suggests important upgrades to users, ensuring critical updates are handled promptly. Additionally, the project includes a recommendation engine powered by advanced neural networks to further optimize the user experience.
+                         Technical Details: The classification system is built on BERT (Bidirectional Encoder Representations from Transformers) for its ability to understand contextual semantics. Additionally, T5 (Text-to-Text Transfer Transformer) is used for sequence-to-sequence tasks, allowing for more nuanced categorization and summarization of release notes. For the recommendation engine, Neural Collaborative Filtering (NCF) with Variational Autoencoders (VAEs) is employed, enabling the system to personalize upgrade suggestions based on historical user behavior and priorities. The pipeline is optimized using Hugging Face's Transformers library and parallelized using PyTorch's DDP (Distributed Data Parallel) framework to scale on multi-GPU environments.
+                         Technologies: Deep Learning, Natural Language Processing (NLP), Neural Networks, BERT, T5, VAEs, NCF, PyTorch DDP.
+                         Keywords: Text Classification, Release Management, Deep Learning, Priority Ranking, Transformers, Neural Collaborative Filtering." 
+                         data-professor="Dr. Solomon Berhe">
+                        <img src="img/release_notes.webp" alt="">
+                        <div class="blog-text">
+                            <h4>Release Notes Classification and Prioritization Using Deep Learning</h4>
+                            <p><strong>Description:</strong> Classifying release notes based on key words and context, prioritizing these updates, and using advanced deep learning models to build a recommendation engine for user upgrades.</p>
+                            <p><strong>Professor:</strong> Dr. Solomon Berhe</p>
+                        </div>
+                    </div>
+                    <!-- Project 3 -->
+                    <div class="blog" 
+                         data-title="Virtual TA Using Retrieval-Augmented Generation" 
+                         data-description="The Virtual TA is an intelligent assistant designed to help students with course-related queries. By integrating an open-source large language model (LLM) for security, I fine-tuned the model on lecture videos, notes, and other course materials from the professor. The system performs Retrieval-Augmented Generation (RAG) to answer student questions accurately and contextually. This project provides a secure, scalable solution to enhance student learning outside classroom hours.
+                         Technical Details: The core of this system is a fine-tuned LLaMA 2 model, optimized for educational tasks using LoRA (Low-Rank Adaptation) for efficient and memory-friendly fine-tuning. The retrieval mechanism employs Faiss (Facebook AI Similarity Search) to efficiently handle large document corpora for semantic search. The RAG framework leverages both Dense Passage Retrieval (DPR) and Generative Transformers, allowing the model to pull accurate information from a knowledge base and generate coherent, context-specific answers. Security is ensured through differential privacy mechanisms and homomorphic encryption, safeguarding sensitive academic content while maintaining robust model performance.
+                         Technologies: LLM, Retrieval-Augmented Generation (RAG), LLaMA 2, LoRA, Faiss, DPR, Transformers, Differential Privacy. 
+                         Keywords: Virtual Assistant, Educational Technology, Open-Source LLM, Fine-Tuning, Dense Passage Retrieval." 
+                         data-professor="Dr. Vivek Pallipuram">
+                        <img src="img/virtual_TA.webp" alt="">
+                        <div class="blog-text">
+                            <h4>Virtual TA Using Retrieval-Augmented Generation</h4>
+                            <p><strong>Description:</strong> Building an intelligent assistant that can help students with course material using RAG and fine-tuned open-source LLM models for security. This assistant answers students' questions contextually based on professor lecture materials.</p>
+                            <p><strong>Professor:</strong> Dr. Vivek Pallipuram</p>
+                        </div>
+                    </div>
+                    <!-- Project 4 -->
+                    <div class="blog" 
+                         data-title="Exoplanet Discovery and Analysis" 
+                         data-description="In this research project, I analyze exoplanetary data to understand the characteristics of planets orbiting distant stars. The analysis is based on light dimming patterns observed when a planet passes in front of its host star. By calculating the extent of dimming and the star's rotational speed, I estimate the exoplanet’s size, gravity, and other characteristics. This project contributes to the scientific understanding of exoplanets and their potential habitability.
+                         Technical Details: This project uses convolutional neural networks (CNNs) in combination with recurrent neural networks (RNNs) to process time-series photometric data collected from space telescopes like Kepler and TESS. The model architecture includes a hybrid CNN-RNN design, where CNNs handle spatial dependencies while LSTMs (Long Short-Term Memory networks) capture temporal patterns in the light curves. Bayesian optimization is employed to fine-tune model hyperparameters, ensuring high accuracy in detecting minute fluctuations in starlight. The project also incorporates Gaussian Processes for uncertainty quantification in exoplanet detection, providing probabilistic estimates of planet size and orbital characteristics.
+                         Technologies: CNN, RNN, LSTMs, Bayesian Optimization, Gaussian Processes, Kepler, TESS.
+                         Keywords: Exoplanets, Astronomy, Planetary Analysis, CNNs, RNNs, Bayesian Optimization, Gaussian Processes." 
+                         data-professor="Dr. Daniel Jontof-Hutter">
+                        <img src="img/exo.webp" alt="">
+                        <div class="blog-text">
+                            <h4>Exoplanet Discovery and Analysis</h4>
+                            <p><strong>Description:</strong> Analyzing light dimming data from stars to discover and characterize exoplanets, calculating planet size, gravity, and other characteristics based on the light fluctuations and rotational speed of the stars.</p>
+                            <p><strong>Professor:</strong> Dr. Daniel Jontof-Hutter</p>
+                        </div>
+                    </div>
+
+                    <!-- Building an intelligent assistant that can help students with course material using RAG and fine-tuned open-source LLM models for security. This assistant answers students' questions contextually based on professor lecture materials. -->
+                    <!-- Analyzing light dimming data from stars to discover and characterize exoplanets, calculating planet size, gravity, and other characteristics based on the light fluctuations and rotational speed of the stars. -->
+                    <!-- Add more projects here in a similar format -->
+        
+                </div>
+            </div>
+        </section>
+
+
+
         <section class="container" id="blogs">
             <div class="blogs-content">
                 <div class="main-title">
@@ -565,6 +644,11 @@
         <div class="control" data-id="portfolio">
             <i class="fas fa-briefcase"></i>
         </div>
+        
+        <div class="control" data-id="research-projects">
+            <i class="fas fa-book-open"></i>
+        </div>
+
         <div class="control" data-id="blogs">
             <i class="far fa-newspaper"></i>
         </div>
@@ -579,5 +663,19 @@
         <i class="fas fa-adjust"></i>
     </div>
     <script src="app.js"></script>
+
+
+<!-- Modal Structure -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="modal-title"></h2>
+        <p id="modal-description"></p>
+        <p id="modal-professor"></p>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script src="app.js"></script>
 </body>
 </html>
