@@ -593,6 +593,33 @@ section {
   display: flex;
   padding-top: 3.5rem;
 }
+
+.contact-info {
+  margin-bottom: 20px; /* Adjust the space between contact info and icons */
+}
+
+.contact-icons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Styling for hover effect */
+.contact-icons a {
+  transition: transform 0.3s ease;
+}
+
+.contact-icons a:hover {
+  transform: scale(1.1); /* Slightly enlarge the icon on hover */
+}
+
+.contact-icons img {
+  width: 30px;
+  height: 30px;
+}
+
 .contact-content-con .left-contact {
   flex: 2;
 }
