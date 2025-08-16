@@ -120,7 +120,83 @@ section {
     }
 }
 
-.theme-btn {
+// .theme-btn {
+//     top: 5%;
+//     right: 3%;
+//     width: 70px;
+//     height: 70px;
+//     border-radius: 50%;
+//     background-color: var(--color-grey-4);
+//     cursor: pointer;
+//     position: fixed;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     box-shadow: 0 3px 15px rgba(0,0,0,.3);
+//     transition: all .1s ease-in-out;
+//     &:active{ transform: translateY(-3px); }
+//     i{
+//         font-size: 1.4rem;
+//         color: var(--color-grey-2);
+//         pointer-events: none;
+//     }
+// }
+
+/* ===== Base (Dark theme = default) ===== */
+:root {
+    --color-bg: #0f1220;
+    --color-text: #e9eef7;
+  
+    /* greys used across UI (your button uses these) */
+    --color-grey-1: #cfd6e6;
+    --color-grey-2: #8a95ad;
+    --color-grey-3: #2a2f41;
+    --color-grey-4: #3b4252;
+  
+    --color-primary: #34d399;   /* emerald */
+    --color-accent:  #3b82f6;
+  
+    --shadow-elev: 0 3px 15px rgba(0,0,0,.3);
+    --transition-fast: .15s ease-in-out;
+  }
+  
+  /* Smooth theme fade */
+  html, body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    transition: background var(--transition-fast), color var(--transition-fast);
+  }
+  
+  /* ===== Light theme ===== */
+  body.light-mode {
+    --color-bg: #f7f8fb;
+    --color-text: #0f172a;
+  
+    --color-grey-1: #3b4252;
+    --color-grey-2: #5b647a;
+    --color-grey-3: #dfe5f0;
+    --color-grey-4: #ffffff;
+  
+    --color-primary: #2563eb;   /* blue */
+    --color-accent:  #06b6d4;
+  }
+  
+  /* ===== Sunset/Red theme ===== */
+  body.red-mode {
+    --color-bg: #1b100b;
+    --color-text: #fff4ec;
+  
+    --color-grey-1: #ffd9c6;
+    --color-grey-2: #e7c1a9;
+    --color-grey-3: #3a2219;
+    --color-grey-4: #23140e;
+  
+    --color-primary: #fb923c;   /* orange */
+    --color-accent:  #ef4444;   /* red */
+  }
+  
+  /* Your existing button styles will automatically recolor via the variables */
+  .theme-btn {
     top: 5%;
     right: 3%;
     width: 70px;
@@ -132,16 +208,16 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 3px 15px rgba(0,0,0,.3);
-    transition: all .1s ease-in-out;
-    &:active{ transform: translateY(-3px); }
-    i{
-        font-size: 1.4rem;
-        color: var(--color-grey-2);
-        pointer-events: none;
-    }
-}
-
+    box-shadow: var(--shadow-elev);
+    transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  .theme-btn:active { transform: translateY(-3px); }
+  .theme-btn i {
+    font-size: 1.4rem;
+    color: var(--color-grey-2);
+    pointer-events: none;
+  }
+  
 
 /*Header-content*/
 .header-content {
