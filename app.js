@@ -9,66 +9,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // // Toggle light/dark mode with a single event listener
-    // document.querySelector(".theme-btn").addEventListener("click", () => {
-    //     console.log('Theme button clicked!');
-    //     document.body.classList.toggle("light-mode");
-    // });
-
-// ---- Theme cycler (Dark -> Light -> Red) ----
-const THEME_KEY = "site-theme";
-const THEMES = ["dark", "light-mode", "red-mode"]; // class names on <body>
-const btn = document.querySelector(".theme-btn");
-
-// init
-(function initTheme() {
-  const saved = localStorage.getItem(THEME_KEY);
-  if (saved && THEMES.includes(saved)) {
-    applyTheme(saved);
-  } else {
-    applyTheme("dark"); // default
-  }
-})();
-
-btn.addEventListener("click", () => {
-  const current = getCurrentTheme();
-  const idx = THEMES.indexOf(current);
-  const next = THEMES[(idx + 1) % THEMES.length];
-  applyTheme(next, true);
-});
-
-function getCurrentTheme() {
-  // body has either no class (dark) or one of the theme classes
-  if (document.body.classList.contains("light-mode")) return "light-mode";
-  if (document.body.classList.contains("red-mode")) return "red-mode";
-  return "dark";
-}
-
-function applyTheme(name, persist = false) {
-  document.body.classList.remove("light-mode", "red-mode");
-  if (name !== "dark") document.body.classList.add(name);
-  if (persist) localStorage.setItem(THEME_KEY, name);
-}
-
-
-
-
-    // Modal handling
+    // ── Modal handling ──
     const modal = document.getElementById('modal');
     const modalTitle = document.getElementById('modal-title');
     const modalDescription = document.getElementById('modal-description');
     const modalProfessor = document.getElementById('modal-professor');
     const closeBtn = document.querySelector('.close');
 
-    // Function to open modal with content
     const openModal = (title, description, professor) => {
-        modal.style.display = 'flex'; // Change to flex to center content
+        modal.style.display = 'flex';
         modalTitle.innerText = title;
         modalDescription.innerText = description;
         modalProfessor.innerText = `Professor: ${professor}`;
     };
 
-    // Attach click event listeners to each blog post in the #research-projects section
     const blogs = document.querySelectorAll('#research-projects .blog');
     blogs.forEach(blog => {
         blog.addEventListener('click', () => {
@@ -79,23 +33,58 @@ function applyTheme(name, persist = false) {
         });
     });
 
-    // Close modal when the close button is clicked
     closeBtn.addEventListener('click', () => {
         modal.style.display = 'none';
     });
 
-
-    
-    // document.querySelector(".theme-btn").addEventListener("click", () => {
-    //     console.log('Theme button clicked!');
-    //     document.body.classList.toggle("red-mode");
-    // });    
-
-
-    // Close modal when clicking outside the modal content
     window.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.style.display = 'none';
         }
     });
+
+    // ── Contact form handler ──
+    const form = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const status = document.getElementById('formStatus');
+
+    if (form && submitBtn && status) {
+        function setStatus(msg, ok) {
+            status.textContent = msg;
+            status.style.color = ok ? '#22c55e' : '#e50914';
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!form.checkValidity()) {
+                setStatus('Please fill all required fields correctly.', false);
+                return;
+            }
+            if (form.website && form.website.value) {
+                setStatus('Spam detected.', false);
+                return;
+            }
+
+            const ENDPOINT = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span> Sending\u2026';
+            setStatus('', true);
+
+            try {
+                const formData = new FormData(form);
+                formData.append('source', 'portfolio-contact');
+                formData.append('timestamp', new Date().toISOString());
+                await fetch(ENDPOINT, { method: 'POST', body: formData, mode: 'no-cors' });
+                form.reset();
+                setStatus('Thanks! Your message has been sent.', true);
+            } catch (err) {
+                console.error(err);
+                setStatus('Something went wrong. Please email me directly.', false);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send';
+            }
+        });
+    }
 });

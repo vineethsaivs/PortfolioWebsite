@@ -4,41 +4,40 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
-    <link rel="stylesheet" href="styles/styles.css">
+    <title>Vineeth Sai — Data Scientist</title>
+    <link rel="stylesheet" href="styles/cosmic.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        .skill-category {
-            margin-bottom: 30px;
-        }
-
-        .category-title {
-            font-size: 1.5em;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Grotesk:wght@500;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="main-content">
+    <canvas id="starfield"></canvas>
+    <div id="cursor-glow"></div>
+    <canvas id="floating-icons"></canvas>
+
     <header class="container header active" id="home">
         <div class="header-content">
             <div class="left-header">
-                <div class="h-shape"></div>
-                <div class="image">
-                    <img src="img/main.jpeg" alt="">
+                <div class="hero-image-wrapper" data-reveal>
+                    <div class="orbital-ring"></div>
+                    <div class="image">
+                        <img src="img/main.jpeg" alt="Vineeth Sai">
+                    </div>
                 </div>
             </div>
             <div class="right-header">
-                <h1 class="name">
-                    Welcome to <span>Vineeth Sai</span>'s World of Data!</h1>
-
-                <h2> Explore my Portfolio Website.</h2>
-                <p>
-                    Hey there! I'm Vineeth, a data scientist with a passion for exploring the mysteries of the universe and using AI to make a positive impact. Whether it's discussing philosophy, cheering on my favorite sports team or diving into the latest tech, I'm always up for an engaging conversation.
+                <h1 class="name" data-reveal>
+                    Welcome to <span class="gradient-text">Vineeth Sai</span>'s World of Data!</h1>
+                <div class="typing-wrapper" data-reveal aria-label="AI Engineer at AT&T, ML/AI Research Engineer at Nabu Tutor, Astrophysics/Cosmology Enthusiast, Sports Fan,           
+Philosophy Buff, Tech Explorer, and Lifelong Learner">
+                    <span class="typing-text" aria-hidden="true"></span><span class="typing-cursor" aria-hidden="true">|</span>
+                </div>
+                <p data-reveal>
+                    AI/ML Engineer, applied researcher, and someone who connects dots across astrophysics, philosophy, and sports. I build agentic systems and multimodal pipelines by day and explore the cosmos by night.
                 </p>
-                <div class="btn-con">
-                    <a href="https://drive.google.com/file/d/1nNxSZgwb5T60t3yLVvRIc5h9lO50k3iR/view?usp=sharing" class="main-btn">
+                <div class="btn-con" data-reveal>
+                    <a href="vineeth_march_2026.pdf" target="_blank" class="main-btn">
                         <span class="btn-text">View Resume</span>
                         <span class="btn-icon"><i class="fas fa-download"></i></span>
                     </a>
@@ -48,64 +47,50 @@
     </header>
     <main>
         <section class="container about" id="about">
-            <div class="main-title">
+            <div class="main-title" data-reveal>
                 <h2>About <span>me</span><span class="bg-text">my stats</span></h2>
             </div>
 
                 <div class="about-container" id="about">
                     <div class="left-about">
-                        <div style="max-width: 10000px;"> <!-- Adjust width here -->
-                            <p>
-                              Hey there! I'm <strong>Vineeth</strong> — an <strong>ML/AI Engineer</strong> and <strong>Data Scientist</strong> with curiosity far beyond code.
+                        <div>
+                            <p data-reveal>
+                              Hey there! I'm <strong>Vineeth</strong> — <strong>AI/ML Engineer</strong>, applied researcher, and someone who takes curiosity seriously. Professionally, I build <strong>agentic systems</strong>, <strong>RAG architectures</strong>, and <strong>multimodal pipelines</strong>. On the research side, I'm working on making <strong>VLM training</strong> more efficient through horizon minimization and <strong>reinforcement learning</strong>.
                             </p>
-                            <p>
-                              I’ve always been fascinated by the <strong>universe</strong>, <strong>astrophysics</strong>, and <strong>cosmology</strong>, while <strong>philosophy</strong> helps me explore life’s bigger questions. I love using <strong>machine learning</strong> to build solutions for real-world problems, especially in <strong>science and space research</strong>.
+                            <p data-reveal>
+                              What makes me tick goes way beyond code. I'm captivated by <strong>astrophysics</strong> and the mysteries of the <strong>cosmos</strong>, grounded by <strong>philosophy</strong> — from Zarathustra to Meditations — and energized by sports in all forms: <strong>F1</strong> for the tactics, <strong>football</strong> for the passion, <strong>tennis</strong> for the craft, with <strong>basketball</strong> and <strong>cricket</strong> always in the rotation.
                             </p>
-                            <p>
-                              Outside of work, you’ll find me following <strong>sports highlights</strong> or geeking out over <strong>tech breakthroughs</strong>.
+                            <p data-reveal>
+                              I'm a fixture at SF hackathons, a relentless explorer of emerging tech, and someone who genuinely believes the best ideas come from <strong>connecting dots across disciplines</strong>. Pull up a chair — let's chat.
                             </p>
-                            <p>
-                              If you’re into <strong>AI, data, the universe, or sports</strong>, let’s connect!
-                            </p>
-                          </div>
-                          
-                        
-                  
-                      <div class="btn-con">
-                        <a href="https://drive.google.com/file/d/1nNxSZgwb5T60t3yLVvRIc5h9lO50k3iR/view?usp=sharing" class="main-btn">
-                          <span class="btn-text">View Resume</span>
-                          <span class="btn-icon"><i class="fas fa-download" aria-hidden="true"></i></span>
-                        </a>
-                      </div>
+                        </div>
                     </div>
-                  
                     <div class="right-about">
-                      <div class="about-item card">
+                      <div class="about-item glass-card" data-reveal>
                         <i class="fas fa-code" aria-hidden="true"></i>
                         <div class="abt-text">
-                          <!-- show final number by default; data-target used for animation if JS runs -->
-                          <p class="large-text counter" data-target="40" data-suffix="+">40+</p>
+                          <p class="large-text counter" data-target="650" data-suffix="+">650+</p>
                           <p class="small-text">Projects Completed</p>
                         </div>
                       </div>
-                  
-                      <div class="about-item card">
-                        <i class="fas fa-clock" aria-hidden="true"></i>
+
+                      <div class="about-item glass-card" data-reveal>
+                        <i class="fas fa-award" aria-hidden="true"></i>
                         <div class="abt-text">
-                          <p class="large-text counter" data-target="2" data-suffix="+">2+</p>
-                          <p class="small-text">Years of Experience</p>
+                          <p class="large-text counter" data-target="15" data-suffix="+">15+</p>
+                          <p class="small-text">Awards Won</p>
                         </div>
                       </div>
-                  
-                      <div class="about-item card">
+
+                      <div class="about-item glass-card" data-reveal>
                         <i class="fas fa-smile-beam" aria-hidden="true"></i>
                         <div class="abt-text">
                           <p class="large-text counter" data-target="30" data-suffix="+">30+</p>
                           <p class="small-text">Happy Clients</p>
                         </div>
                       </div>
-                  
-                      <div class="about-item card">
+
+                      <div class="about-item glass-card" data-reveal>
                         <i class="fas fa-microchip" aria-hidden="true"></i>
                         <div class="abt-text">
                           <p class="large-text counter" data-target="15" data-suffix="+">15+</p>
@@ -113,178 +98,292 @@
                         </div>
                       </div>
                     </div>
-                  
-                    <!-- Scoped styles JUST for this block -->
-                    <style>
-                      /* Layout */
-                      #about.about-container {
-                        display: grid;
-                        grid-template-columns: 1.1fr 1fr;
-                        gap: 2rem 2.5rem;
-                        align-items: start;
-                      }
-                      @media (max-width: 900px) {
-                        #about.about-container { grid-template-columns: 1fr; }
-                        #about .right-about { grid-template-columns: repeat(2, minmax(0,1fr)); }
-                      }
-                      @media (max-width: 520px) {
-                        #about .right-about { grid-template-columns: 1fr; }
-                      }
-                  
-                      /* Left text */
-                      #about .left-about p { margin: 0 0 0.9rem 0; line-height: 1.7; }
-                      #about .left-about strong { font-weight: 700; }
-                  
-                      /* Cards grid */
-                      #about .right-about {
-                        display: grid;
-                        grid-template-columns: repeat(2, minmax(0,1fr));
-                        gap: 1rem;
-                      }
-                      #about .about-item.card {
-                        padding: 1.2rem 1.1rem;
-                        border: 1px solid rgba(255,255,255,0.08);
-                        border-radius: 14px;
-                        background: rgba(255,255,255,0.02);
-                        backdrop-filter: blur(2px);
-                        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-                      }
-                      #about .about-item.card:hover {
-                        transform: translateY(-4px);
-                        box-shadow: 0 10px 22px rgba(0,0,0,0.25);
-                        border-color: rgba(99,102,241,0.35); /* indigo-ish */
-                      }
-                  
-                      /* Icons + text */
-                      #about .about-item i {
-                        font-size: 1.7rem;
-                        margin-bottom: .6rem;
-                        color: #22c55e; /* green accent */
-                        display: inline-block;
-                      }
-                      #about .abt-text .large-text {
-                        font-weight: 800;
-                        font-size: 2rem;
-                        margin: 0;
-                        letter-spacing: 0.3px;
-                      }
-                      #about .abt-text .small-text {
-                        margin: .2rem 0 0 0;
-                        opacity: 0.8;
-                        letter-spacing: .4px;
-                        text-transform: uppercase;
-                        font-size: .78rem;
-                      }
-                    </style>
-                  
-                    <!-- Optional: counter animation (progressive enhancement) -->
-                    <script>
-                      (function () {
-                        // If inline scripts are blocked by CSP, nothing below runs,
-                        // but content still shows because we don't hide anything by default.
-                        const container = document.getElementById('about');
-                        if (!container) return;
-                  
-                        const counters = Array.from(container.querySelectorAll('.counter'));
-                        // bail if already animated (e.g., navigating back)
-                        let done = false;
-                  
-                        function animate() {
-                          if (done) return;
-                          done = true;
-                  
-                          counters.forEach(el => {
-                            const target = Number(el.dataset.target || el.textContent.replace(/\D/g, '') || 0);
-                            const suffix = el.dataset.suffix || '';
-                            const startVal = 0;
-                            const duration = 900; // ms
-                            const start = performance.now();
-                  
-                            function tick(now) {
-                              const p = Math.min((now - start) / duration, 1);
-                              const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
-                              const value = Math.round(startVal + eased * (target - startVal));
-                              el.textContent = value + suffix;
-                              if (p < 1) requestAnimationFrame(tick);
-                            }
-                            requestAnimationFrame(tick);
-                          });
-                        }
-                  
-                        // Animate when ~20% of the block is visible
-                        if ('IntersectionObserver' in window) {
-                          const obs = new IntersectionObserver(entries => {
-                            entries.forEach(entry => entry.isIntersecting && (animate(), obs.disconnect()));
-                          }, { threshold: 0.2 });
-                          obs.observe(container);
-                        } else {
-                          // Fallback
-                          animate();
-                        }
-                      })();
-                    </script>
-                  </div>
-                  
+                </div>
 
-            </div>
             <div class="about-stats">
-                <h4 class="stat-title">My Skills</h4>
-                
-                <div class="skill-category">
-                    <h5 class="category-title">Languages</h5>
-                    <p>Python, R, SQL, HTML/CSS, JavaScript, C, C++, Java</p>
+                <h4 class="stat-title" data-reveal>My Skills</h4>
+
+                <div class="skill-category" data-reveal>
+                    <h5 class="category-title">Languages <span class="pill-count">10</span><i class="fas fa-chevron-down accordion-icon"></i></h5>
+                    <div class="skill-pills">
+                        <span class="pill">Python</span>
+                        <span class="pill">R</span>
+                        <span class="pill">SQL</span>
+                        <span class="pill">HTML/CSS</span>
+                        <span class="pill">JavaScript</span>
+                        <span class="pill">TypeScript</span>
+                        <span class="pill">C</span>
+                        <span class="pill">C++</span>
+                        <span class="pill">Java</span>
+                        <span class="pill">Bash</span>
+                    </div>
                 </div>
-                
-                <div class="skill-category">
-                    <h5 class="category-title">Frameworks &amp; Libraries</h5>
-                    <p>
-                        PyTorch, TensorFlow, Keras, NumPy, Pandas, Matplotlib, Seaborn, Plotly, Tableau, MetaTF, spaCY, NLTK, cv2, PyRadiomics, 
-                        Scikit-Learn, SciPy, Flask, Llama Index, NextJS, TypeScript, React, FastAPI, Streamlit
-                    </p>
+
+                <div class="skill-category" data-reveal>
+                    <h5 class="category-title">Frameworks &amp; Libraries <span class="pill-count">36</span><i class="fas fa-chevron-down accordion-icon"></i></h5>
+                    <div class="skill-pills">
+                        <span class="pill">PyTorch</span>
+                        <span class="pill">TensorFlow</span>
+                        <span class="pill">Keras</span>
+                        <span class="pill">JAX</span>
+                        <span class="pill">NumPy</span>
+                        <span class="pill">Pandas</span>
+                        <span class="pill">Matplotlib</span>
+                        <span class="pill">Seaborn</span>
+                        <span class="pill">Plotly</span>
+                        <span class="pill">Scikit-Learn</span>
+                        <span class="pill">SciPy</span>
+                        <span class="pill">spaCy</span>
+                        <span class="pill">NLTK</span>
+                        <span class="pill">cv2</span>
+                        <span class="pill">PyRadiomics</span>
+                        <span class="pill">Hugging Face Transformers</span>
+                        <span class="pill">Hugging Face TRL</span>
+                        <span class="pill">Unsloth</span>
+                        <span class="pill">Axolotl</span>
+                        <span class="pill">Torchtune</span>
+                        <span class="pill">LangChain</span>
+                        <span class="pill">LangGraph</span>
+                        <span class="pill">LlamaIndex</span>
+                        <span class="pill">DSPy</span>
+                        <span class="pill">FastAPI</span>
+                        <span class="pill">Flask</span>
+                        <span class="pill">Streamlit</span>
+                        <span class="pill">Gradio</span>
+                        <span class="pill">NextJS</span>
+                        <span class="pill">React</span>
+                        <span class="pill">vLLM</span>
+                        <span class="pill">SGLang</span>
+                        <span class="pill">Ollama</span>
+                        <span class="pill">llama.cpp</span>
+                        <span class="pill">Instructor</span>
+                        <span class="pill">Pydantic</span>
+                    </div>
                 </div>
-                
-                <div class="skill-category">
-                    <h5 class="category-title">Tools &amp; Platforms</h5>
-                    <p>
-                        Docker, Kubernetes, Tesseract, Textract, AWS, GCP, Azure, Google Speech-to-Text API, Heroku, Apache, QuantizeML, 
-                        CNN2SNN, Chainlit, AWS Bedrock, AWS SageMaker, VertexAI, Azure AI Studio, MLflow, Kubeflow, Hugging Face Transformers, 
-                        Deepgram API, CrewAI, LlamaIndex, AstraDB, WordPress, Webflow, ZOHO One, Click-Up, Miro, Git, GitHub, GitLab, 
-                        Hadoop, Spark, Hive, NoSQL, MongoDB, ChromaDB, FAISS
-                    </p>
+
+                <div class="skill-category" data-reveal>
+                    <h5 class="category-title">Agent Frameworks <span class="pill-count">10</span><i class="fas fa-chevron-down accordion-icon"></i></h5>
+                    <div class="skill-pills">
+                        <span class="pill">LangGraph</span>
+                        <span class="pill">CrewAI</span>
+                        <span class="pill">OpenAI Agents SDK</span>
+                        <span class="pill">Claude Agent SDK</span>
+                        <span class="pill">Google ADK</span>
+                        <span class="pill">AutoGen</span>
+                        <span class="pill">Semantic Kernel</span>
+                        <span class="pill">smolagents</span>
+                        <span class="pill">Chainlit</span>
+                        <span class="pill">Haystack</span>
+                    </div>
                 </div>
-                
-                <div class="skill-category">
-                    <h5 class="category-title">Models, LLMs &amp; Architectures</h5>
-                    <p>
-                        Mixtral 8x7B, Mistral 7B, Llama3 8B, LLaMA 2, Phi3, Gemma, Gemini, GPT 4, GPT 3.5, Grok, YOLO v5, YOLO v8, 
-                        RoBERTa, LayoutLM v3, Lilt, BERT, XGBoost, Hough Lines Transform, T5, Longformer, ALBERT, VAEs, NCF, DPR, 
-                        Llama 3.2 Vision, Whisper MLX, Kokoro-82M, Qwen 2.5
-                    </p>
+
+                <div class="skill-category" data-reveal>
+                    <h5 class="category-title">Tools, Infra &amp; Platforms <span class="pill-count">38</span><i class="fas fa-chevron-down accordion-icon"></i></h5>
+                    <div class="skill-pills">
+                        <span class="pill">Docker</span>
+                        <span class="pill">Kubernetes</span>
+                        <span class="pill">AWS</span>
+                        <span class="pill">GCP</span>
+                        <span class="pill">Azure</span>
+                        <span class="pill">AWS Bedrock</span>
+                        <span class="pill">AWS SageMaker</span>
+                        <span class="pill">VertexAI</span>
+                        <span class="pill">Azure AI Studio</span>
+                        <span class="pill">MLflow</span>
+                        <span class="pill">Kubeflow</span>
+                        <span class="pill">Weights &amp; Biases</span>
+                        <span class="pill">LangSmith</span>
+                        <span class="pill">LangFuse</span>
+                        <span class="pill">Ollama</span>
+                        <span class="pill">Modal</span>
+                        <span class="pill">Tableau</span>
+                        <span class="pill">Git</span>
+                        <span class="pill">GitHub</span>
+                        <span class="pill">GitLab</span>
+                        <span class="pill">Hadoop</span>
+                        <span class="pill">Spark</span>
+                        <span class="pill">Hive</span>
+                        <span class="pill">Tesseract</span>
+                        <span class="pill">Textract</span>
+                        <span class="pill">Deepgram API</span>
+                        <span class="pill">Google Speech-to-Text API</span>
+                        <span class="pill">QuantizeML</span>
+                        <span class="pill">CNN2SNN</span>
+                        <span class="pill">Heroku</span>
+                        <span class="pill">Apache</span>
+                        <span class="pill">WordPress</span>
+                        <span class="pill">Webflow</span>
+                        <span class="pill">ZOHO One</span>
+                        <span class="pill">Click-Up</span>
+                        <span class="pill">Miro</span>
+                        <span class="pill">MetaTF</span>
+                        <span class="pill">Terraform</span>
+                    </div>
                 </div>
-                
-                <div class="skill-category">
-                    <h5 class="category-title">Concepts &amp; Methodologies</h5>
-                    <p>
-                        RAG, Deep Learning, Natural Language Processing (NLP), LoRA (Low Rank Adaptation), Spiking Neural Network, 
-                        Generative Adversarial Networks (GAN), Transformer Architecture, Diffusion Models, Machine Learning, Computer Vision, 
-                        Neural Networks, Large Language Models, Data Mining, Database, SQL, Statistics, Graph Neural Networks (GNNs), 
-                        Adversarial Machine Learning (PGD), Blockchain, Differential Privacy, Homomorphic Encryption, Digital Twin, ROS 2, 
-                        Reinforcement Learning (RL), RLHF, Prompt Engineering, Bayesian Optimization, Gaussian Processes, Multimodal Models
-                    </p>
+
+                <div class="skill-category" data-reveal>
+                    <h5 class="category-title">Databases &amp; Vector Stores <span class="pill-count">11</span><i class="fas fa-chevron-down accordion-icon"></i></h5>
+                    <div class="skill-pills">
+                        <span class="pill">PostgreSQL</span>
+                        <span class="pill">MongoDB</span>
+                        <span class="pill">BigQuery</span>
+                        <span class="pill">NoSQL</span>
+                        <span class="pill">ChromaDB</span>
+                        <span class="pill">FAISS</span>
+                        <span class="pill">Pinecone</span>
+                        <span class="pill">Weaviate</span>
+                        <span class="pill">Qdrant</span>
+                        <span class="pill">LanceDB</span>
+                        <span class="pill">AstraDB</span>
+                    </div>
                 </div>
-            </div>            
-            <h4 class="stat-title">My Timeline</h4>
+
+                <div class="skill-category" data-reveal>
+                    <h5 class="category-title">Models &amp; LLMs <span class="pill-count">48</span><i class="fas fa-chevron-down accordion-icon"></i></h5>
+                    <div class="skill-pills">
+                        <!-- Closed Source -->
+                        <span class="pill">Claude</span>
+                        <span class="pill">GPT</span>
+                        <span class="pill">Gemini</span>
+                        <span class="pill">Grok</span>
+                        <span class="pill">Amazon Nova</span>
+                        <!-- Open Source — Frontier -->
+                        <span class="pill">DeepSeek</span>
+                        <span class="pill">Qwen</span>
+                        <span class="pill">Llama</span>
+                        <span class="pill">GLM</span>
+                        <span class="pill">Kimi</span>
+                        <span class="pill">MiMo</span>
+                        <span class="pill">Mistral</span>
+                        <span class="pill">Pixtral</span>
+                        <span class="pill">Gemma</span>
+                        <span class="pill">Phi</span>
+                        <span class="pill">Command R</span>
+                        <span class="pill">Nemotron</span>
+                        <span class="pill">ERNIE</span>
+                        <span class="pill">Hunyuan</span>
+                        <span class="pill">Jamba</span>
+                        <span class="pill">DBRX</span>
+                        <span class="pill">Falcon</span>
+                        <span class="pill">Yi</span>
+                        <span class="pill">SmolLM</span>
+                        <span class="pill">StarCoder</span>
+                        <!-- Vision / Multimodal -->
+                        <span class="pill">PaliGemma</span>
+                        <span class="pill">InternVL</span>
+                        <span class="pill">Molmo</span>
+                        <span class="pill">Florence</span>
+                        <span class="pill">ColPali</span>
+                        <!-- Image / Video Gen -->
+                        <span class="pill">Flux</span>
+                        <span class="pill">Stable Diffusion</span>
+                        <span class="pill">Sora</span>
+                        <!-- Audio -->
+                        <span class="pill">Whisper</span>
+                        <span class="pill">Kokoro</span>
+                        <!-- Classic ML / NLP -->
+                        <span class="pill">BERT</span>
+                        <span class="pill">RoBERTa</span>
+                        <span class="pill">T5</span>
+                        <span class="pill">Longformer</span>
+                        <span class="pill">LayoutLM</span>
+                        <span class="pill">Lilt</span>
+                        <span class="pill">YOLO</span>
+                        <span class="pill">XGBoost</span>
+                        <span class="pill">VAEs</span>
+                        <span class="pill">NCF</span>
+                        <span class="pill">DPR</span>
+                        <span class="pill">ColBERT</span>
+                        <span class="pill">ALBERT</span>
+                    </div>
+                </div>
+
+                <div class="skill-category" data-reveal>
+                    <h5 class="category-title">Concepts &amp; Methodologies <span class="pill-count">46</span><i class="fas fa-chevron-down accordion-icon"></i></h5>
+                    <div class="skill-pills">
+                        <span class="pill">Agentic AI</span>
+                        <span class="pill">RAG</span>
+                        <span class="pill">Agentic RAG</span>
+                        <span class="pill">Graph RAG</span>
+                        <span class="pill">Multimodal RAG</span>
+                        <span class="pill">Deep Learning</span>
+                        <span class="pill">NLP</span>
+                        <span class="pill">Computer Vision</span>
+                        <span class="pill">Machine Learning</span>
+                        <span class="pill">Reinforcement Learning</span>
+                        <span class="pill">RLHF</span>
+                        <span class="pill">RLVR</span>
+                        <span class="pill">GRPO</span>
+                        <span class="pill">DPO</span>
+                        <span class="pill">KTO</span>
+                        <span class="pill">SimPO</span>
+                        <span class="pill">LoRA / QLoRA / DoRA</span>
+                        <span class="pill">Transformer Architecture</span>
+                        <span class="pill">Mixture of Experts</span>
+                        <span class="pill">Diffusion Models</span>
+                        <span class="pill">GANs</span>
+                        <span class="pill">Speculative Decoding</span>
+                        <span class="pill">Test-Time Compute</span>
+                        <span class="pill">Chain-of-Thought</span>
+                        <span class="pill">Constitutional AI</span>
+                        <span class="pill">Synthetic Data Generation</span>
+                        <span class="pill">Neural Networks</span>
+                        <span class="pill">Graph Neural Networks</span>
+                        <span class="pill">Spiking Neural Networks</span>
+                        <span class="pill">Large Language Models</span>
+                        <span class="pill">Vision-Language Models</span>
+                        <span class="pill">Prompt Engineering</span>
+                        <span class="pill">Model Merging</span>
+                        <span class="pill">Quantization (GPTQ/AWQ)</span>
+                        <span class="pill">Hybrid Search (Vector + BM25)</span>
+                        <span class="pill">ColBERT</span>
+                        <span class="pill">Adversarial ML (PGD)</span>
+                        <span class="pill">Differential Privacy</span>
+                        <span class="pill">Homomorphic Encryption</span>
+                        <span class="pill">Bayesian Optimization</span>
+                        <span class="pill">Gaussian Processes</span>
+                        <span class="pill">Data Mining</span>
+                        <span class="pill">Statistics</span>
+                        <span class="pill">Digital Twin</span>
+                        <span class="pill">ROS 2</span>
+                        <span class="pill">Blockchain</span>
+                    </div>
+                </div>
+            </div>
+            <h4 class="stat-title" data-reveal>My Timeline</h4>
                 <!-- Professional Experience Section -->
-                <div class="timeline-section">
+                <div class="timeline-section" data-reveal>
                     <h4 style="margin-bottom:20px;">Professional Experience</h4>
                     <div class="timeline">
 
+                        <!-- AI Engineer at AT&T -->
+                        <div class="timeline-item">
+                            <div class="tl-icon">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <p class="tl-duration">03/2026 - Present</p>
+                            <h5>AI Architect | AI Engineer<span>- AT&T</span></h5>
+                            <p>
+                                Developing LangGraph-based AI agents with RAG and structured LLM extraction to automate enterprise pricing workflows and proposal generation for AT&T Business sales.
+                            </p>
+                        </div>
+                        <!-- AI Research Engineer at Nabu Tutor -->
+                        <div class="timeline-item">
+                            <div class="tl-icon">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <p class="tl-duration">01/2026 - Present</p>
+                            <h5>AI Research Engineer<span>- Nabu Tutor</span></h5>
+                            <p>
+                                Architecting an end-to-end multimodal AI system combining real-time visual context ingestion, streaming STT/TTS pipelines, RAG-grounded retrieval, vision-language embedding models, and generative rendering for specialized knowledge domains.
+                            </p>
+                        </div>
                         <!-- Data Scientist (Contract) at Google -->
                         <div class="timeline-item">
                             <div class="tl-icon">
                                 <i class="fas fa-briefcase"></i>
                             </div>
-                            <p class="tl-duration">05/2025 - Present</p>
+                            <p class="tl-duration">05/2025 - 01/2026</p>
                             <h5>Data Scientist <span>- Google</span></h5>
                             <p>
                                 Designed automation workflows for multimodal image/text classification and data mapping, built GoogleSQL/BigQuery dashboards for leadership, and worked on RAG workflows and AI agents.
@@ -361,7 +460,7 @@
                 </div>
 
                 <!-- On-Campus Roles & Involvement Section -->
-                <div class="timeline-section">
+                <div class="timeline-section" data-reveal>
                     <h4 style="margin-bottom:20px;">On-Campus Roles &amp; Involvement</h4>
                     <div class="timeline">
                         <!-- Research Assistant at University of the Pacific -->
@@ -412,7 +511,7 @@
                 </div>
 
                 <!-- Volunteering & Leadership Section -->
-                <div class="timeline-section">
+                <div class="timeline-section" data-reveal>
                     <h4 style="margin-bottom:20px;">Volunteering &amp; Leadership</h4>
                     <div class="timeline">
                         <!-- President of Pacific Data Science & AI Club (Graduate) -->
@@ -441,7 +540,7 @@
                 </div>
 
                 <!-- Academic Programs Section -->
-                <div class="timeline-section">
+                <div class="timeline-section" data-reveal>
                     <h4 style="margin-bottom:20px;">Academic Programs</h4>
                     <div class="timeline">
                         <!-- Master of Science in Data Science -->
@@ -471,15 +570,55 @@
         </section>
 
         <section class="container" id="portfolio">
-            <div class="main-title">
+            <div class="main-title" data-reveal>
                 <h2>My <span>Portfolio</span><span class="bg-text">My Work</span></h2>
             </div>
-            <p class="port-text">
+            <p class="port-text" data-reveal>
                 Here is some of my work that I've done in various programming languages.
             </p>
-            <div class="portfolios">
+            <div class="portfolios" data-reveal>
+                <!-- Latest Agentic AI Projects -->
+                <div class="portfolio-item glass-card">
+                    <div class="image">
+                        <img src="img/genesis.webp" alt="GENESIS">
+                    </div>
+                    <div class="hover-items">
+                        <h3>GENESIS</h3>
+                        <div class="icons">
+                            <a href="https://github.com/vineethsaivs/genesis" class="icon">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item glass-card">
+                    <div class="image">
+                        <img src="img/gameagent-ai.webp" alt="GameAgent AI">
+                    </div>
+                    <div class="hover-items">
+                        <h3>GameAgent AI</h3>
+                        <div class="icons">
+                            <a href="https://github.com/vineethsaivs/gameagent-ai" class="icon">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item glass-card">
+                    <div class="image">
+                        <img src="img/agentduel.webp" alt="AgentDuel">
+                    </div>
+                    <div class="hover-items">
+                        <h3>AgentDuel</h3>
+                        <div class="icons">
+                            <a href="https://github.com/vineethsaivs/agentduel" class="icon">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <!-- New Deep Learning & AI Projects -->
-                <div class="portfolio-item">
+                <div class="portfolio-item glass-card">
                     <div class="image">
                         <img src="img/ai-presentation-assistant.webp" alt="AI Presentation Assistant">
                     </div>
@@ -492,7 +631,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item glass-card">
                     <div class="image">
                         <img src="img/agenticrag-researchassistant.webp" alt="AgenticRAG Research Assistant">
                     </div>
@@ -505,7 +644,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item glass-card">
                     <div class="image">
                         <img src="img/ai-research-assistant.webp" alt="AI Research Assistant">
                     </div>
@@ -518,7 +657,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item glass-card">
                     <div class="image">
                         <img src="img/ai-powered-doc-crawler.jpg" alt="AI-Powered Doc Crawler">
                     </div>
@@ -531,7 +670,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item glass-card">
                     <div class="image">
                         <img src="img/speech-to-speech-chatbot.webp" alt="Speech-to-Speech Chatbot">
                     </div>
@@ -544,7 +683,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item glass-card">
                     <div class="image">
                         <img src="img/research-interpreter.webp" alt="Research Interpreter">
                     </div>
@@ -557,7 +696,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item glass-card">
                     <div class="image">
                         <img src="img/personalized-voice-assistant.webp" alt="Personalized Voice Assistant">
                     </div>
@@ -570,11 +709,11 @@
                         </div>
                     </div>
                 </div>
-        
+
                 <!-- Existing Projects -->
-                <div class="portfolio-item">
+                <div class="portfolio-item glass-card">
                     <div class="image">
-                        <img src="img/Gemini_1.jpeg" alt="">
+                        <img src="img/Gemini_1.jpeg" alt="Personalized Voice Assistant">
                     </div>
                     <div class="hover-items">
                         <h3>Personalized Voice Assistant</h3>
@@ -585,9 +724,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item glass-card">
                     <div class="image">
-                        <img src="img/port44.jpg" alt="">
+                        <img src="img/port44.jpg" alt="Brain Tumor Detection">
                     </div>
                     <div class="hover-items">
                         <h3>Brain Tumor Detection</h3>
@@ -598,9 +737,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item glass-card">
                     <div class="image">
-                        <img src="img/port40.png" alt="">
+                        <img src="img/port40.png" alt="Research Interpreter">
                     </div>
                     <div class="hover-items">
                         <h3>Research Interpreter</h3>
@@ -611,9 +750,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item glass-card">
                     <div class="image">
-                        <img src="img/port42.webp" alt="">
+                        <img src="img/port42.webp" alt="Text Abstractor">
                     </div>
                     <div class="hover-items">
                         <h3>Text Abstractor</h3>
@@ -624,9 +763,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item glass-card">
                     <div class="image">
-                        <img src="img/port41.jpeg" alt="">
+                        <img src="img/port41.jpeg" alt="Text To Speech">
                     </div>
                     <div class="hover-items">
                         <h3>Text To Speech</h3>
@@ -637,9 +776,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item glass-card">
                     <div class="image">
-                        <img src="img/port42.jpeg" alt="">
+                        <img src="img/port42.jpeg" alt="Athletes Analysis">
                     </div>
                     <div class="hover-items">
                         <h3>Athletes Analysis</h3>
@@ -650,9 +789,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item glass-card">
                     <div class="image">
-                        <img src="img/port45.jpeg" alt="">
+                        <img src="img/port45.jpeg" alt="Encryption">
                     </div>
                     <div class="hover-items">
                         <h3>Encryption</h3>
@@ -663,9 +802,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item glass-card">
                     <div class="image">
-                        <img src="img/portfolio.webp" alt="">
+                        <img src="img/portfolio.webp" alt="Portfolio Website">
                     </div>
                     <div class="hover-items">
                         <h3>Portfolio Website</h3>
@@ -676,9 +815,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item">
+                <div class="portfolio-item glass-card">
                     <div class="image">
-                        <img src="img/port46.webp" alt="">
+                        <img src="img/port46.webp" alt="My Blog">
                     </div>
                     <div class="hover-items">
                         <h3>My Blog</h3>
@@ -690,20 +829,20 @@
                     </div>
                 </div>
             </div>
-        </section>        
+        </section>
         <section class="container" id="research-projects">
             <div class="blogs-content">
-                <div class="main-title">
+                <div class="main-title" data-reveal>
                     <h2>Research <span>Work</span><span class="bg-text">Research Work</span></h2>
                 </div>
-                <div class="blogs">
+                <div class="blogs" data-reveal>
                     <!-- Project 5 -->
-                    <div class="blog"
+                    <div class="blog glass-card"
                     data-title="Diffusion-Based Model Fine-Tuning for Domain-Specific Art"
                     data-description="In this research project, I am focusing on adapting diffusion-based generative models to produce art that captures the unique characteristics of a specific artistic domain. By training on a curated dataset of art images, the model can learn style, color, and compositional patterns relevant to different art movements or media. The ultimate goal is to generate high-fidelity, style-consistent art while minimizing overfitting to the source domain.
 
-                    Technical Details: 
-                    The foundation of this project leverages latent diffusion models (e.g., Stable Diffusion) as they enable high-quality image synthesis by operating in a compressed latent space. Specifically, a U-Net architecture with cross-attention layers processes latent representations, conditioned on textual or semantic prompts. For domain adaptation, I employ LoRA (Low-Rank Adaptation), which injects a small number of trainable parameters into the model’s existing layers. This significantly reduces the GPU memory footprint and training time compared to full fine-tuning, making it ideal for iterative experimentation.
+                    Technical Details:
+                    The foundation of this project leverages latent diffusion models (e.g., Stable Diffusion) as they enable high-quality image synthesis by operating in a compressed latent space. Specifically, a U-Net architecture with cross-attention layers processes latent representations, conditioned on textual or semantic prompts. For domain adaptation, I employ LoRA (Low-Rank Adaptation), which injects a small number of trainable parameters into the model's existing layers. This significantly reduces the GPU memory footprint and training time compared to full fine-tuning, making it ideal for iterative experimentation.
 
                     During training, the model receives text prompts describing the desired style or thematic elements of the art. Classifier-free guidance is utilized to balance creativity and fidelity, ensuring that generated art remains faithful to domain-specific styles (e.g., impressionism, surrealism, or modern digital art) without sacrificing originality. Data augmentation techniques, including random cropping, color jitter, and style-preserving transformations, enhance model robustness.
 
@@ -725,14 +864,14 @@
                         <strong>Professor:</strong> Dr. Aurelia M. Davidson
                     </p>
                     </div>
-                    </div>        
+                    </div>
                     <!-- Project 1 -->
-                    <div class="blog" 
-                         data-title="Audit Logging for Cyber-Physical Systems with Machine Learning" 
+                    <div class="blog glass-card"
+                         data-title="Audit Logging for Cyber-Physical Systems with Machine Learning"
                          data-description="In this project, I focused on mitigating adversarial effects in cyber-physical systems, particularly in robot programming. By integrating audit logging and machine learning techniques, the system ensures secure and reliable programming environments. My work involves using advanced algorithms to detect anomalies or adversarial behaviors that may compromise system integrity. Through robust audit logging mechanisms, this solution safeguards systems from attacks, providing real-time feedback to avoid disruptions during robot programming.
                          Technical Details: The machine learning models utilized in this project include a combination of spiking neural networks (SNNs) and Graph Neural Networks (GNNs) to accurately model the dependencies within the robot programming tasks. SNNs, which are inspired by biological neurons, offer real-time capabilities suited for event-driven tasks in cyber-physical systems. Adversarial training is applied using PGD (Projected Gradient Descent) to create adversarial examples during training, enhancing the model's resilience against real-world attacks. Additionally, the audit logging system integrates blockchain technology to ensure tamper-proof logs and secure storage, making it highly suitable for IoT-driven and real-time environments.
                          Technologies: Machine Learning, Audit Logging, Cybersecurity, Robot Programming, SNNs, GNNs, Blockchain.
-                         Keywords: Adversarial ML, Cyber-Physical Systems, Secure Robot Programming, Spiking Neural Networks, Blockchain." 
+                         Keywords: Adversarial ML, Cyber-Physical Systems, Secure Robot Programming, Spiking Neural Networks, Blockchain."
                          data-professor="Dr. Sepehr Amir-Mohammadian">
                         <img src="img/audit_logging.webp" alt="">
                         <div class="blog-text">
@@ -741,14 +880,14 @@
                             <p><strong>Professor:</strong> Dr. Sepehr Amir-Mohammadian</p>
                         </div>
                     </div>
-        
+
                     <!-- Project 2 -->
-                    <div class="blog" 
-                         data-title="Release Notes Classification and Prioritization Using Deep Learning" 
+                    <div class="blog glass-card"
+                         data-title="Release Notes Classification and Prioritization Using Deep Learning"
                          data-description="This project aims to revolutionize how software release notes are classified and prioritized. I developed a system to automatically categorize release notes based on keywords and contextual importance using state-of-the-art deep learning models. The system then ranks these updates in terms of priority and suggests important upgrades to users, ensuring critical updates are handled promptly. Additionally, the project includes a recommendation engine powered by advanced neural networks to further optimize the user experience.
                          Technical Details: The classification system is built on BERT (Bidirectional Encoder Representations from Transformers) for its ability to understand contextual semantics. Additionally, T5 (Text-to-Text Transfer Transformer) is used for sequence-to-sequence tasks, allowing for more nuanced categorization and summarization of release notes. For the recommendation engine, Neural Collaborative Filtering (NCF) with Variational Autoencoders (VAEs) is employed, enabling the system to personalize upgrade suggestions based on historical user behavior and priorities. The pipeline is optimized using Hugging Face's Transformers library and parallelized using PyTorch's DDP (Distributed Data Parallel) framework to scale on multi-GPU environments.
                          Technologies: Deep Learning, Natural Language Processing (NLP), Neural Networks, BERT, T5, VAEs, NCF, PyTorch DDP.
-                         Keywords: Text Classification, Release Management, Deep Learning, Priority Ranking, Transformers, Neural Collaborative Filtering." 
+                         Keywords: Text Classification, Release Management, Deep Learning, Priority Ranking, Transformers, Neural Collaborative Filtering."
                          data-professor="Dr. Solomon Berhe">
                         <img src="img/release_notes.webp" alt="">
                         <div class="blog-text">
@@ -758,12 +897,12 @@
                         </div>
                     </div>
                     <!-- Project 3 -->
-                    <div class="blog" 
-                         data-title="Virtual TA Using Retrieval-Augmented Generation" 
+                    <div class="blog glass-card"
+                         data-title="Virtual TA Using Retrieval-Augmented Generation"
                          data-description="The Virtual TA is an intelligent assistant designed to help students with course-related queries. By integrating an open-source large language model (LLM) for security, I fine-tuned the model on lecture videos, notes, and other course materials from the professor. The system performs Retrieval-Augmented Generation (RAG) to answer student questions accurately and contextually. This project provides a secure, scalable solution to enhance student learning outside classroom hours.
                          Technical Details: The core of this system is a fine-tuned LLaMA 2 model, optimized for educational tasks using LoRA (Low-Rank Adaptation) for efficient and memory-friendly fine-tuning. The retrieval mechanism employs Faiss (Facebook AI Similarity Search) to efficiently handle large document corpora for semantic search. The RAG framework leverages both Dense Passage Retrieval (DPR) and Generative Transformers, allowing the model to pull accurate information from a knowledge base and generate coherent, context-specific answers. Security is ensured through differential privacy mechanisms and homomorphic encryption, safeguarding sensitive academic content while maintaining robust model performance.
-                         Technologies: LLM, Retrieval-Augmented Generation (RAG), LLaMA 2, LoRA, Faiss, DPR, Transformers, Differential Privacy. 
-                         Keywords: Virtual Assistant, Educational Technology, Open-Source LLM, Fine-Tuning, Dense Passage Retrieval." 
+                         Technologies: LLM, Retrieval-Augmented Generation (RAG), LLaMA 2, LoRA, Faiss, DPR, Transformers, Differential Privacy.
+                         Keywords: Virtual Assistant, Educational Technology, Open-Source LLM, Fine-Tuning, Dense Passage Retrieval."
                          data-professor="Dr. Vivek Pallipuram">
                         <img src="img/virtual_TA.webp" alt="">
                         <div class="blog-text">
@@ -773,12 +912,12 @@
                         </div>
                     </div>
                     <!-- Project 4 -->
-                    <div class="blog" 
-                         data-title="Exoplanet Discovery and Analysis" 
-                         data-description="In this research project, I analyze exoplanetary data to understand the characteristics of planets orbiting distant stars. The analysis is based on light dimming patterns observed when a planet passes in front of its host star. By calculating the extent of dimming and the star's rotational speed, I estimate the exoplanet’s size, gravity, and other characteristics. This project contributes to the scientific understanding of exoplanets and their potential habitability.
+                    <div class="blog glass-card"
+                         data-title="Exoplanet Discovery and Analysis"
+                         data-description="In this research project, I analyze exoplanetary data to understand the characteristics of planets orbiting distant stars. The analysis is based on light dimming patterns observed when a planet passes in front of its host star. By calculating the extent of dimming and the star's rotational speed, I estimate the exoplanet's size, gravity, and other characteristics. This project contributes to the scientific understanding of exoplanets and their potential habitability.
                          Technical Details: This project uses convolutional neural networks (CNNs) in combination with recurrent neural networks (RNNs) to process time-series photometric data collected from space telescopes like Kepler and TESS. The model architecture includes a hybrid CNN-RNN design, where CNNs handle spatial dependencies while LSTMs (Long Short-Term Memory networks) capture temporal patterns in the light curves. Bayesian optimization is employed to fine-tune model hyperparameters, ensuring high accuracy in detecting minute fluctuations in starlight. The project also incorporates Gaussian Processes for uncertainty quantification in exoplanet detection, providing probabilistic estimates of planet size and orbital characteristics.
                          Technologies: CNN, RNN, LSTMs, Bayesian Optimization, Gaussian Processes, Kepler, TESS.
-                         Keywords: Exoplanets, Astronomy, Planetary Analysis, CNNs, RNNs, Bayesian Optimization, Gaussian Processes." 
+                         Keywords: Exoplanets, Astronomy, Planetary Analysis, CNNs, RNNs, Bayesian Optimization, Gaussian Processes."
                          data-professor="Dr. Daniel Jontof-Hutter">
                         <img src="img/exo.webp" alt="">
                         <div class="blog-text">
@@ -787,11 +926,6 @@
                             <p><strong>Professor:</strong> Dr. Daniel Jontof-Hutter</p>
                         </div>
                     </div>
-
-                    <!-- Building an intelligent assistant that can help students with course material using RAG and fine-tuned open-source LLM models for security. This assistant answers students' questions contextually based on professor lecture materials. -->
-                    <!-- Analyzing light dimming data from stars to discover and characterize exoplanets, calculating planet size, gravity, and other characteristics based on the light fluctuations and rotational speed of the stars. -->
-                    <!-- Add more projects here in a similar format -->
-        
                 </div>
             </div>
         </section>
@@ -800,117 +934,92 @@
 
         <section class="container" id="blogs">
             <div class="blogs-content">
-                <div class="main-title">
+                <div class="main-title" data-reveal>
                     <h2>Favourite <span>Books</span><span class="bg-text">My Favourites</span></h2>
                 </div>
-                <div class="blogs">
-                    <div class="blog">
-                        <img src="img/port6.jpg" alt="">
+                <div class="blogs" data-reveal>
+                    <div class="blog glass-card">
+                        <img src="img/port6.jpg" alt="The Fountainhead">
                         <div class="blog-text">
-                            <h4>
-                                The Fountainhead by Ayn Rand
-                            </h4>
-                            <p>
-                                
-                            </p>
+                            <h4>The Fountainhead by Ayn Rand</h4>
+                            <p></p>
                         </div>
                     </div>
-                    <div class="blog">
-                        <img src="img/blog1.jpg" alt="">
+                    <div class="blog glass-card">
+                        <img src="img/blog1.jpg" alt="Atlas Shrugged">
                         <div class="blog-text">
-                            <h4>
-                                Atlas Shrugged by Ayn Rand
-                            </h4>
-                            <p>
-                                
-                            </p>
+                            <h4>Atlas Shrugged by Ayn Rand</h4>
+                            <p></p>
                         </div>
                     </div>
-                    <div class="blog">
-                        <img src="img/blog2.jpg" alt="">
+                    <div class="blog glass-card">
+                        <img src="img/blog2.jpg" alt="Thus Spoke Zarathustra">
                         <div class="blog-text">
-                            <h4>
-                                Thus Spoke Zarathustra by Friedrich Nietzsche
-                            </h4>
-                            <p>
-                                
-                            </p>
+                            <h4>Thus Spoke Zarathustra by Friedrich Nietzsche</h4>
+                            <p></p>
                         </div>
                     </div>
-                    <div class="blog">
-                        <img src="img/blog3.jpg" alt="">
+                    <div class="blog glass-card">
+                        <img src="img/blog3.jpg" alt="Man's Search for Meaning">
                         <div class="blog-text">
-                            <h4>
-                                Man's Search for Meaning by Victor Frankl
-                            </h4>
-                            <p>
-                                
-                            </p>
+                            <h4>Man's Search for Meaning by Victor Frankl</h4>
+                            <p></p>
                         </div>
                     </div>
-                    <div class="blog">
-                        <img src="img/port1.jpg" alt="">
+                    <div class="blog glass-card">
+                        <img src="img/port1.jpg" alt="Meditations">
                         <div class="blog-text">
-                            <h4>
-                                Meditations by Marcus Aurelius
-                            </h4>
-                            <p>
-                                
-                            </p>
+                            <h4>Meditations by Marcus Aurelius</h4>
+                            <p></p>
                         </div>
                     </div>
-                    <div class="blog">
-                        <img src="img/port3.jpg" alt="">
+                    <div class="blog glass-card">
+                        <img src="img/port3.jpg" alt="The Almanack Of Naval Ravikant">
                         <div class="blog-text">
-                            <h4>
-                                The Almanack Of Naval Ravikant
-                            </h4>
-                            <p>
-                                
-                            </p>
+                            <h4>The Almanack Of Naval Ravikant</h4>
+                            <p></p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-<!-- new -->
         <section class="container" id="favourite-sports">
             <div class="blogs-content">
-                <div class="main-title">
+                <div class="main-title" data-reveal>
                     <h2>Favourite <span>Sports</span><span class="bg-text">My Favourites</span></h2>
                 </div>
-                <div class="blogs">
-                    <div class="blog">
-                        <img src="img/football.webp" alt="">
+                <div class="blogs" data-reveal>
+                    <div class="blog glass-card">
+                        <img src="img/football.webp" alt="Football">
                         <div class="blog-text">
                             <h4>Football</h4>
                             <p></p>
                         </div>
                     </div>
-                    <div class="blog">
-                        <img src="img/cricket.webp" alt="">
+                    <div class="blog glass-card">
+                        <img src="img/cricket.webp" alt="Cricket">
                         <div class="blog-text">
                             <h4>Cricket</h4>
                             <p></p>
                         </div>
                     </div>
-                    <div class="blog">
-                        <img src="img/tennis.webp" alt="">
+                    <div class="blog glass-card">
+                        <img src="img/tennis.webp" alt="Tennis">
                         <div class="blog-text">
                             <h4>Tennis</h4>
                             <p></p>
                         </div>
                     </div>
-                    <div class="blog">
-                        <img src="img/basketball.webp" alt="">
+                    <div class="blog glass-card">
+                        <img src="img/basketball.webp" alt="Basketball">
                         <div class="blog-text">
                             <h4>Basketball</h4>
                             <p></p>
                         </div>
                     </div>
-                    <div class="blog">
-                        <img src="img/f1.webp" alt="">
+                    <div class="blog glass-card">
+                        <img src="img/f1.webp" alt="Formula 1">
                         <div class="blog-text">
                             <h4>Formula 1</h4>
                             <p></p>
@@ -922,17 +1031,17 @@
 
         <section class="container contact" id="contact">
             <div class="contact-container">
-              <div class="main-title">
+              <div class="main-title" data-reveal>
                 <h2>Contact <span>Me</span><span class="bg-text">Contact</span></h2>
               </div>
-          
+
               <div class="contact-content-con">
                 <!-- LEFT -->
-                <div class="left-contact">
+                <div class="left-contact" data-reveal>
                   <h4>Let's connect!</h4>
-                  <p>Hey there! I’m Vineeth — Data Scientist at Google, passionate about solving problems, building things, and exploring ideas.</p>
+                  <p>Hey there! I'm Vineeth — Data Scientist at Google, passionate about solving problems, building things, and exploring ideas.</p>
                   <p>Have a project, question, or just want to chat tech? Fill out the form or connect with me below.</p>
-          
+
                   <div class="contact-info">
                     <div class="contact-item">
                       <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
@@ -951,7 +1060,7 @@
                       <p>English, Hindi, Telugu, French</p>
                     </div>
                   </div>
-          
+
                   <div class="contact-icons" style="margin-top:12px;">
                     <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
                       <a href="https://github.com/vineethsaivs" target="_blank" aria-label="GitHub" class="icon-link"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub"></a>
@@ -964,9 +1073,9 @@
                     </div>
                   </div>
                 </div>
-          
+
                 <!-- RIGHT: Contact Form -->
-                <div class="right-contact">
+                <div class="right-contact" data-reveal>
                   <form id="contactForm" style="display:grid; gap:14px;" novalidate>
                     <div>
                       <label for="name">Name</label>
@@ -984,158 +1093,50 @@
                       <label for="message">Message</label>
                       <textarea id="message" name="message" rows="6" placeholder="Write your message..." required></textarea>
                     </div>
-          
+
                     <!-- Honeypot -->
                     <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0;">
-          
+
                     <button id="submitBtn" type="submit">Send</button>
                     <p id="formStatus" role="status" aria-live="polite"></p>
                   </form>
                 </div>
               </div>
             </div>
-          
-            <style>
-              .right-contact input, .right-contact textarea {
-                width: 100%;
-                padding: 12px;
-                border: 1px solid #ddd;
-                border-radius: 8px;
-                transition: box-shadow 0.2s ease, border-color 0.2s ease;
-              }
-              .right-contact input:focus, .right-contact textarea:focus {
-                border-color: #4f46e5;
-                box-shadow: 0 0 0 2px rgba(79,70,229,0.2);
-                outline: none;
-              }
-              #submitBtn {
-                background: #4f46e5;
-                color: white;
-                padding: 12px;
-                border: none;
-                border-radius: 10px;
-                font-weight: 700;
-                cursor: pointer;
-                transition: transform 0.2s ease, background 0.2s ease;
-              }
-              #submitBtn:hover:not(:disabled) {
-                background: #4338ca;
-                transform: scale(1.03);
-              }
-              .icon-link img {
-                width: 38px;
-                height: 38px;
-                transition: transform 0.2s ease, filter 0.2s ease;
-              }
-              .icon-link:hover img {
-                transform: scale(1.2);
-                filter: brightness(1.2);
-              }
-              #formStatus {
-                font-size: 0.9em;
-                margin-top: -6px;
-              }
-            </style>
-          
-            <script>
-              (function () {
-                const form = document.getElementById('contactForm');
-                const btn = document.getElementById('submitBtn');
-                const status = document.getElementById('formStatus');
-          
-                function setStatus(msg, ok) {
-                  status.textContent = msg;
-                  status.style.color = ok ? 'green' : 'crimson';
-                }
-          
-                form.addEventListener('submit', async (e) => {
-                  e.preventDefault();
-          
-                  if (!form.checkValidity()) {
-                    setStatus('Please fill all required fields correctly.', false);
-                    return;
-                  }
-                  if (form.website && form.website.value) {
-                    setStatus('Spam detected.', false);
-                    return;
-                  }
-          
-                  const ENDPOINT = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
-                  btn.disabled = true;
-                  btn.innerHTML = '<span class="spinner"></span> Sending…';
-                  setStatus('', true);
-          
-                  try {
-                    const formData = new FormData(form);
-                    formData.append('source', 'portfolio-contact');
-                    formData.append('timestamp', new Date().toISOString());
-                    await fetch(ENDPOINT, { method: 'POST', body: formData, mode: 'no-cors' });
-                    form.reset();
-                    setStatus('Thanks! Your message has been sent.', true);
-                  } catch (err) {
-                    console.error(err);
-                    setStatus('Something went wrong. Please email me directly.', false);
-                  } finally {
-                    btn.disabled = false;
-                    btn.textContent = 'Send';
-                  }
-                });
-              })();
-            </script>
-          
-            <style>
-              .spinner {
-                width: 16px;
-                height: 16px;
-                border: 2px solid rgba(255,255,255,0.4);
-                border-top-color: white;
-                border-radius: 50%;
-                display: inline-block;
-                margin-right: 8px;
-                animation: spin 0.6s linear infinite;
-                vertical-align: middle;
-              }
-              @keyframes spin {
-                to { transform: rotate(360deg); }
-              }
-            </style>
-          </section>
+        </section>
 
     </main>
 
     <div class="controls">
-        <div class="control active-btn" data-id="home" >
+        <div class="control active-btn" data-id="home">
             <i class="fas fa-home"></i>
+            <span class="nav-tooltip">Home</span>
         </div>
         <div class="control" data-id="about">
             <i class="fas fa-user"></i>
+            <span class="nav-tooltip">About</span>
         </div>
         <div class="control" data-id="portfolio">
             <i class="fas fa-briefcase"></i>
+            <span class="nav-tooltip">Portfolio</span>
         </div>
-        
         <div class="control" data-id="research-projects">
             <i class="fas fa-book-open"></i>
+            <span class="nav-tooltip">Research</span>
         </div>
-
         <div class="control" data-id="blogs">
             <i class="far fa-newspaper"></i>
+            <span class="nav-tooltip">Books</span>
         </div>
         <div class="control" data-id="favourite-sports">
             <i class="fas fa-basketball-ball"></i>
+            <span class="nav-tooltip">Sports</span>
         </div>
         <div class="control" data-id="contact">
             <i class="fas fa-envelope-open"></i>
+            <span class="nav-tooltip">Contact</span>
         </div>
     </div>
-    <!-- <div class="theme-btn">
-        <i class="fas fa-adjust"></i>
-    </div> -->
-    <div class="theme-btn" aria-label="Change theme" title="Change theme">
-        <i class="fas fa-adjust" aria-hidden="true"></i>
-    </div>
-      
-    <!-- <script src="app.js"></script> -->
 
 
 <!-- Modal Structure -->
@@ -1149,6 +1150,9 @@
 </div>
 
 <!-- JavaScript -->
+<script src="js/starfield.js"></script>
+<script src="js/floating-icons.js"></script>
+<script src="js/animations.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
