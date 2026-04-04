@@ -10,6 +10,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Grotesk:wght@500;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+      }
+    }
+    </script>
 </head>
 <body class="main-content">
     <canvas id="starfield"></canvas>
@@ -46,6 +54,29 @@ Philosophy Buff, Tech Explorer, and Lifelong Learner">
         </div>
     </header>
     <main>
+        <section class="container universe-section" id="my-universe">
+            <div class="universe-container" data-reveal>
+                <div id="universe-3d" aria-hidden="true"></div>
+                <div class="universe-loading" id="universe-loading">
+                    <div class="universe-spinner"></div>
+                </div>
+                <div class="passion-info-card" id="passion-info-card">
+                    <button class="passion-info-close" id="passion-info-close" aria-label="Close">&times;</button>
+                    <div class="passion-info-emoji" id="passion-info-emoji"></div>
+                    <h3 class="passion-info-name" id="passion-info-name"></h3>
+                    <p class="passion-info-desc" id="passion-info-desc"></p>
+                    <a class="passion-info-link" id="passion-info-link" href="#">Explore deeper &rarr;</a>
+                </div>
+                <p class="universe-hint" id="universe-hint">Drag to orbit · Click a sphere · Scroll to zoom</p>
+                <button class="sound-toggle" id="sound-toggle" aria-label="Toggle sound">
+                    <i class="fas fa-volume-mute"></i>
+                </button>
+                <div class="sr-only" id="passions-text-fallback">
+                    From the roar of a football stadium to the precision of an F1 pit stop, from the elegance of a tennis rally to the cosmic dance of galaxies billions of light-years away — my world is a collision of passions that somehow all connect. I live at the intersection of technology and wonder: building AI systems by day, pondering the philosophy of consciousness by night, and cheering for the beautiful game whenever the whistle blows. Whether it is debugging a neural network, tracing the trajectory of a cricket ball, or reading Marcus Aurelius on a quiet evening, every pursuit feeds the same curiosity — a relentless drive to understand how things work, from the smallest quark to the largest supercluster.
+                </div>
+            </div>
+        </section>
+
         <section class="container about" id="about">
             <div class="main-title" data-reveal>
                 <h2>About <span>me</span><span class="bg-text">my stats</span></h2>
@@ -580,6 +611,19 @@ Philosophy Buff, Tech Explorer, and Lifelong Learner">
                 <!-- Latest Agentic AI Projects -->
                 <div class="portfolio-item glass-card">
                     <div class="image">
+                        <img src="img/podforge.svg" alt="PodForge">
+                    </div>
+                    <div class="hover-items">
+                        <h3>PodForge</h3>
+                        <div class="icons">
+                            <a href="https://github.com/vineethsaivs/podforge" class="icon">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item glass-card">
+                    <div class="image">
                         <img src="img/genesis.webp" alt="GENESIS">
                     </div>
                     <div class="hover-items">
@@ -1112,6 +1156,10 @@ Philosophy Buff, Tech Explorer, and Lifelong Learner">
             <i class="fas fa-home"></i>
             <span class="nav-tooltip">Home</span>
         </div>
+        <div class="control" data-id="my-universe">
+            <i class="fas fa-globe-americas"></i>
+            <span class="nav-tooltip">My Universe</span>
+        </div>
         <div class="control" data-id="about">
             <i class="fas fa-user"></i>
             <span class="nav-tooltip">About</span>
@@ -1154,5 +1202,6 @@ Philosophy Buff, Tech Explorer, and Lifelong Learner">
 <script src="js/floating-icons.js"></script>
 <script src="js/animations.js"></script>
 <script src="app.js"></script>
+<script type="module" src="js/passions-universe.js"></script>
 </body>
 </html>

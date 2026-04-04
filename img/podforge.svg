@@ -1,0 +1,196 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#060b18"/>
+      <stop offset="50%" style="stop-color:#0d1526"/>
+      <stop offset="100%" style="stop-color:#060b18"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e50914"/>
+      <stop offset="100%" style="stop-color:#ff6b6b"/>
+    </linearGradient>
+    <linearGradient id="wave1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e50914;stop-opacity:0.8"/>
+      <stop offset="50%" style="stop-color:#ff6b6b;stop-opacity:0.6"/>
+      <stop offset="100%" style="stop-color:#e50914;stop-opacity:0.8"/>
+    </linearGradient>
+    <linearGradient id="wave2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#e50914;stop-opacity:0.3"/>
+    </linearGradient>
+    <linearGradient id="micGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#c0c0c0"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <radialGradient id="orbGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#e50914;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#e50914;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="400" fill="url(#bg)"/>
+
+  <!-- Subtle grid lines -->
+  <g opacity="0.05" stroke="#ffffff">
+    <line x1="0" y1="100" x2="600" y2="100"/>
+    <line x1="0" y1="200" x2="600" y2="200"/>
+    <line x1="0" y1="300" x2="600" y2="300"/>
+    <line x1="150" y1="0" x2="150" y2="400"/>
+    <line x1="300" y1="0" x2="300" y2="400"/>
+    <line x1="450" y1="0" x2="450" y2="400"/>
+  </g>
+
+  <!-- Stars -->
+  <g fill="#ffffff" opacity="0.3">
+    <circle cx="50" cy="40" r="1"/>
+    <circle cx="120" cy="80" r="0.8"/>
+    <circle cx="200" cy="30" r="1.2"/>
+    <circle cx="350" cy="60" r="0.7"/>
+    <circle cx="480" cy="45" r="1"/>
+    <circle cx="540" cy="90" r="0.9"/>
+    <circle cx="80" cy="350" r="0.8"/>
+    <circle cx="520" cy="340" r="1.1"/>
+    <circle cx="400" cy="370" r="0.7"/>
+    <circle cx="160" cy="370" r="0.9"/>
+    <circle cx="560" cy="200" r="0.8"/>
+    <circle cx="30" cy="200" r="1"/>
+  </g>
+
+  <!-- Background glow orb -->
+  <circle cx="300" cy="180" r="150" fill="url(#orbGlow)"/>
+
+  <!-- Sound waves emanating from center -->
+  <g filter="url(#softGlow)" opacity="0.3">
+    <!-- Outer waves -->
+    <ellipse cx="300" cy="190" rx="220" ry="80" fill="none" stroke="url(#wave2)" stroke-width="1"/>
+    <ellipse cx="300" cy="190" rx="190" ry="65" fill="none" stroke="url(#wave2)" stroke-width="1.2"/>
+    <ellipse cx="300" cy="190" rx="160" ry="50" fill="none" stroke="url(#wave1)" stroke-width="1.5"/>
+  </g>
+
+  <!-- Audio waveform bars -->
+  <g filter="url(#glow)">
+    <!-- Left side waveform -->
+    <rect x="95" y="160" width="4" height="60" rx="2" fill="url(#accent)" opacity="0.5"/>
+    <rect x="107" y="145" width="4" height="90" rx="2" fill="url(#accent)" opacity="0.55"/>
+    <rect x="119" y="155" width="4" height="70" rx="2" fill="url(#accent)" opacity="0.6"/>
+    <rect x="131" y="135" width="4" height="110" rx="2" fill="url(#accent)" opacity="0.65"/>
+    <rect x="143" y="150" width="4" height="80" rx="2" fill="url(#accent)" opacity="0.7"/>
+    <rect x="155" y="130" width="4" height="120" rx="2" fill="url(#accent)" opacity="0.75"/>
+    <rect x="167" y="140" width="4" height="100" rx="2" fill="url(#accent)" opacity="0.8"/>
+    <rect x="179" y="120" width="5" height="140" rx="2.5" fill="url(#accent)" opacity="0.85"/>
+    <rect x="192" y="135" width="5" height="110" rx="2.5" fill="url(#accent)" opacity="0.9"/>
+    <rect x="205" y="110" width="5" height="160" rx="2.5" fill="url(#accent)" opacity="0.95"/>
+
+    <!-- Right side waveform -->
+    <rect x="390" y="110" width="5" height="160" rx="2.5" fill="url(#accent)" opacity="0.95"/>
+    <rect x="403" y="135" width="5" height="110" rx="2.5" fill="url(#accent)" opacity="0.9"/>
+    <rect x="416" y="120" width="5" height="140" rx="2.5" fill="url(#accent)" opacity="0.85"/>
+    <rect x="429" y="140" width="4" height="100" rx="2" fill="url(#accent)" opacity="0.8"/>
+    <rect x="441" y="130" width="4" height="120" rx="2" fill="url(#accent)" opacity="0.75"/>
+    <rect x="453" y="150" width="4" height="80" rx="2" fill="url(#accent)" opacity="0.7"/>
+    <rect x="465" y="135" width="4" height="110" rx="2" fill="url(#accent)" opacity="0.65"/>
+    <rect x="477" y="155" width="4" height="70" rx="2" fill="url(#accent)" opacity="0.6"/>
+    <rect x="489" y="145" width="4" height="90" rx="2" fill="url(#accent)" opacity="0.55"/>
+    <rect x="501" y="160" width="4" height="60" rx="2" fill="url(#accent)" opacity="0.5"/>
+  </g>
+
+  <!-- Center microphone icon -->
+  <g transform="translate(300, 185)" filter="url(#glow)">
+    <!-- Mic body -->
+    <rect x="-18" y="-55" width="36" height="70" rx="18" fill="url(#micGrad)" opacity="0.95"/>
+    <!-- Mic grille lines -->
+    <line x1="-12" y1="-35" x2="12" y2="-35" stroke="#999" stroke-width="0.8" opacity="0.5"/>
+    <line x1="-12" y1="-25" x2="12" y2="-25" stroke="#999" stroke-width="0.8" opacity="0.5"/>
+    <line x1="-12" y1="-15" x2="12" y2="-15" stroke="#999" stroke-width="0.8" opacity="0.5"/>
+    <line x1="-12" y1="-5" x2="12" y2="-5" stroke="#999" stroke-width="0.8" opacity="0.5"/>
+    <!-- Mic stand arc -->
+    <path d="M-28,15 Q-28,45 0,45 Q28,45 28,15" fill="none" stroke="url(#micGrad)" stroke-width="3" opacity="0.8"/>
+    <!-- Mic stand -->
+    <rect x="-2" y="45" width="4" height="25" fill="url(#micGrad)" opacity="0.8"/>
+    <rect x="-15" y="68" width="30" height="4" rx="2" fill="url(#micGrad)" opacity="0.8"/>
+  </g>
+
+  <!-- AI circuit nodes -->
+  <g opacity="0.4" stroke="#e50914" fill="none" stroke-width="0.8">
+    <!-- Left circuit -->
+    <circle cx="70" cy="140" r="4" fill="#e50914" opacity="0.6"/>
+    <line x1="74" y1="140" x2="95" y2="165"/>
+    <circle cx="70" cy="260" r="4" fill="#e50914" opacity="0.6"/>
+    <line x1="74" y1="260" x2="95" y2="215"/>
+    <!-- Right circuit -->
+    <circle cx="530" cy="140" r="4" fill="#e50914" opacity="0.6"/>
+    <line x1="526" y1="140" x2="505" y2="165"/>
+    <circle cx="530" cy="260" r="4" fill="#e50914" opacity="0.6"/>
+    <line x1="526" y1="260" x2="505" y2="215"/>
+  </g>
+
+  <!-- Pipeline flow arrows at bottom -->
+  <g transform="translate(300, 330)" opacity="0.6">
+    <g font-family="monospace" font-size="10" fill="#8a8f9e" text-anchor="middle">
+      <text x="-200" y="0">Topic</text>
+      <text x="-120" y="0">Research</text>
+      <text x="-40" y="0">Script</text>
+      <text x="40" y="0">TTS</text>
+      <text x="120" y="0">Mix</text>
+      <text x="200" y="0">Podcast</text>
+    </g>
+    <g stroke="url(#accent)" stroke-width="1.5" fill="none" opacity="0.6">
+      <line x1="-175" y1="-3" x2="-150" y2="-3" marker-end="url(#arrowhead)"/>
+      <line x1="-92" y1="-3" x2="-65" y2="-3"/>
+      <line x1="-18" y1="-3" x2="22" y2="-3"/>
+      <line x1="55" y1="-3" x2="95" y2="-3"/>
+      <line x1="140" y1="-3" x2="172" y2="-3"/>
+    </g>
+    <!-- Arrow dots -->
+    <g fill="#e50914">
+      <circle cx="-150" cy="-3" r="2"/>
+      <circle cx="-65" cy="-3" r="2"/>
+      <circle cx="22" cy="-3" r="2"/>
+      <circle cx="95" cy="-3" r="2"/>
+      <circle cx="172" cy="-3" r="2"/>
+    </g>
+  </g>
+
+  <!-- Title -->
+  <text x="300" y="55" font-family="'Space Grotesk', sans-serif" font-size="36" font-weight="700" fill="url(#accent)" text-anchor="middle" filter="url(#glow)">PodForge</text>
+  <text x="300" y="78" font-family="'Inter', sans-serif" font-size="13" fill="#8a8f9e" text-anchor="middle" letter-spacing="3">AUTONOMOUS AI PODCAST FACTORY</text>
+
+  <!-- Tech badges -->
+  <g transform="translate(300, 365)" font-family="'Inter', monospace" font-size="9" text-anchor="middle">
+    <g transform="translate(-150, 0)">
+      <rect x="-28" y="-10" width="56" height="18" rx="9" fill="none" stroke="#e50914" stroke-width="0.8" opacity="0.5"/>
+      <text fill="#ff6b6b" y="3">FastAPI</text>
+    </g>
+    <g transform="translate(-75, 0)">
+      <rect x="-32" y="-10" width="64" height="18" rx="9" fill="none" stroke="#e50914" stroke-width="0.8" opacity="0.5"/>
+      <text fill="#ff6b6b" y="3">LangGraph</text>
+    </g>
+    <g transform="translate(0, 0)">
+      <rect x="-22" y="-10" width="44" height="18" rx="9" fill="none" stroke="#e50914" stroke-width="0.8" opacity="0.5"/>
+      <text fill="#ff6b6b" y="3">React</text>
+    </g>
+    <g transform="translate(75, 0)">
+      <rect x="-32" y="-10" width="64" height="18" rx="9" fill="none" stroke="#e50914" stroke-width="0.8" opacity="0.5"/>
+      <text fill="#ff6b6b" y="3">ElevenLabs</text>
+    </g>
+    <g transform="translate(150, 0)">
+      <rect x="-20" y="-10" width="40" height="18" rx="9" fill="none" stroke="#e50914" stroke-width="0.8" opacity="0.5"/>
+      <text fill="#ff6b6b" y="3">MCP</text>
+    </g>
+  </g>
+</svg>
