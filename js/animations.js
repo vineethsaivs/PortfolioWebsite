@@ -1,5 +1,5 @@
 /**
- * Animations — scroll reveal, typing effect, card tilt, counter animation
+ * Animations , scroll reveal, typing effect, card tilt, counter animation
  */
 (function () {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

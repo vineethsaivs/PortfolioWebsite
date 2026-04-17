@@ -1,5 +1,5 @@
 /**
- * Starfield — twinkling canvas stars with cursor parallax + glow tracking
+ * Starfield , twinkling canvas stars with cursor parallax + glow tracking
  */
 (function () {
   const canvas = document.getElementById('starfield');
@@ -37,7 +37,7 @@
   function draw(time) {
     ctx.clearRect(0, 0, width, height);
 
-    // Subtle gradient wash — gives depth instead of flat black
+    // Subtle gradient wash , gives depth instead of flat black
     var grd = ctx.createRadialGradient(width * 0.3, height * 0.2, 0, width * 0.3, height * 0.2, width * 0.7);
     grd.addColorStop(0, 'rgba(229, 9, 20, 0.015)');
     grd.addColorStop(1, 'transparent');

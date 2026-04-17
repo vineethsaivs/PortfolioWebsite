@@ -1,5 +1,5 @@
 /**
- * Floating Icons — subtle drifting symbols representing personal interests
+ * Floating Icons , subtle drifting symbols representing personal interests
  * Renders emoji glyphs at very low opacity, drifting slowly across the viewport
  */
 (function () {
@@ -44,7 +44,7 @@
         x: Math.random() * width,
         y: Math.random() * height,
         size: Math.random() * 14 + 10,            // 10-24px
-        baseAlpha: Math.random() * 0.04 + 0.02,   // 0.02-0.06 — very subtle
+        baseAlpha: Math.random() * 0.04 + 0.02,   // 0.02-0.06 , very subtle
         alpha: 0,
         driftX: (Math.random() - 0.5) * 0.15,     // slow horizontal drift
         driftY: -(Math.random() * 0.12 + 0.04),   // gentle upward float

@@ -9,72 +9,72 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 const PASSIONS = [
   {
     emoji: '\u26BD', label: 'Football', color: '#22c55e',
-    desc: 'The beautiful game \u2014 flow, teamwork, and reading the game in real time.',
+    desc: 'The beautiful game. Flow, teamwork, and reading the game in real time.',
     ring: 3, angle: 0,
     deepDesc: [
-      'Twenty-two people on a patch of grass, and somehow it becomes art. Football is the closest thing I\u2019ve found to emergent intelligence \u2014 no single player controls the game, but patterns arise, dissolve, and reform in real time like a living system.',
-      'A through-ball that splits a defense is geometry made physical. A tiki-taka sequence is distributed computing with no central server. The way a team presses high and forces turnovers \u2014 that\u2019s not just tactics, it\u2019s collective cognition. Eleven minds thinking as one.',
-      'What draws me isn\u2019t just the spectacle. It\u2019s the proof that beauty can be functional. The most effective play is often the most elegant. That principle \u2014 that the right answer and the beautiful answer are the same answer \u2014 shapes how I think about everything I build.',
+      'Twenty-two people on a patch of grass, and somehow it becomes art. Football is the closest thing I\u2019ve found to emergent intelligence. No single player controls the game, but patterns arise, dissolve, and reform in real time like a living system.',
+      'A through-ball that splits a defense is geometry made physical. A tiki-taka sequence is distributed computing with no central server. The way a team presses high and forces turnovers is not just tactics, it is collective cognition. Eleven minds thinking as one.',
+      'What draws me isn\u2019t just the spectacle. It\u2019s the proof that beauty can be functional. The most effective play is often the most elegant. That principle, the idea that the right answer and the beautiful answer are the same answer, shapes how I think about everything I build.',
     ],
   },
   {
     emoji: '\uD83C\uDFCE\uFE0F', label: 'Formula 1', color: '#e50914',
-    desc: 'Engineering under pressure \u2014 where milliseconds separate glory from anonymity.',
+    desc: 'Engineering under pressure, where milliseconds separate glory from anonymity.',
     ring: 3, angle: 1,
     deepDesc: [
       'Milliseconds. That\u2019s the margin between a world championship and a footnote. Formula 1 is applied thermodynamics, materials science, aerodynamics, and human reflexes compressed into two hours of controlled chaos.',
-      'A pit stop lasts 1.8 seconds. A tire strategy decided on lap 12 determines the outcome on lap 57. The engineers on the pit wall are running Monte Carlo simulations in real time while a human being steers a 1000-horsepower machine at 340 km/h inches from a concrete wall. It\u2019s the highest-bandwidth collaboration between humans and machines that exists in sport.',
-      'F1 taught me that engineering isn\u2019t about building the perfect thing. It\u2019s about building the best possible thing within impossible constraints \u2014 weight limits, fuel loads, tire degradation, regulations that change every year. Sound familiar? Every production system I\u2019ve built lives under the same philosophy.',
+      'A pit stop lasts 1.8 seconds. A tire strategy decided on lap 12 determines the outcome on lap 57. The engineers on the pit wall are running Monte Carlo simulations in real time while a human being steers a 1000-horsepower machine at 340 km/h inches from a concrete wall. It is the highest-bandwidth collaboration between humans and machines that exists in sport.',
+      'F1 taught me that engineering isn\u2019t about building the perfect thing. It\u2019s about building the best possible thing within impossible constraints: weight limits, fuel loads, tire degradation, regulations that change every year. Sound familiar? Every production system I\u2019ve built lives under the same philosophy.',
     ],
   },
   {
     emoji: '\uD83C\uDFBE', label: 'Tennis', color: '#eab308',
-    desc: 'The loneliest sport \u2014 just you, your opponent, and the geometry of the court.',
+    desc: 'The loneliest sport. Just you, your opponent, and the geometry of the court.',
     ring: 3, angle: 2,
     deepDesc: [
-      'No teammates. No substitutions. No timeouts. No coach whispering in your ear. Tennis is the most psychologically naked sport on Earth. When you\u2019re down 2-5 in the third set, there is literally nobody who can help you. It\u2019s just you, your racket, and whatever you\u2019re made of.',
-      'Every rally is a micro-negotiation \u2014 angles, spin, depth, disguise. Every match is a 2-hour conversation played at 200 km/h. Federer\u2019s backhand isn\u2019t just technique, it\u2019s philosophy \u2014 the belief that grace and power aren\u2019t opposites. Nadal\u2019s relentlessness isn\u2019t just fitness, it\u2019s a worldview \u2014 that every point matters equally, that intensity is a choice you make before the match starts.',
-      'Tennis taught me that strategy without execution is fantasy, and execution without presence of mind is just reflexes. The greats aren\u2019t the ones with the best serve. They\u2019re the ones who can think clearly when everything is on the line.',
+      'No teammates. No substitutions. No timeouts. No coach whispering in your ear. Tennis is the most psychologically naked sport on Earth. When you are down 2-5 in the third set, there is literally nobody who can help you. It is just you, your racket, and whatever you are made of.',
+      'Every rally is a micro-negotiation: angles, spin, depth, disguise. Every match is a 2-hour conversation played at 200 km/h. Federer\u2019s backhand isn\u2019t just technique, it is philosophy, the belief that grace and power aren\u2019t opposites. Nadal\u2019s relentlessness isn\u2019t just fitness, it is a worldview, that every point matters equally, that intensity is a choice you make before the match starts.',
+      'Tennis taught me that strategy without execution is fantasy, and execution without presence of mind is just reflexes. The greats aren\u2019t the ones with the best serve. They are the ones who can think clearly when everything is on the line.',
     ],
   },
   {
     emoji: '\uD83C\uDFCF', label: 'Cricket', color: '#3b82f6',
-    desc: 'Applied statistics with soul \u2014 the ultimate lesson in reading data in real time.',
+    desc: 'Applied statistics with soul. The ultimate lesson in reading data in real time.',
     ring: 3, angle: 3,
     deepDesc: [
       'Five days. A single match can last five days, and it can still end in a draw. Cricket is the sport that taught the world that patience is a form of aggression, that waiting is a strategy, and that the long game is the only game.',
-      'A batsman facing a bowler is processing an extraordinary amount of data in under 0.5 seconds \u2014 the seam position, the wrist angle, the release point, the pitch condition, the field placement. It\u2019s real-time pattern recognition performed by the human body before the conscious mind even registers what\u2019s happening. Every ball is a hypothesis test.',
-      'Cricket is also where I first understood that numbers tell stories. A batting average isn\u2019t just a number \u2014 it\u2019s a compressed narrative of temperament, conditions, opponents, and pressure. Years before I wrote my first line of data science code, cricket taught me to read signal in noise.',
+      'A batsman facing a bowler is processing an extraordinary amount of data in under 0.5 seconds: the seam position, the wrist angle, the release point, the pitch condition, the field placement. It is real-time pattern recognition performed by the human body before the conscious mind even registers what is happening. Every ball is a hypothesis test.',
+      'Cricket is also where I first understood that numbers tell stories. A batting average isn\u2019t just a number. It is a compressed narrative of temperament, conditions, opponents, and pressure. Years before I wrote my first line of data science code, cricket taught me to read signal in noise.',
     ],
   },
   {
     emoji: '\uD83C\uDFC0', label: 'Basketball', color: '#f97316',
-    desc: 'Flow state incarnate \u2014 improvisation within structure.',
+    desc: 'Flow state incarnate. Improvisation within structure.',
     ring: 3, angle: 4,
     deepDesc: [
-      'When a pick-and-roll unfolds perfectly \u2014 the screen, the slip, the pocket pass, the finish \u2014 it\u2019s jazz. It\u2019s improvisation within a structure that only exists because everyone internalized the same playbook so deeply that they can break its rules in real time.',
-      'Basketball is 48 minutes of controlled entropy. Five players, infinite permutations, decisions made in tenths of a second. The best teams aren\u2019t the ones with the best plan. They\u2019re the ones who can abandon the plan and create something better in the moment.',
-      'I watch basketball for the flow states. When a player is in the zone \u2014 Curry hitting from 35 feet, LeBron orchestrating a fast break like a conductor \u2014 you\u2019re watching a human being operating at the edge of what consciousness allows. That\u2019s what I chase in my own work: the state where thinking and doing become the same thing.',
+      'When a pick-and-roll unfolds perfectly (the screen, the slip, the pocket pass, the finish), it is jazz. It is improvisation within a structure that only exists because everyone internalized the same playbook so deeply that they can break its rules in real time.',
+      'Basketball is 48 minutes of controlled entropy. Five players, infinite permutations, decisions made in tenths of a second. The best teams aren\u2019t the ones with the best plan. They are the ones who can abandon the plan and create something better in the moment.',
+      'I watch basketball for the flow states. When a player is in the zone (Curry hitting from 35 feet, LeBron orchestrating a fast break like a conductor) you are watching a human being operating at the edge of what consciousness allows. That is what I chase in my own work: the state where thinking and doing become the same thing.',
     ],
   },
   {
     emoji: '\uD83D\uDD2D', label: 'Astrophysics', color: '#8b5cf6',
-    desc: 'The universe as the ultimate laboratory \u2014 we are made of dead stars.',
+    desc: 'The universe as the ultimate laboratory. We are made of dead stars.',
     ring: 2, angle: 0,
     deepDesc: [
-      'Every atom of carbon in your body was forged inside a star that exploded before our sun was born. The iron in your blood, the calcium in your bones, the oxygen you\u2019re breathing right now \u2014 all of it was cooked in a stellar furnace and scattered across space in a supernova billions of years ago. You are, in the most literal sense, made of stardust.',
-      'Astrophysics is the study of the largest laboratory that exists \u2014 one where the experiments have been running for 13.8 billion years and we\u2019re showing up to read the results. Black holes that warp time. Neutron stars spinning 700 times per second. Galaxies colliding in slow motion over millions of years. The scales are incomprehensible, and yet the same physics that governs a falling apple governs the orbit of a binary pulsar.',
-      'What keeps me up at night isn\u2019t the answers. It\u2019s the fact that we can even ask the questions. That a species on a small rock can figure out what happens inside a star ten billion light-years away. That\u2019s not just science. That\u2019s the universe becoming aware of itself.',
+      'Every atom of carbon in your body was forged inside a star that exploded before our sun was born. The iron in your blood, the calcium in your bones, the oxygen you are breathing right now, all of it was cooked in a stellar furnace and scattered across space in a supernova billions of years ago. You are, in the most literal sense, made of stardust.',
+      'Astrophysics is the study of the largest laboratory that exists, one where the experiments have been running for 13.8 billion years and we are showing up to read the results. Black holes that warp time. Neutron stars spinning 700 times per second. Galaxies colliding in slow motion over millions of years. The scales are incomprehensible, and yet the same physics that governs a falling apple governs the orbit of a binary pulsar.',
+      'What keeps me up at night isn\u2019t the answers. It is the fact that we can even ask the questions. That a species on a small rock can figure out what happens inside a star ten billion light-years away. That is not just science. That is the universe becoming aware of itself.',
     ],
   },
   {
     emoji: '\uD83C\uDF0C', label: 'Cosmology', color: '#6366f1',
-    desc: 'The biggest possible question \u2014 what is all of this, and why does it exist?',
+    desc: 'The biggest possible question. What is all of this, and why does it exist?',
     ring: 2, angle: 1,
     deepDesc: [
-      '13.8 billion years ago, everything \u2014 every galaxy, every star, every atom, every thought you\u2019ve ever had \u2014 was compressed into a point smaller than a proton. Then it expanded. And it\u2019s still expanding, accelerating into a future we can barely model. Cosmology is the discipline that takes the biggest possible step back and asks: what is all of this?',
-      'I\u2019m haunted by the fine-tuning problem. Change the strong nuclear force by 0.5% and stars can\u2019t form. Shift the cosmological constant slightly and the universe either collapses instantly or flies apart before atoms can bond. We exist in a razor-thin window of parameters that permit complexity. Is that luck? Design? A multiverse where every possibility plays out? Nobody knows.',
-      'Cosmology is where physics meets philosophy and neither has the final word. Dark energy makes up 68% of the universe and we have no idea what it is. Dark matter is 27% and we\u2019ve never detected a single particle of it. We understand less than 5% of what exists. That\u2019s not humbling \u2014 it\u2019s intoxicating. The deepest mystery isn\u2019t out there. We\u2019re living inside it.',
+      '13.8 billion years ago, everything (every galaxy, every star, every atom, every thought you have ever had) was compressed into a point smaller than a proton. Then it expanded. And it is still expanding, accelerating into a future we can barely model. Cosmology is the discipline that takes the biggest possible step back and asks: what is all of this?',
+      'I am haunted by the fine-tuning problem. Change the strong nuclear force by 0.5% and stars can\u2019t form. Shift the cosmological constant slightly and the universe either collapses instantly or flies apart before atoms can bond. We exist in a razor-thin window of parameters that permit complexity. Is that luck? Design? A multiverse where every possibility plays out? Nobody knows.',
+      'Cosmology is where physics meets philosophy and neither has the final word. Dark energy makes up 68% of the universe and we have no idea what it is. Dark matter is 27% and we have never detected a single particle of it. We understand less than 5% of what exists. That is not humbling. It is intoxicating. The deepest mystery isn\u2019t out there. We are living inside it.',
     ],
   },
   {
@@ -82,49 +82,49 @@ const PASSIONS = [
     desc: 'The language the universe writes itself in.',
     ring: 2, angle: 2,
     deepDesc: [
-      'Every waterfall, every orbit, every heartbeat is physics in motion. It\u2019s not a subject I study \u2014 it\u2019s the substrate everything else runs on. Quantum mechanics says reality is probabilistic at its core. General relativity says massive objects bend the fabric of space and time. Both are true. Both are incompatible. And resolving that contradiction is the greatest unsolved problem in science.',
-      'What draws me isn\u2019t the equations \u2014 it\u2019s the unreasonable elegance. Why should F=ma be so simple? Why should Maxwell\u2019s four equations contain all of electromagnetism? Why should the universe be comprehensible at all? Einstein called it "the most incomprehensible thing about the universe \u2014 that it is comprehensible." That sentence changed my life.',
-      'Physics taught me the most important lesson of my intellectual life: the universe doesn\u2019t owe us simplicity, but it keeps delivering it. Every time we look deeper, we find fewer rules governing more phenomena. That\u2019s not just beautiful. It\u2019s suspicious. And I want to understand why.',
+      'Every waterfall, every orbit, every heartbeat is physics in motion. It is not a subject I study. It is the substrate everything else runs on. Quantum mechanics says reality is probabilistic at its core. General relativity says massive objects bend the fabric of space and time. Both are true. Both are incompatible. And resolving that contradiction is the greatest unsolved problem in science.',
+      'What draws me isn\u2019t the equations. It is the unreasonable elegance. Why should F=ma be so simple? Why should Maxwell\u2019s four equations contain all of electromagnetism? Why should the universe be comprehensible at all? Einstein called it "the most incomprehensible thing about the universe, that it is comprehensible." That sentence changed my life.',
+      'Physics taught me the most important lesson of my intellectual life: the universe doesn\u2019t owe us simplicity, but it keeps delivering it. Every time we look deeper, we find fewer rules governing more phenomena. That is not just beautiful. It is suspicious. And I want to understand why.',
     ],
   },
   {
     emoji: '\uD83D\uDCD0', label: 'Mathematics', color: '#14b8a6',
-    desc: 'Eternal truth \u2014 the most creative endeavor disguised as the most rigorous.',
+    desc: 'Eternal truth. The most creative endeavor disguised as the most rigorous.',
     ring: 2, angle: 3,
     deepDesc: [
-      'Mathematics doesn\u2019t care about your opinions, your culture, or your century. 2+2=4 on every planet, in every galaxy, at every point in time. It\u2019s the closest thing we have to absolute truth \u2014 statements that are not approximately true or true for now, but true in a way that nothing else is or can be.',
-      'And yet, it\u2019s also the most creative human endeavor. Inventing a new mathematical structure is closer to composing music than it is to accounting. Euler\u2019s identity \u2014 e^(i\u03C0) + 1 = 0 \u2014 connects five fundamental constants in a single equation with no reason to do so. It\u2019s not useful. It\u2019s just unbearably beautiful. The first time I saw it, I felt what I imagine people feel in cathedrals.',
-      'What keeps me coming back is the mystery at the foundations. G\u00F6del proved that any consistent mathematical system powerful enough to describe arithmetic contains true statements that can never be proved within that system. Mathematics is incomplete \u2014 by its own rules. There are truths we can never reach. That\u2019s not a limitation. It\u2019s a window into something deeper than logic itself.',
+      'Mathematics doesn\u2019t care about your opinions, your culture, or your century. 2+2=4 on every planet, in every galaxy, at every point in time. It is the closest thing we have to absolute truth: statements that are not approximately true or true for now, but true in a way that nothing else is or can be.',
+      'And yet, it is also the most creative human endeavor. Inventing a new mathematical structure is closer to composing music than it is to accounting. Euler\u2019s identity, e^(i\u03C0) + 1 = 0, connects five fundamental constants in a single equation with no reason to do so. It is not useful. It is just unbearably beautiful. The first time I saw it, I felt what I imagine people feel in cathedrals.',
+      'What keeps me coming back is the mystery at the foundations. G\u00F6del proved that any consistent mathematical system powerful enough to describe arithmetic contains true statements that can never be proved within that system. Mathematics is incomplete, by its own rules. There are truths we can never reach. That is not a limitation. It is a window into something deeper than logic itself.',
     ],
   },
   {
     emoji: '\uD83D\uDCBB', label: 'Programming', color: '#10b981',
-    desc: 'Crystallized thought \u2014 the craft of making ideas real.',
+    desc: 'Crystallized thought. The craft of making ideas real.',
     ring: 0, angle: 0,
     deepDesc: [
-      'Code is crystallized thought. Every function is a decision. Every architecture is a worldview. Every variable name is a tiny act of communication with a future version of yourself or a stranger who\u2019ll maintain this at 2 AM six months from now.',
-      'Programming taught me that the hard part is never the syntax \u2014 it\u2019s figuring out what the problem actually is. The gap between "I know what I want to build" and "I can describe it precisely enough for a machine to execute it" is where all the real thinking happens. It\u2019s philosophy, forced through a compiler.',
-      'The best code I\u2019ve ever written isn\u2019t clever. It\u2019s clear. It reads like well-written prose \u2014 you understand the author\u2019s intent without effort. That\u2019s the aspiration: not to impress, but to communicate. Not to show what you know, but to make complexity disappear. Programming, at its best, is an act of empathy.',
+      'Code is crystallized thought. Every function is a decision. Every architecture is a worldview. Every variable name is a tiny act of communication with a future version of yourself or a stranger who will maintain this at 2 AM six months from now.',
+      'Programming taught me that the hard part is never the syntax. It is figuring out what the problem actually is. The gap between "I know what I want to build" and "I can describe it precisely enough for a machine to execute it" is where all the real thinking happens. It is philosophy, forced through a compiler.',
+      'The best code I have ever written isn\u2019t clever. It is clear. It reads like well-written prose. You understand the author\u2019s intent without effort. That is the aspiration: not to impress, but to communicate. Not to show what you know, but to make complexity disappear. Programming, at its best, is an act of empathy.',
     ],
   },
   {
     emoji: '\uD83E\uDD16', label: 'AI / ML', color: '#ef4444',
-    desc: 'Teaching sand to think \u2014 and discovering what intelligence really means.',
+    desc: 'Teaching sand to think, and discovering what intelligence really means.',
     ring: 0, angle: 1,
     deepDesc: [
-      'We\u2019re teaching sand to think. That\u2019s what machine learning is, stripped to its essence. Silicon, electricity, and mathematics \u2014 producing systems that can recognize faces, translate languages, write poetry, and beat the world\u2019s best at Go. Not because they understand any of it, but because gradient descent found a valley in a loss landscape we couldn\u2019t even visualize.',
-      'I build agentic systems, RAG architectures, and multimodal pipelines. I work on making VLM training more efficient. But the technical work is just the surface. What draws me to AI isn\u2019t what it can do \u2014 it\u2019s what it reveals about intelligence itself. Every time a model surprises us, every emergent capability we didn\u2019t train for, is a clue about the nature of cognition.',
-      'We\u2019re living through the most consequential technological transition since fire. Not electricity, not the internet \u2014 fire. Because we\u2019re not building a faster tool. We\u2019re building something that can build tools. And the question that keeps me awake isn\u2019t "how powerful will it get?" It\u2019s "will we be wise enough to steward it well?"',
+      'We are teaching sand to think. That is what machine learning is, stripped to its essence. Silicon, electricity, and mathematics, producing systems that can recognize faces, translate languages, write poetry, and beat the world\u2019s best at Go. Not because they understand any of it, but because gradient descent found a valley in a loss landscape we couldn\u2019t even visualize.',
+      'I build agentic systems, RAG architectures, and multimodal pipelines. I work on making VLM training more efficient. But the technical work is just the surface. What draws me to AI isn\u2019t what it can do. It is what it reveals about intelligence itself. Every time a model surprises us, every emergent capability we didn\u2019t train for, is a clue about the nature of cognition.',
+      'We are living through the most consequential technological transition since fire. Not electricity, not the internet. Fire. Because we are not building a faster tool. We are building something that can build tools. And the question that keeps me awake isn\u2019t "how powerful will it get?" It is "will we be wise enough to steward it well?"',
     ],
   },
   {
     emoji: '\u2699\uFE0F', label: 'Engineering', color: '#78716c',
-    desc: 'Philosophy with a deadline \u2014 the art of elegant tradeoffs.',
+    desc: 'Philosophy with a deadline. The art of elegant tradeoffs.',
     ring: 0, angle: 2,
     deepDesc: [
-      'Engineering is philosophy with a deadline. Every bridge, every API, every distributed system is an answer to the question: "given these constraints, what\u2019s the best we can do?" Not the perfect solution. The best achievable solution, right now, with what we have.',
-      'What I love about engineering is that it\u2019s honest. Code either works or it doesn\u2019t. The system either handles 10,000 requests per second or it falls over. You can\u2019t argue your way out of a failed load test. Reality has the final vote, and it doesn\u2019t accept appeals.',
-      'The best engineering feels inevitable \u2014 like it couldn\u2019t have been done any other way. That\u2019s the goal: not to build something that impresses, but something so well-fitted to its problem that alternatives feel forced. Elegance isn\u2019t decoration. It\u2019s the absence of everything unnecessary. That\u2019s as true for a system architecture as it is for a mathematical proof.',
+      'Engineering is philosophy with a deadline. Every bridge, every API, every distributed system is an answer to the question: "given these constraints, what is the best we can do?" Not the perfect solution. The best achievable solution, right now, with what we have.',
+      'What I love about engineering is that it is honest. Code either works or it doesn\u2019t. The system either handles 10,000 requests per second or it falls over. You can\u2019t argue your way out of a failed load test. Reality has the final vote, and it doesn\u2019t accept appeals.',
+      'The best engineering feels inevitable. Like it couldn\u2019t have been done any other way. That is the goal: not to build something that impresses, but something so well-fitted to its problem that alternatives feel forced. Elegance isn\u2019t decoration. It is the absence of everything unnecessary. That is as true for a system architecture as it is for a mathematical proof.',
     ],
   },
   {
@@ -132,29 +132,29 @@ const PASSIONS = [
     desc: 'The operating system that everything else runs on.',
     ring: 1, angle: 0,
     deepDesc: [
-      'Philosophy is the operating system that everything else runs on. Before you can build, you have to ask: what\u2019s worth building? Before you can optimize, you have to ask: optimize for what? Before you can live, you have to ask: what does a good life look like? These aren\u2019t academic questions. They\u2019re the most practical questions that exist.',
-      'Nietzsche taught me that comfort is the enemy of greatness. Marcus Aurelius taught me that the obstacle is the way. Camus taught me that the universe is absurd and that\u2019s not a reason for despair \u2014 it\u2019s a reason for revolt, for creating meaning in a cosmos that offers none. They didn\u2019t give me answers. They gave me better questions.',
-      'I don\u2019t read philosophy to sound smart at dinner parties. I read it because it\u2019s the only discipline brave enough to stare at the hardest questions without flinching. What is consciousness? What do we owe each other? Is there free will, or are we just molecules obeying physics? These questions don\u2019t have answers. But living inside them \u2014 really sitting with them \u2014 changes how you see everything.',
+      'Philosophy is the operating system that everything else runs on. Before you can build, you have to ask: what is worth building? Before you can optimize, you have to ask: optimize for what? Before you can live, you have to ask: what does a good life look like? These aren\u2019t academic questions. They are the most practical questions that exist.',
+      'Nietzsche taught me that comfort is the enemy of greatness. Marcus Aurelius taught me that the obstacle is the way. Camus taught me that the universe is absurd and that is not a reason for despair. It is a reason for revolt, for creating meaning in a cosmos that offers none. They didn\u2019t give me answers. They gave me better questions.',
+      'I don\u2019t read philosophy to sound smart at dinner parties. I read it because it is the only discipline brave enough to stare at the hardest questions without flinching. What is consciousness? What do we owe each other? Is there free will, or are we just molecules obeying physics? These questions don\u2019t have answers. But living inside them, really sitting with them, changes how you see everything.',
     ],
   },
   {
     emoji: '\uD83D\uDCDA', label: 'Reading', color: '#a855f7',
-    desc: 'Time travel \u2014 conversations with minds across centuries.',
+    desc: 'Time travel. Conversations with minds across centuries.',
     ring: 1, angle: 1,
     deepDesc: [
-      'Books are time machines. When I read Marcus Aurelius, I\u2019m having a conversation with a Roman emperor who\u2019s been dead for 1,800 years. When I read Sagan, I\u2019m seeing the cosmos through the eyes of someone who made the universe feel like home. When I read a paper on transformer architectures, I\u2019m standing on the shoulders of people who saw further than I ever could alone.',
+      'Books are time machines. When I read Marcus Aurelius, I am having a conversation with a Roman emperor who has been dead for 1,800 years. When I read Sagan, I am seeing the cosmos through the eyes of someone who made the universe feel like home. When I read a paper on transformer architectures, I am standing on the shoulders of people who saw further than I ever could alone.',
       'Reading is how I cross-pollinate. An idea from cosmology solves a problem in system design. A metaphor from Borges clarifies a concept in information theory. A passage from Dostoevsky explains something about human behavior that no psychology textbook captured. The best ideas don\u2019t come from going deeper into one field. They come from noticing that two distant fields are secretly the same field.',
-      'I don\u2019t read to escape. I read to arrive. Every book is a lens, and the more lenses you have, the more dimensions of reality you can perceive. A person who reads lives a thousand lives. A person who doesn\u2019t lives only one. And even that one \u2014 they understand less of it than they think.',
+      'I don\u2019t read to escape. I read to arrive. Every book is a lens, and the more lenses you have, the more dimensions of reality you can perceive. A person who reads lives a thousand lives. A person who doesn\u2019t lives only one. And even that one, they understand less of it than they think.',
     ],
   },
   {
     emoji: '\uD83D\uDE80', label: 'Space', color: '#0ea5e9',
-    desc: 'The ultimate humility check \u2014 and the ultimate inspiration.',
+    desc: 'The ultimate humility check, and the ultimate inspiration.',
     ring: 1, angle: 2,
     deepDesc: [
-      'The Pale Blue Dot. That photograph Voyager 1 took in 1990, from 6 billion kilometers away. Earth is a single pixel. Less than a pixel. A mote of dust suspended in a sunbeam. Every war, every love story, every empire, every symphony \u2014 all of it happened on that pixel. That image rewired my brain permanently.',
-      'Space exploration is humanity\u2019s most inspiring endeavor because it\u2019s the only one that requires us to be our best selves. You can\u2019t cut corners on a Mars mission. You can\u2019t fake the physics of orbital mechanics. Every SpaceX landing, every JWST image, every Perseverance soil sample is proof that when humans commit to something audacious, we can actually pull it off.',
-      'But what really gets me isn\u2019t the rockets or the telescopes. It\u2019s what they represent. From a pale blue dot, a species that\u2019s been around for 300,000 years figured out the age of the universe, the structure of atoms, and the speed of light. We sent our music past the edge of the solar system. Space isn\u2019t just a frontier. It\u2019s a mirror. And what it reflects back is that we\u2019re far more extraordinary than we give ourselves credit for.',
+      'The Pale Blue Dot. That photograph Voyager 1 took in 1990, from 6 billion kilometers away. Earth is a single pixel. Less than a pixel. A mote of dust suspended in a sunbeam. Every war, every love story, every empire, every symphony, all of it happened on that pixel. That image rewired my brain permanently.',
+      'Space exploration is humanity\u2019s most inspiring endeavor because it is the only one that requires us to be our best selves. You can\u2019t cut corners on a Mars mission. You can\u2019t fake the physics of orbital mechanics. Every SpaceX landing, every JWST image, every Perseverance soil sample is proof that when humans commit to something audacious, we can actually pull it off.',
+      'But what really gets me isn\u2019t the rockets or the telescopes. It is what they represent. From a pale blue dot, a species that has been around for 300,000 years figured out the age of the universe, the structure of atoms, and the speed of light. We sent our music past the edge of the solar system. Space isn\u2019t just a frontier. It is a mirror. And what it reflects back is that we are far more extraordinary than we give ourselves credit for.',
     ],
   },
 ];
@@ -184,6 +184,7 @@ const CONNECTIONS = [
 // ── State ───────────────────────────────────────────────────────────────────────
 
 let renderer, scene, camera, controls, composer, bloomPass;
+let centralStarMesh = null;
 let passionMeshes = [];
 let passionGroups = [];
 let ringMeshes = [];
@@ -336,7 +337,9 @@ function buildCentralStar() {
   });
   const star = new THREE.Mesh(geo, mat);
   star.name = 'centralStar';
+  star.userData = { isCore: true };
   scene.add(star);
+  centralStarMesh = star;
 
   // Corona glow
   const coronaGeo = new THREE.SphereGeometry(3.5, 32, 32);
@@ -380,6 +383,38 @@ function buildCentralStar() {
   scene.add(starLight);
 }
 
+// ── Emoji Sprite helper ─────────────────────────────────────────────────────────
+
+function makeEmojiSprite(emoji) {
+  const size = 256;
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  ctx.font = `${Math.floor(size * 0.72)}px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(emoji, size / 2, size / 2 + size * 0.04);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.anisotropy = 4;
+  texture.needsUpdate = true;
+
+  const mat = new THREE.SpriteMaterial({
+    map: texture,
+    transparent: true,
+    depthTest: true,
+    depthWrite: false,
+    opacity: 0.0,
+  });
+  const sprite = new THREE.Sprite(mat);
+  sprite.raycast = () => {};
+  sprite.renderOrder = 2;
+  return sprite;
+}
+
 // ── Passion Spheres ─────────────────────────────────────────────────────────────
 
 function buildPassionSpheres() {
@@ -403,8 +438,11 @@ function buildPassionSpheres() {
       metalness: 0.4,
       roughness: 0.6,
     });
+    sphereMat.transparent = true;
+    sphereMat.opacity = 1.0;
     const sphere = new THREE.Mesh(sphereGeo, sphereMat);
     sphere.userData = { passionIndex: i };
+    sphere.renderOrder = 1;
     group.add(sphere);
 
     // Glow halo (skip on mobile - bloom handles it)
@@ -444,6 +482,14 @@ function buildPassionSpheres() {
     // Small point light
     const pLight = new THREE.PointLight(color, 0.5, 8, 2);
     group.add(pLight);
+
+    // Tiny emoji icon INSIDE the sphere , revealed when sphere turns to glass on proximity/focus
+    const emojiSprite = makeEmojiSprite(p.emoji);
+    emojiSprite.scale.set(0.55, 0.55, 0.55);
+    emojiSprite.position.set(0, 0, 0);
+    group.add(emojiSprite);
+    group.userData.emojiSprite = emojiSprite;
+    group.userData.sphere = sphere;
 
     // Position on orbit
     const radius = ringConf.radius * mobileScale;
@@ -839,7 +885,7 @@ function activateMeteor() {
     Math.sin(angle) * dist
   );
 
-  // Random direction — generally downward and inward
+  // Random direction , generally downward and inward
   dormant.direction.set(
     (Math.random() - 0.5) * 2,
     -0.5 - Math.random() * 0.5,
@@ -908,7 +954,7 @@ function setupAudio() {
   // Try loading ambient file, fall back to silence
   audioEl.src = 'assets/ambient-space.mp3';
   audioEl.addEventListener('error', () => {
-    // No audio file available — generate a simple ambient tone using Web Audio API
+    // No audio file available , generate a simple ambient tone using Web Audio API
     generateAmbientTone();
   });
 
@@ -982,7 +1028,7 @@ function generateAmbientTone() {
     // Override audioEl fade methods to use webAudioGain
     audioEl._useWebAudio = true;
   } catch {
-    // Web Audio not available — silent fallback
+    // Web Audio not available , silent fallback
   }
 }
 
@@ -1104,8 +1150,20 @@ function onClickScene(e) {
 
   if (viewState === STATE.FLYING_TO || viewState === STATE.FLYING_BACK) return;
 
-  // Check if we hit a passion sphere
   raycaster.setFromCamera(pointer, camera);
+
+  // Check the core first (the red central star opens "The Thread" essay)
+  if (centralStarMesh && viewState !== STATE.FOCUSED) {
+    const coreHits = raycaster.intersectObject(centralStarMesh);
+    if (coreHits.length > 0) {
+      if (typeof window.openDive === 'function') {
+        window.openDive('the-thread');
+      }
+      return;
+    }
+  }
+
+  // Check if we hit a passion sphere
   const hits = raycaster.intersectObjects(passionMeshes);
 
   if (hits.length > 0) {
@@ -1227,10 +1285,7 @@ function showDeepDive(idx) {
       <div class="deep-dive-body">
         ${paragraphs}
       </div>
-      <div class="deep-dive-quote">
-        <span class="deep-dive-dash" style="color: ${passion.color}">\u2014</span>
-        Part of what makes me, me.
-      </div>
+      <div class="deep-dive-quote">Part of what makes me, me.</div>
     </div>
   `;
 
@@ -1295,6 +1350,32 @@ function updateLabels() {
     labelEl.style.color = passion.color;
   } else {
     labelEl.style.opacity = '0';
+  }
+}
+
+function updateCoreLabel(show) {
+  let el = document.getElementById('core-hover-label');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'core-hover-label';
+    el.className = 'core-label';
+    el.innerHTML = '<span class="core-label-eyebrow">The Core</span><span class="core-label-title">Find the Thread &rarr;</span>';
+    document.getElementById('universe-3d').appendChild(el);
+  }
+
+  if (show && centralStarMesh) {
+    const worldPos = new THREE.Vector3();
+    centralStarMesh.getWorldPosition(worldPos);
+    const projected = worldPos.clone().project(camera);
+    const container = document.getElementById('universe-3d');
+    const rect = container.getBoundingClientRect();
+    const x = (projected.x * 0.5 + 0.5) * rect.width;
+    const y = (-projected.y * 0.5 + 0.5) * rect.height;
+    el.style.left = x + 'px';
+    el.style.top = (y - 60) + 'px';
+    el.style.opacity = '1';
+  } else {
+    el.style.opacity = '0';
   }
 }
 
@@ -1386,11 +1467,45 @@ function tick() {
     });
   }
 
-  // Update sphere scales (hover/focus animation)
-  passionGroups.forEach((group) => {
+  // Update sphere scales, sphere glass-opacity, and emoji visibility
+  const _worldPos = new THREE.Vector3();
+  passionGroups.forEach((group, i) => {
     const ud = group.userData;
     ud.currentScale += (ud.targetScale - ud.currentScale) * 0.1;
     group.scale.setScalar(ud.currentScale);
+
+    if (!ud.sphere) return;
+
+    group.getWorldPosition(_worldPos);
+    const dist = camera.position.distanceTo(_worldPos);
+    const isFocused = focusedIndex === i;
+
+    // Sphere target opacity:
+    //   1.0 = solid planet (far view)
+    //   0.18 = glass (close / focused, emoji inside visible)
+    let sphereTarget = 1.0;
+    if (isFocused) {
+      sphereTarget = 0.18;
+    } else if (dist < 7) {
+      // Smoothly go glass as camera approaches
+      const t = Math.max(0, Math.min(1, (dist - 2.5) / 4.5));
+      sphereTarget = 0.2 + 0.8 * t;
+    }
+    const sMat = ud.sphere.material;
+    sMat.opacity += (sphereTarget - sMat.opacity) * 0.1;
+    sMat.depthWrite = sMat.opacity >= 0.95;
+
+    // Emoji target opacity: inverse-ish of sphere opacity, gated on proximity
+    if (ud.emojiSprite) {
+      let eTarget = 0;
+      if (isFocused) {
+        eTarget = 1.0;
+      } else if (dist < 8) {
+        eTarget = Math.max(0, Math.min(1, (8 - dist) / 5));
+      }
+      const eMat = ud.emojiSprite.material;
+      eMat.opacity += (eTarget - eMat.opacity) * 0.12;
+    }
   });
 
   // Update central star corona shader
@@ -1456,6 +1571,16 @@ function tick() {
         renderer.domElement.style.cursor = 'default';
       }
       hoveredObj = newHovered;
+    }
+
+    // Core hover (only when no passion is hovered / focused)
+    if (!newHovered && centralStarMesh && viewState === STATE.OVERVIEW) {
+      const coreHits = raycaster.intersectObject(centralStarMesh);
+      const coreHovered = coreHits.length > 0;
+      updateCoreLabel(coreHovered);
+      if (coreHovered) renderer.domElement.style.cursor = 'pointer';
+    } else {
+      updateCoreLabel(false);
     }
   }
 
