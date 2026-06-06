@@ -2,10 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Activate navigation controls
     [...document.querySelectorAll(".control")].forEach(button => {
         button.addEventListener("click", function() {
-            document.querySelector(".active-btn").classList.remove("active-btn");
+            // Anchor controls (e.g. the Blog link) have no data-id: let them navigate.
+            if (!this.dataset.id) return;
+            const target = document.getElementById(this.dataset.id);
+            if (!target) return;
+            document.querySelector(".active-btn")?.classList.remove("active-btn");
             this.classList.add("active-btn");
-            document.querySelector(".active").classList.remove("active");
-            document.getElementById(button.dataset.id).classList.add("active");
+            document.querySelector(".active")?.classList.remove("active");
+            target.classList.add("active");
         });
     });
 

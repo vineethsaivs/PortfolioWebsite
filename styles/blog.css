@@ -1,0 +1,790 @@
+/* =============================================================================
+   blog.css. Shared styles for the Room Sentinel blog (listing + article).
+   Self-contained: re-declares the site's design tokens so the blog pages do
+   NOT depend on cosmic.css (whose SPA rules .container{display:none} would
+   fight a normal scrolling article). Matches the site's MKBHD dark aesthetic:
+   near-black, signature red, Space Grotesk + Inter, glass, red-glow hovers.
+   ========================================================================== */
+
+/* ----------------------------------------------------------------------------
+   1. Tokens (copied verbatim from styles/cosmic.css :root) + blog-only tokens
+   -------------------------------------------------------------------------- */
+:root {
+  /* Backgrounds */
+  --bg-deep: #0a0a0a;
+  --bg-surface: #141414;
+  --bg-elevated: #1e1e1e;
+
+  /* Accents */
+  --accent-red: #e50914;
+  --accent-red-light: #ff2d3b;
+  --accent-red-dark: #b30710;
+
+  /* Text */
+  --text-primary: #f5f5f5;
+  --text-secondary: #a0a0a0;
+  --text-muted: #666666;
+
+  /* Glass */
+  --glass-bg: rgba(20, 20, 20, 0.6);
+  --glass-blur: 12px;
+  --glass-border: rgba(229, 9, 20, 0.08);
+
+  /* Borders & shadows */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --box-shadow-1: 0 4px 20px rgba(0, 0, 0, 0.5);
+
+  /* Blog-only layout tokens */
+  --reading-width: 780px;   /* the content column: text AND every diagram share this width */
+  --gutter: 24px;           /* side breathing room on small screens */
+  --toc-w: 188px;
+  --rail-gap: clamp(40px, 5vw, 72px);
+  --read-progress-h: 2px;
+  --topbar-h: 52px;
+  --font-body: "Inter", "Poppins", sans-serif;
+  --font-head: "Space Grotesk", "Poppins", sans-serif;
+
+  /* Spacing scale (4pt base) for consistent vertical rhythm */
+  --space-2: 0.5rem;  --space-3: 0.75rem; --space-4: 1rem;   --space-5: 1.25rem;
+  --space-6: 1.5rem;  --space-8: 2rem;    --space-10: 2.5rem; --space-12: 3rem;
+  --space-14: 3.5rem; --space-16: 4rem;   --space-20: 5rem;   --space-24: 6rem;
+}
+
+/* ----------------------------------------------------------------------------
+   2. Reset + base
+   -------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.7;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+a { color: var(--accent-red-light); text-decoration: none; }
+a:hover { color: var(--accent-red); }
+
+img { max-width: 100%; display: block; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-head);
+  color: var(--text-primary);
+  line-height: 1.12;
+  margin: 0 0 0.6em;
+}
+
+::selection { background: rgba(229, 9, 20, 0.3); color: #fff; }
+
+/* Visually-hidden helper for screen-reader-only text */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* Skip link */
+.skip-link {
+  position: fixed; top: -100px; left: 12px; z-index: 300;
+  background: var(--accent-red); color: #fff; padding: 10px 16px;
+  border-radius: 8px; font-family: var(--font-head); font-weight: 500;
+  transition: top 0.2s ease;
+}
+.skip-link:focus { top: 12px; color: #fff; }
+
+:focus-visible {
+  outline: 2px solid var(--accent-red-light);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ----------------------------------------------------------------------------
+   3. Reading-progress bar + minimal top bar
+   -------------------------------------------------------------------------- */
+#read-progress {
+  position: fixed; top: 0; left: 0; height: var(--read-progress-h);
+  width: 0%; z-index: 200;
+  background: linear-gradient(90deg, var(--accent-red), var(--accent-red-light));
+  box-shadow: 0 0 8px rgba(229, 9, 20, 0.5);
+  transition: width 0.08s linear;
+}
+
+.article-topbar {
+  position: fixed; top: 0; left: 0; right: 0; height: var(--topbar-h);
+  z-index: 150;
+  display: flex; align-items: center; gap: 20px;
+  padding: 0 clamp(16px, 4vw, 40px);
+  background: rgba(10, 10, 10, 0.72);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-bottom: 1px solid var(--border-subtle);
+}
+.article-topbar .tb-link {
+  font-family: var(--font-head); font-size: 0.9rem; font-weight: 500;
+  color: var(--text-secondary); display: inline-flex; align-items: center; gap: 8px;
+  transition: color 0.2s ease;
+}
+.article-topbar .tb-link:hover { color: var(--text-primary); }
+.article-topbar .tb-spacer { flex: 1; }
+.article-topbar .tb-brand {
+  font-family: var(--font-head); font-weight: 700; letter-spacing: 0.04em;
+  color: var(--text-primary);
+}
+.article-topbar .tb-brand span { color: var(--accent-red); }
+
+/* ----------------------------------------------------------------------------
+   4. Hero (full-bleed, minimal dark)
+   -------------------------------------------------------------------------- */
+.article-hero {
+  position: relative; text-align: center;
+  padding-block: clamp(var(--space-10), 8vh, var(--space-20)) clamp(var(--space-10), 7vh, var(--space-16));
+}
+.hero-eyebrow {
+  font-family: var(--font-head); text-transform: uppercase; letter-spacing: 0.28em;
+  font-size: 0.72rem; color: var(--accent-red); font-weight: 500; margin-bottom: 1.4rem;
+}
+.hero-title {
+  font-size: clamp(2.4rem, 5.5vw, 4.4rem); font-weight: 600; letter-spacing: -0.02em;
+  margin: 0 0 1.1rem; text-wrap: balance;
+}
+.hero-dek {
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem); color: var(--text-secondary);
+  max-width: 620px; margin: 0 auto 1.8rem; line-height: 1.6;
+}
+.hero-status {
+  display: inline-flex; align-items: center; gap: 12px; margin-bottom: 2.2rem;
+  font-family: var(--font-head); font-size: 0.92rem; color: var(--text-secondary);
+}
+.status-dot {
+  width: 11px; height: 11px; border-radius: 50%;
+  background: var(--accent-red); box-shadow: 0 0 12px var(--accent-red);
+  animation: dotBlink 2.6s ease-in-out infinite;
+}
+@keyframes dotBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.18; } }
+
+/* Hero beep-waveform underline (the recurring "living red" motif) */
+.hero-wave { width: min(360px, 80%); height: 34px; margin: 0 auto; display: block; }
+.hero-wave path { fill: none; stroke: var(--accent-red); stroke-width: 2; stroke-linecap: round; }
+
+/* Hero photo slot: same width as the body column below it */
+.hero-photo { margin: 2.6rem auto 0; width: 100%; }
+
+/* ----------------------------------------------------------------------------
+   5. Reading layout (shell + reading column + breakout) + TOC
+   -------------------------------------------------------------------------- */
+/* Mobile-first: one centered column. The desktop rule promotes this to a
+   two-column [TOC | content] grid, centered as ONE block so the left and right
+   margins stay balanced (no empty right). The hero, prose, every diagram and
+   the footer all live in the content column, so they share one set of edges. */
+.article-shell {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding-inline: clamp(20px, 5vw, 24px);
+  padding-top: var(--topbar-h);
+  padding-bottom: var(--space-24);
+}
+.article-hero, .article-body, .article-footer {
+  width: 100%; max-width: var(--reading-width); margin-inline: auto; min-width: 0;
+}
+
+@media (min-width: 1200px) {
+  .article-shell {
+    grid-template-columns: var(--toc-w) minmax(0, 1fr);
+    column-gap: var(--rail-gap);
+    /* cap the [TOC + content] block and center it: balanced margins, no empty right */
+    max-width: calc(var(--toc-w) + var(--rail-gap) + var(--reading-width));
+    margin-inline: auto;
+    padding-inline: 0;
+    align-items: start;
+  }
+  .article-hero   { grid-column: 2; grid-row: 1; max-width: none; }
+  .article-body   { grid-column: 2; grid-row: 2; max-width: none; }
+  .article-footer { grid-column: 2; grid-row: 3; max-width: none; }
+}
+
+.article-body p,
+.article-body ul,
+.article-body ol { margin: 0 0 var(--space-6); color: #e8e8e8; text-wrap: pretty; }
+.article-body strong { color: var(--text-primary); font-weight: 600; }
+.article-body a { border-bottom: 1px solid rgba(229, 9, 20, 0.35); }
+.article-body a:hover { border-bottom-color: var(--accent-red); }
+
+/* Diagrams, photos and interactive blocks fill the SAME column as the prose:
+   identical left and right edges, never wider, never offset. This is the whole
+   point of the layout. The class name is kept so the HTML need not change. */
+.breakout {
+  width: 100%;
+  margin: var(--space-12) 0;
+}
+
+/* Section rhythm: generous separation between sections, tight grouping within. */
+.article-section { margin-top: clamp(var(--space-16), 8vw, var(--space-24)); scroll-margin-top: calc(var(--topbar-h) + var(--space-6)); }
+.article-section:first-of-type { margin-top: var(--space-10); }
+.section-eyebrow {
+  font-family: var(--font-head); text-transform: uppercase; letter-spacing: 0.24em;
+  font-size: 0.7rem; color: var(--accent-red); font-weight: 500; margin-bottom: var(--space-3);
+}
+.article-section h2 {
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem); font-weight: 500; letter-spacing: -0.015em;
+  margin-bottom: var(--space-6); text-wrap: balance;
+}
+.article-section h3 {
+  font-size: 1.3rem; font-weight: 500; margin: var(--space-10) 0 var(--space-4); color: var(--text-primary);
+}
+
+/* TOC rail: fixed beside the spine on wide screens, a sticky top strip otherwise */
+.toc-rail { font-family: var(--font-head); }
+.toc-rail .toc-title {
+  text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.64rem;
+  color: var(--text-muted); margin-bottom: 14px; font-weight: 500;
+}
+.toc-rail nav { display: flex; flex-direction: column; gap: 2px; }
+.toc-link {
+  display: flex; align-items: center; gap: 9px;
+  font-size: 0.8rem; color: var(--text-secondary); padding: 5px 0;
+  border: none; background: none; line-height: 1.3;
+  transition: color 0.2s ease;
+}
+.toc-link .toc-glyph {
+  width: 14px; height: 10px; flex: none; opacity: 0.5; transition: opacity 0.2s ease;
+}
+.toc-link .toc-glyph path { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+.toc-link:hover { color: var(--text-primary); }
+.toc-link.active { color: var(--accent-red-light); }
+.toc-link.active .toc-glyph { opacity: 1; color: var(--accent-red); }
+
+/* Desktop: the rail is the grid's left column, sticky beside the content. */
+@media (min-width: 1200px) {
+  .toc-rail {
+    grid-column: 1; grid-row: 1 / -1;
+    position: sticky; top: calc(var(--topbar-h) + var(--space-6)); align-self: start;
+    max-height: calc(100vh - var(--topbar-h) - var(--space-12)); overflow-y: auto;
+    padding-right: 8px;
+  }
+}
+@media (max-width: 1199px) {
+  .toc-rail {
+    position: sticky; top: var(--topbar-h); z-index: 90;
+    margin: 0 auto var(--space-6); max-width: var(--reading-width);
+    background: rgba(10, 10, 10, 0.82);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 8px clamp(16px, 5vw, 24px);
+  }
+  .toc-rail .toc-title { display: none; }
+  .toc-rail nav {
+    flex-direction: row; gap: 4px; overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc-rail nav::-webkit-scrollbar { display: none; }
+  .toc-link { white-space: nowrap; padding: 6px 10px; border-radius: 8px; font-size: 0.72rem; }
+  .toc-link .toc-glyph { display: none; }
+  .toc-link.active { background: rgba(229, 9, 20, 0.12); }
+}
+
+/* ----------------------------------------------------------------------------
+   6. Glass recipe + cards + callouts + pull-quotes + code blocks
+   -------------------------------------------------------------------------- */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+}
+
+/* Callouts */
+.callout {
+  position: relative; border-radius: 16px; padding: var(--space-5) var(--space-6);
+  margin: var(--space-8) 0; background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+}
+.callout .callout-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-head); text-transform: uppercase; letter-spacing: 0.16em;
+  font-size: 0.68rem; font-weight: 600; margin-bottom: var(--space-3);
+}
+.callout p:last-child { margin-bottom: 0; }
+.callout--war { border-color: rgba(229, 9, 20, 0.32); background: rgba(229, 9, 20, 0.05); }
+.callout--war .callout-label { color: var(--accent-red-light); }
+.callout--rule { border-color: rgba(255, 255, 255, 0.16); background: rgba(255, 255, 255, 0.025); }
+.callout--rule .callout-label { color: var(--text-primary); }
+.callout--note { border-color: rgba(122, 184, 255, 0.3); background: rgba(122, 184, 255, 0.05); }
+.callout--note .callout-label { color: #7ab8ff; }
+.callout--quirk { border-style: dashed; border-color: rgba(160, 160, 160, 0.4); }
+.callout--quirk .callout-label { color: var(--text-secondary); }
+.callout .wave-glyph { width: 18px; height: 12px; }
+.callout .wave-glyph path { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+
+/* Pull-quote: a top accent bar (the waveform baseline) instead of a side stripe */
+.pullquote {
+  margin: var(--space-16) 0; padding: var(--space-6) var(--space-8);
+  font-family: var(--font-head); font-weight: 500;
+  font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.25; color: var(--text-primary);
+  background: linear-gradient(180deg, rgba(229, 9, 20, 0.06), transparent);
+  border: 1px solid var(--glass-border); border-radius: 16px; text-wrap: balance;
+}
+.pullquote::before {
+  content: ""; display: block; width: 44px; height: 3px; border-radius: 2px;
+  background: var(--accent-red); margin-bottom: var(--space-4);
+}
+
+/* Code blocks */
+.codeblock {
+  margin: 2rem 0; border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--border-subtle); background: var(--bg-elevated);
+  position: relative;
+}
+.codeblock .code-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 14px; border-bottom: 1px solid var(--border-subtle);
+  background: rgba(0, 0, 0, 0.25);
+}
+.codeblock .code-filename {
+  font-family: var(--font-head); font-size: 0.72rem; letter-spacing: 0.04em;
+  color: var(--accent-red-light); text-transform: lowercase;
+}
+.codeblock .copy-btn {
+  font-family: var(--font-head); font-size: 0.66rem; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text-secondary);
+  background: none; border: 1px solid var(--border-subtle); border-radius: 6px;
+  padding: 3px 9px; cursor: pointer; opacity: 0; transition: all 0.2s ease;
+}
+.codeblock:hover .copy-btn, .codeblock:focus-within .copy-btn { opacity: 1; }
+.codeblock .copy-btn:hover { color: var(--text-primary); border-color: var(--accent-red); }
+.codeblock pre {
+  margin: 0; padding: 16px 18px; overflow-x: auto;
+  font-family: "SF Mono", "Fira Code", ui-monospace, monospace;
+  font-size: 0.82rem; line-height: 1.6; color: #d8d8d8;
+}
+.codeblock .tok-key { color: var(--accent-red-light); }
+.codeblock .tok-com { color: var(--text-muted); font-style: italic; }
+.codeblock .tok-str { color: #9ccc9c; }
+
+/* ----------------------------------------------------------------------------
+   7. Photo slots (no-JS fallback: photo layer over duotone SVG, no CLS)
+   -------------------------------------------------------------------------- */
+/* Photo slot: a dark HTML panel with a labelled placeholder. Drop a real photo
+   in by leaving the <img>; if the file is missing the <img> hides itself
+   (onerror) and the placeholder shows. No SVG, so it is always dark and a
+   dark-mode browser extension cannot turn it white. */
+.photo-slot {
+  position: relative; border-radius: 16px; overflow: hidden;
+  background: #101216; border: 1px solid var(--border-subtle);
+  display: flex; align-items: center; justify-content: center;
+}
+/* Article photos are shown WHOLE (these are portrait, labelled shots), centered
+   on a dark mat, never cropped, so every label stays readable. */
+.photo-slot img { display: block; max-width: 100%; max-height: 600px; width: auto; height: auto; }
+.photo-ph {
+  aspect-ratio: 3 / 2; width: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  color: var(--text-muted); font-family: var(--font-head); padding: 16px; text-align: center;
+}
+.photo-slot.is-wide .photo-ph { aspect-ratio: 16 / 9; }
+.photo-ph[hidden] { display: none; }
+.photo-ph i { font-size: 1.9rem; color: var(--accent-red); opacity: 0.65; }
+.photo-ph span { font-size: 0.85rem; letter-spacing: 0.02em; }
+.photo-slot figcaption,
+figure.photo-fig figcaption {
+  font-size: 0.78rem; color: var(--text-muted); margin-top: 0.6rem;
+  text-align: center; font-family: var(--font-head);
+}
+figure.photo-fig { margin: 0; }
+
+/* ----------------------------------------------------------------------------
+   8. Component: Vital Stats strip
+   -------------------------------------------------------------------------- */
+.vital-stats {
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px;
+}
+.vital-stats .stat {
+  text-align: center; padding: 1.3rem 0.6rem; border-radius: 14px;
+  background: var(--bg-surface); border: 1px solid var(--border-subtle);
+}
+.vital-stats .stat-num {
+  font-family: var(--font-head); font-size: clamp(1.4rem, 3.4vw, 2.3rem); font-weight: 700;
+  color: var(--text-primary); line-height: 1; display: block;
+}
+.vital-stats .stat-num.is-zero { color: var(--accent-red); }
+.vital-stats .stat-unit { font-size: 0.95rem; color: var(--text-secondary); font-weight: 500; }
+.vital-stats .stat-label {
+  display: block; margin-top: 0.5rem; font-size: 0.66rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-muted); font-family: var(--font-head);
+}
+
+/* ----------------------------------------------------------------------------
+   9. Component: Architecture diagram (plain HTML/CSS so labels are always
+      crisp and legible, and dark-mode browser extensions can't recolor it).
+   -------------------------------------------------------------------------- */
+.arch {
+  background: var(--bg-surface); border: 1px solid var(--border-subtle);
+  border-radius: 18px; padding: clamp(16px, 3vw, 26px);
+}
+.arch-lane-head { font-family: var(--font-head); font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 12px; }
+.arch-tag {
+  display: inline-block; text-transform: uppercase; letter-spacing: 0.12em;
+  font-size: 0.66rem; font-weight: 600; color: var(--accent-red);
+  background: rgba(229, 9, 20, 0.1); border: 1px solid rgba(229, 9, 20, 0.28);
+  border-radius: 999px; padding: 3px 10px; margin-right: 10px;
+}
+.arch-row { display: flex; align-items: stretch; gap: 6px; }
+.arch-node {
+  flex: 1 1 0; min-width: 0; text-align: center;
+  background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+  border-radius: 12px; padding: 14px 8px;
+}
+.arch-node b { display: block; font-family: var(--font-head); font-weight: 600; color: var(--text-primary); font-size: 0.98rem; line-height: 1.2; }
+.arch-node span { display: block; color: var(--text-secondary); font-size: 0.76rem; line-height: 1.3; margin-top: 5px; }
+.arch-step { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; width: 16px; color: var(--accent-red); font-size: 1.2rem; }
+.arch-bus {
+  margin: 16px 0; text-align: center; font-family: var(--font-head);
+  font-size: 0.85rem; color: var(--text-primary);
+  background: rgba(229, 9, 20, 0.07); border: 1px solid rgba(229, 9, 20, 0.22);
+  border-radius: 12px; padding: 12px 14px;
+}
+.arch-bus i { color: var(--accent-red); margin-right: 8px; }
+@media (max-width: 760px) {
+  .arch-row { flex-direction: column; gap: 4px; }
+  .arch-step { transform: rotate(90deg); width: auto; height: 16px; }
+}
+
+/* ---------------------------------------------------------------------------
+   10. Component: Debounce ribbon (scroll-scrubbed)
+   -------------------------------------------------------------------------- */
+.debounce-ribbon {
+  padding: 1.8rem; border-radius: 18px; background: var(--bg-surface);
+  border: 1px solid var(--border-subtle); text-align: center;
+}
+.debounce-ribbon .ribbon-track {
+  display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 1.2rem;
+}
+.ribbon-dot {
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 2px solid var(--border-subtle); background: var(--bg-elevated);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-head); font-size: 0.85rem; color: var(--text-muted);
+  transition: all 0.25s ease; position: relative;
+}
+.ribbon-dot.filled {
+  border-color: var(--accent-red); color: #fff;
+  background: rgba(229, 9, 20, 0.18); box-shadow: 0 0 14px rgba(229, 9, 20, 0.3);
+}
+.ribbon-conn { width: 18px; height: 2px; background: var(--border-subtle); }
+.appeared-tag {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 4px;
+  font-family: var(--font-head); font-size: 0.8rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted);
+  padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border-subtle);
+  transition: all 0.3s ease;
+}
+.appeared-tag.lit {
+  color: #fff; border-color: var(--accent-red);
+  background: var(--accent-red); box-shadow: 0 0 16px rgba(229, 9, 20, 0.5);
+}
+.debounce-hint { font-size: 0.78rem; color: var(--text-muted); margin-top: 1rem; font-family: var(--font-head); }
+
+/* ---------------------------------------------------------------------------
+   11. Component: Meltdown / CPU saturation card
+   -------------------------------------------------------------------------- */
+.meltdown-card {
+  padding: 1.8rem; border-radius: 18px; background: var(--bg-surface);
+  border: 1px solid rgba(229, 9, 20, 0.25); position: relative;
+  transition: border-color 0.6s ease;
+}
+.meltdown-card.is-dead { border-color: #444; }
+.meltdown-card .mc-head {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.4rem;
+}
+.meltdown-card .mc-title {
+  font-family: var(--font-head); font-size: 0.78rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--text-secondary);
+}
+.meltdown-card .cores { display: flex; flex-direction: column; gap: 14px; margin-bottom: 1.2rem; }
+.meltdown-card .core { display: flex; align-items: center; gap: 14px; }
+.meltdown-card .core-name {
+  font-family: var(--font-head); font-size: 0.75rem; color: var(--text-muted); width: 56px; flex: none;
+}
+.meltdown-card .core-bar {
+  flex: 1; height: 16px; border-radius: 8px; background: var(--bg-elevated); overflow: hidden;
+}
+.meltdown-card .core-fill {
+  height: 100%; width: 100%; border-radius: 8px;
+  background: linear-gradient(90deg, var(--accent-red-dark), var(--accent-red));
+  transition: background 0.6s ease;
+}
+.meltdown-card.is-dead .core-fill { background: linear-gradient(90deg, #444, #666); }
+.meltdown-card .core-pct {
+  font-family: var(--font-head); font-size: 0.82rem; color: var(--text-primary);
+  width: 48px; text-align: right; flex: none;
+}
+.meltdown-card .mc-stats { display: flex; gap: 22px; flex-wrap: wrap; margin-bottom: 1rem; font-family: var(--font-head); font-size: 0.85rem; }
+.meltdown-card .mc-stats b { color: var(--text-primary); }
+.meltdown-card .free-mem { color: #7ab87a; }
+.meltdown-card .adb-line {
+  font-family: "SF Mono", ui-monospace, monospace; font-size: 0.82rem;
+  color: var(--accent-red-light); min-height: 1.4em; margin-bottom: 0.8rem;
+}
+.meltdown-card .adb-line::after { content: ""; }
+.meltdown-card .recover-note { font-size: 0.82rem; color: var(--text-secondary); opacity: 1; }
+.meltdown-card .replay-btn {
+  position: absolute; top: 16px; right: 16px;
+  font-family: var(--font-head); font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--text-secondary); background: none; border: 1px solid var(--border-subtle);
+  border-radius: 999px; padding: 5px 12px; cursor: pointer; transition: all 0.2s ease;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.meltdown-card .replay-btn:hover { color: #fff; border-color: var(--accent-red); }
+
+/* ---------------------------------------------------------------------------
+   12. Component: Beep Console (the hero interactive)
+   -------------------------------------------------------------------------- */
+.beep-console {
+  padding: 2.2rem; border-radius: 22px; text-align: center;
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(229, 9, 20, 0.18);
+  box-shadow: 0 0 40px rgba(229, 9, 20, 0.08), var(--box-shadow-1);
+}
+.beep-console .bc-eyebrow {
+  font-family: var(--font-head); text-transform: uppercase; letter-spacing: 0.2em;
+  font-size: 0.68rem; color: var(--accent-red); margin-bottom: 1.4rem;
+}
+.beep-stage {
+  display: flex; align-items: center; justify-content: center; gap: clamp(20px, 5vw, 56px);
+  flex-wrap: wrap; margin-bottom: 1.6rem;
+}
+
+/* State-machine ring */
+.state-ring { width: 180px; height: 180px; flex: none; }
+.state-ring .ring-track { fill: none; stroke: var(--border-subtle); stroke-width: 2; }
+.ring-node circle { fill: var(--bg-elevated); stroke: var(--border-subtle); stroke-width: 2; transition: all 0.3s ease; }
+.ring-node text { fill: var(--text-secondary); font-family: var(--font-head); font-size: 11px; text-anchor: middle; transition: fill 0.3s ease; }
+.ring-node.lit circle { fill: rgba(229, 9, 20, 0.2); stroke: var(--accent-red); filter: drop-shadow(0 0 8px rgba(229, 9, 20, 0.6)); }
+.ring-node.lit text { fill: #fff; }
+
+/* The round press button */
+.beep-control { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.beep-btn {
+  width: 116px; height: 116px; border-radius: 50%; cursor: pointer;
+  border: none; position: relative;
+  background: radial-gradient(circle at 50% 38%, var(--accent-red-light), var(--accent-red-dark));
+  box-shadow: 0 6px 22px rgba(229, 9, 20, 0.45), inset 0 -4px 10px rgba(0, 0, 0, 0.35);
+  color: #fff; font-family: var(--font-head); font-weight: 600; font-size: 0.78rem;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  transition: transform 0.08s ease, box-shadow 0.2s ease;
+  -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: manipulation;
+}
+.beep-btn:active { transform: scale(0.95); box-shadow: 0 3px 12px rgba(229, 9, 20, 0.4), inset 0 -2px 8px rgba(0, 0, 0, 0.4); }
+.beep-btn .btn-ring {
+  position: absolute; inset: -8px; border-radius: 50%;
+  border: 2px solid rgba(229, 9, 20, 0.3);
+}
+.beep-hint { font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-head); max-width: 160px; }
+
+/* Live waveform scope + label */
+.beep-readout { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.beep-scope {
+  width: 220px; height: 80px; border-radius: 12px;
+  background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+}
+.beep-label {
+  font-family: var(--font-head); font-size: 0.95rem; color: var(--text-primary);
+  min-height: 1.3em; letter-spacing: 0.04em;
+}
+.beep-sublabel { font-size: 0.75rem; color: var(--text-secondary); }
+
+/* Play chips */
+.beep-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 0.4rem; }
+.beep-chip {
+  font-family: var(--font-head); font-size: 0.76rem; cursor: pointer;
+  background: var(--bg-elevated); color: var(--text-secondary);
+  border: 1px solid var(--border-subtle); border-radius: 999px; padding: 8px 16px;
+  display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s ease;
+}
+.beep-chip:hover { color: var(--text-primary); border-color: var(--accent-red); box-shadow: 0 0 12px rgba(229, 9, 20, 0.15); }
+.beep-chip .chip-bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+.beep-chip .chip-bars i { width: 3px; background: var(--accent-red); border-radius: 1px; display: block; }
+.beep-chip--warn { border-color: rgba(229, 9, 20, 0.45); color: var(--accent-red-light); }
+.beep-chip--warn:hover { background: rgba(229, 9, 20, 0.12); }
+
+/* Mute toggle + audio hint */
+.beep-foot { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 1.4rem; }
+.mute-toggle {
+  font-family: var(--font-head); font-size: 0.72rem; cursor: pointer;
+  background: none; border: 1px solid var(--border-subtle); border-radius: 999px;
+  color: var(--text-secondary); padding: 6px 14px; display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.2s ease;
+}
+.mute-toggle:hover { color: var(--text-primary); border-color: var(--accent-red); }
+.mute-toggle[aria-pressed="true"] { color: var(--accent-red-light); border-color: var(--accent-red); }
+.beep-armhint { font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-head); }
+.beep-off:hover { border-color: var(--accent-red); color: var(--accent-red-light); }
+.beep-noscript { margin: var(--space-4) auto 0; max-width: 60ch; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+.beep-noscript strong { color: var(--accent-red-light); font-weight: 600; }
+
+/* ---------------------------------------------------------------------------
+   13. Component: Stop-Prove-Start timeline + two-lane CORE timeline
+   -------------------------------------------------------------------------- */
+.sps-timeline, .core-timeline {
+  padding: 1.6rem; border-radius: 18px; background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+}
+.sps-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.sps-row:last-child { margin-bottom: 0; }
+.sps-label { width: 92px; flex: none; font-family: var(--font-head); font-size: 0.74rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+.sps-band { height: 26px; border-radius: 7px; display: flex; align-items: center; padding: 0 12px; font-family: var(--font-head); font-size: 0.72rem; color: #fff; white-space: nowrap; }
+.sps-band.cam { background: linear-gradient(90deg, var(--accent-red-dark), var(--accent-red)); }
+.sps-band.gap { background: repeating-linear-gradient(45deg, #2a2a2a, #2a2a2a 6px, #222 6px, #222 12px); color: var(--text-secondary); }
+.sps-band.voice { background: linear-gradient(90deg, #2f6fbf, #4a90d9); }
+.sps-band.ghost { background: rgba(229, 9, 20, 0.18); border: 1px dashed rgba(229, 9, 20, 0.5); color: var(--accent-red-light); }
+.sps-caption { font-size: 0.78rem; color: var(--text-muted); margin-top: 1rem; }
+.sps-caption.bad { color: var(--accent-red-light); }
+.sps-caption.good { color: #7ab87a; }
+
+.core-timeline .ct-lane { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.core-timeline .ct-name { width: 64px; flex: none; font-family: var(--font-head); font-size: 0.74rem; color: var(--text-muted); }
+.core-timeline .ct-track { flex: 1; height: 24px; border-radius: 7px; background: var(--bg-elevated); display: flex; overflow: hidden; }
+.core-timeline .ct-seg { height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 0.66rem; color: #fff; }
+.core-timeline .ct-seg.cam { background: linear-gradient(90deg, var(--accent-red-dark), var(--accent-red)); }
+.core-timeline .ct-seg.voice { background: linear-gradient(90deg, #2f6fbf, #4a90d9); }
+.core-timeline .ct-seg.idle { background: transparent; color: var(--text-muted); }
+
+/* ---------------------------------------------------------------------------
+   14. Component: active-low timing waveform
+   -------------------------------------------------------------------------- */
+.timing-wave {
+  padding: 1.6rem; border-radius: 18px; background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+}
+.timing-wave svg { width: 100%; height: auto; display: block; }
+.timing-wave .tw-trace { fill: none; stroke-width: 2.4; stroke-linejoin: round; }
+.timing-wave .tw-silent { stroke: #5a5a5a; }
+.timing-wave .tw-sound { stroke: var(--accent-red); }
+.timing-wave .tw-blare { stroke: var(--accent-red-light); stroke-dasharray: 5 4; }
+.timing-wave .tw-label { fill: var(--text-secondary); font-family: var(--font-head); font-size: 11px; }
+.timing-wave .tw-annot { fill: var(--accent-red-light); font-family: var(--font-head); font-size: 11px; }
+.timing-wave .tw-clamp { stroke: var(--accent-red-light); stroke-width: 1.4; stroke-dasharray: 3 3; }
+
+/* ---------------------------------------------------------------------------
+   15. Component: Moonshine before/after + Quirk card
+   -------------------------------------------------------------------------- */
+.moonshine-card { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.ms-col {
+  padding: 1.4rem; border-radius: 16px; background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+}
+.ms-col .ms-tag { font-family: var(--font-head); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.8rem; }
+.ms-col.clean .ms-tag { color: #7ab87a; }
+.ms-col.empty .ms-tag { color: var(--accent-red-light); }
+.ms-col .ms-io { font-family: "SF Mono", ui-monospace, monospace; font-size: 0.8rem; line-height: 1.7; }
+.ms-col .ms-io .ms-in { color: var(--text-secondary); }
+.ms-col .ms-io .ms-out { color: var(--text-primary); }
+.ms-col.empty .ms-io .ms-out { color: var(--accent-red-light); }
+
+.quirk-card { padding: 1.6rem; border-radius: 18px; background: var(--bg-surface); border: 1px solid var(--border-subtle); }
+.quirk-card .quirk { display: flex; gap: 14px; padding: 1rem 0; border-bottom: 1px dashed var(--border-subtle); }
+.quirk-card .quirk:last-child { border-bottom: none; }
+.quirk-card .quirk .q-ico { color: var(--accent-red); font-size: 1.1rem; flex: none; width: 26px; text-align: center; }
+.quirk-card .quirk .q-title { font-family: var(--font-head); color: var(--text-primary); margin-bottom: 2px; font-size: 0.95rem; }
+.quirk-card .quirk .q-body { font-size: 0.86rem; color: var(--text-secondary); }
+.quirk-card .quirk code { font-family: "SF Mono", ui-monospace, monospace; font-size: 0.8rem; color: var(--accent-red-light); background: rgba(229, 9, 20, 0.08); padding: 1px 5px; border-radius: 4px; }
+
+/* ---------------------------------------------------------------------------
+   16. Recurring beep-waveform divider motif
+   -------------------------------------------------------------------------- */
+.beep-divider { display: flex; align-items: flex-end; justify-content: center; gap: 4px; height: 26px; margin: clamp(var(--space-12), 6vw, var(--space-16)) auto; opacity: 0.8; }
+.beep-divider .bar { width: 4px; background: var(--accent-red); border-radius: 2px; transition: height 0.3s ease; }
+.beep-divider.is-muted { opacity: 0.4; }
+.beep-divider.is-muted .bar { background: var(--text-muted); }
+
+/* ---------------------------------------------------------------------------
+   17. Footer
+   -------------------------------------------------------------------------- */
+.article-footer {
+  margin-top: var(--space-16);
+  padding: var(--space-10) 0 var(--space-16); border-top: 1px solid var(--border-subtle);
+  text-align: center;
+}
+.article-footer .af-line { color: var(--text-secondary); font-family: var(--font-head); margin-bottom: 1.4rem; }
+.article-footer .af-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.article-footer .af-links a {
+  font-family: var(--font-head); font-size: 0.9rem; color: var(--text-secondary);
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px;
+  border: 1px solid var(--border-subtle); border-radius: 999px; transition: all 0.2s ease;
+}
+.article-footer .af-links a:hover { color: #fff; border-color: var(--accent-red); box-shadow: 0 0 14px rgba(229, 9, 20, 0.18); }
+
+/* ---------------------------------------------------------------------------
+   18. Reveal-on-scroll. Scoped to .js so the page is fully visible with JS off
+   (an inline head script swaps html.no-js -> html.js before paint).
+   -------------------------------------------------------------------------- */
+.js [data-reveal] { opacity: 0; transform: translateY(12px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.js [data-reveal].revealed { opacity: 1; transform: translateY(0); }
+
+/* =============================================================================
+   19. Blog LISTING page (/blog/index.html)
+   ========================================================================== */
+.blog-listing { max-width: 1080px; margin: 0 auto; padding: calc(var(--topbar-h) + 80px) clamp(20px, 5vw, 32px) 100px; }
+.blog-listing .ll-eyebrow { font-family: var(--font-head); text-transform: uppercase; letter-spacing: 0.24em; font-size: 0.72rem; color: var(--accent-red); margin-bottom: 1rem; }
+.blog-listing h1 { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 600; margin-bottom: 0.8rem; }
+.blog-listing .ll-sub { color: var(--text-secondary); font-size: 1.1rem; max-width: 560px; margin-bottom: 3rem; }
+.post-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 26px; }
+.post-card {
+  display: flex; flex-direction: column; border-radius: 16px; overflow: hidden;
+  background: var(--bg-surface); border: 1px solid var(--border-subtle);
+  box-shadow: var(--box-shadow-1); transition: all 0.35s ease; color: inherit;
+}
+.post-card:hover { transform: translateY(-4px); border-color: rgba(229, 9, 20, 0.2); box-shadow: 0 0 20px rgba(229, 9, 20, 0.15); }
+.post-card .pc-media { position: relative; }
+.post-card .pc-media .photo-slot { border-radius: 0; border: none; aspect-ratio: 16 / 9; }
+/* The card thumbnail DOES crop to a clean 16:9 (it is just a preview). */
+.post-card .pc-media .photo-slot img { position: absolute; inset: 0; width: 100%; height: 100%; max-height: none; object-fit: cover; }
+.post-card .pc-wave { position: absolute; left: 16px; bottom: 14px; width: 90px; height: 22px; }
+.post-card .pc-wave path { fill: none; stroke: var(--accent-red); stroke-width: 2; stroke-linecap: round; }
+.post-card .pc-body { padding: 1.3rem 1.4rem 1.5rem; border-top: 3px solid; border-image: linear-gradient(90deg, var(--accent-red), var(--accent-red-light)) 1; }
+.post-card .pc-meta { font-family: var(--font-head); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.7rem; display: flex; gap: 10px; flex-wrap: wrap; }
+.post-card h2 { font-size: 1.3rem; font-weight: 600; margin-bottom: 0.6rem; }
+.post-card .pc-dek { font-size: 0.92rem; color: var(--text-secondary); margin: 0; line-height: 1.55; }
+.post-card .pc-tags { margin-top: 1rem; display: flex; gap: 8px; flex-wrap: wrap; }
+.post-card .pc-tags span { font-family: var(--font-head); font-size: 0.66rem; color: var(--text-secondary); border: 1px solid var(--border-subtle); border-radius: 999px; padding: 3px 10px; }
+.ll-back { display: inline-flex; align-items: center; gap: 8px; margin-top: 3rem; font-family: var(--font-head); color: var(--text-secondary); }
+.ll-back:hover { color: var(--text-primary); }
+
+/* =============================================================================
+   20. Responsive
+   ========================================================================== */
+@media (max-width: 760px) {
+  body { font-size: 17px; }
+  .vital-stats { grid-template-columns: repeat(3, 1fr); }
+  .moonshine-card { grid-template-columns: 1fr; }
+  .beep-stage { gap: 22px; }
+  .ribbon-dot { width: 34px; height: 34px; font-size: 0.75rem; }
+  .ribbon-conn { width: 8px; }
+  .beep-scope { width: 180px; }
+}
+
+/* =============================================================================
+   21. Reduced motion (blog-scoped; disables specific animations, freezes
+       diagrams into final state, lets JS jump-to-final work). NOT a global
+       *{...!important} hammer.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .status-dot { animation: none; opacity: 1; }
+  [data-reveal] { opacity: 1 !important; transform: none !important; transition: none; }
+  #read-progress { transition: none; }
+  .arch-diagram .arch-flow { stroke-dasharray: none; }
+  .ribbon-dot, .appeared-tag, .core-fill, .meltdown-card, .beep-btn,
+  .toc-link, .beep-chip, .post-card { transition: none; }
+  .beep-divider .bar { transition: none; }
+}

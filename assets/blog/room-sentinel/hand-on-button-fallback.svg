@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="A finger pressing the one button illustration">
+  <!-- button -->
+  <circle cx="560" cy="430" r="92" fill="#16181c" stroke="#333" stroke-width="3"/>
+  <circle cx="560" cy="430" r="60" fill="#1a0608" stroke="#e50914" stroke-width="4"/>
+  <!-- finger -->
+  <path d="M560 240 q40 0 40 60 l0 70 q40 -6 44 30 q34 0 30 40 q28 6 18 44 q-10 50 -70 56 l-70 4 q-60 -2 -86 -54 l-40 -86" fill="#101010" stroke="#444" stroke-width="3" stroke-linejoin="round"/>
+  <!-- beep -->
+  <path d="M720 430 H780 V404 H792 V430 H840" fill="none" stroke="#e50914" stroke-width="4" stroke-linecap="round"/>
+  <text x="560" y="700" text-anchor="middle" fill="#555" font-family="monospace" font-size="30" letter-spacing="4">ONE BUTTON</text>
+</svg>

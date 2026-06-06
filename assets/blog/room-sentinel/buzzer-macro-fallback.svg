@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Piezo buzzer close-up illustration">
+  <circle cx="520" cy="400" r="150" fill="#16181c" stroke="#333" stroke-width="3"/>
+  <circle cx="520" cy="400" r="100" fill="none" stroke="#e50914" stroke-width="3"/>
+  <circle cx="520" cy="400" r="30" fill="#e50914" fill-opacity="0.18" stroke="#e50914" stroke-width="3"/>
+  <!-- sound arcs -->
+  <path d="M700 320 A130 130 0 0 1 700 480" fill="none" stroke="#e50914" stroke-width="4" stroke-linecap="round"/>
+  <path d="M760 280 A200 200 0 0 1 760 520" fill="none" stroke="#7a1018" stroke-width="4" stroke-linecap="round" stroke-dasharray="6 8"/>
+  <path d="M820 240 A270 270 0 0 1 820 560" fill="none" stroke="#4a0a10" stroke-width="4" stroke-linecap="round" stroke-dasharray="4 10"/>
+  <text x="520" y="640" text-anchor="middle" fill="#555" font-family="monospace" font-size="30" letter-spacing="4">ACTIVE-LOW</text>
+</svg>
