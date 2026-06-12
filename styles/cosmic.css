@@ -521,7 +521,7 @@ section {
 }
 
 .skill-category.open .skill-pills {
-  max-height: 800px;
+  max-height: 1400px;
   padding: 16px 20px;
 }
 
@@ -652,7 +652,7 @@ section {
 
 @keyframes pulseGlow {
   0%, 100% { box-shadow: 0 0 8px rgba(229, 9, 20, 0.3); }
-  50% { box-shadow: 0 0 20px rgba(124, 58, 237, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(229, 9, 20, 0.5); }
 }
 
 .timeline .timeline-item .tl-icon i {
@@ -781,8 +781,36 @@ section {
   color: #fff;
 }
 
-.portfolio-item:hover .hover-items {
+.portfolio-item:hover .hover-items,
+.portfolio-item:focus-within .hover-items {
   opacity: 1;
+}
+
+/* Touch devices: no hover exists, so the title and links stay visible
+   as a bottom gradient bar instead of hiding the whole card's identity. */
+@media (hover: none) {
+  .portfolios .portfolio-item .hover-items {
+    opacity: 1;
+    background: linear-gradient(to top, rgba(6, 8, 14, 0.92) 0%, rgba(6, 8, 14, 0.55) 42%, transparent 75%);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    justify-content: flex-end;
+    padding-bottom: 1.1rem;
+  }
+
+  .portfolios .portfolio-item .hover-items h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .portfolios .portfolio-item .hover-items .icons .icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .portfolios .portfolio-item .hover-items .icons .icon i {
+    font-size: 1.2rem;
+  }
 }
 
 /* ── Blogs / Research / Books / Sports ── */
@@ -972,7 +1000,17 @@ section {
 .contact-content-con .left-contact .contact-info .contact-item {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 0.4rem;
+}
+
+.contact-content-con .left-contact .contact-info .contact-item a {
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+.contact-content-con .left-contact .contact-info .contact-item a:hover {
+  color: var(--accent-red-light);
 }
 
 .contact-content-con .left-contact .contact-info .contact-item p {
@@ -1092,6 +1130,11 @@ section {
   outline: none;
 }
 
+.right-contact input::placeholder,
+.right-contact textarea::placeholder {
+  color: #8f8f8f;
+}
+
 .right-contact label {
   display: block;
   margin-bottom: 4px;
@@ -1161,6 +1204,32 @@ section {
 .btn-con {
   display: flex;
   align-self: flex-start;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.ghost-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.8rem;
+  border-radius: 30px;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.ghost-btn i {
+  font-size: 0.9rem;
+}
+
+.ghost-btn:hover,
+.ghost-btn:focus-visible {
+  border-color: rgba(229, 9, 20, 0.5);
+  color: var(--text-primary);
+  box-shadow: 0 0 16px rgba(229, 9, 20, 0.12);
 }
 
 .main-btn {
@@ -2129,15 +2198,23 @@ section {
     top: auto;
     bottom: 0;
     flex-direction: row;
-    justify-content: center;
-    left: 50%;
-    transform: translateX(-50%);
+    justify-content: space-evenly;
+    left: 0;
+    transform: none;
     width: 100%;
+    padding: 0.5rem 0.25rem calc(0.5rem + env(safe-area-inset-bottom));
     background-color: var(--bg-surface);
     border-top: 1px solid var(--border-subtle);
   }
   .controls .control {
-    margin: 1rem 0.3rem;
+    /* All nine controls must fit a 320px-wide screen: 9 x 10vw = 90vw */
+    width: clamp(32px, 10vw, 44px);
+    height: clamp(32px, 10vw, 44px);
+    margin: 0;
+    padding: 0;
+  }
+  .controls .control i {
+    font-size: 0.95rem;
   }
   .controls .control .nav-tooltip {
     display: none;
