@@ -309,6 +309,27 @@ section {
   to { transform: rotate(360deg); }
 }
 
+/* A second, slower planet on a wider orbit, turning the other way. The portrait
+   is the star; two bodies circle it. A quiet nod to the astrophysics. */
+.orbital-ring--outer {
+  width: 440px;
+  height: 440px;
+}
+
+.orbital-ring--outer::before {
+  border-color: rgba(255, 255, 255, 0.07);
+  animation: orbit 34s linear infinite reverse;
+}
+
+.orbital-ring--outer::after {
+  width: 6px;
+  height: 6px;
+  top: -3px;
+  background: rgba(245, 245, 245, 0.75);
+  box-shadow: 0 0 10px rgba(245, 245, 245, 0.45);
+  animation: orbit 34s linear infinite reverse;
+}
+
 .header-content .right-header {
   display: flex;
   flex-direction: column;
@@ -321,6 +342,38 @@ section {
   font-family: "Space Grotesk", "Poppins", sans-serif;
   font-weight: 700;
   line-height: 1.2;
+}
+
+/* Hero headline: two lines that rise into place on load, settling out of a
+   blur like something coming into focus. Content is visible by default; the
+   hidden start state only exists when motion is allowed. */
+.hero-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+}
+
+.hero-line-inner {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-line-inner {
+    transform: translateY(115%);
+    opacity: 0;
+    filter: blur(12px);
+    animation: heroLineRise 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .hero-line:nth-child(1) .hero-line-inner { animation-delay: 0.2s; }
+  .hero-line:nth-child(2) .hero-line-inner { animation-delay: 0.36s; }
+}
+
+@keyframes heroLineRise {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+    filter: blur(0);
+  }
 }
 
 /* Gradient text */
@@ -1218,7 +1271,16 @@ section {
   border: 1px solid var(--border-subtle);
   color: var(--text-secondary);
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease,
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Magnetic buttons settle back to rest when the cursor leaves; the JS only
+   adds a translate while the pointer is near. Disabled for reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  [data-magnetic] {
+    transform: none !important;
+  }
 }
 
 .ghost-btn i {
@@ -1242,7 +1304,8 @@ section {
   align-self: flex-start;
   align-items: center;
   overflow: hidden;
-  transition: all 0.4s ease;
+  transition: color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease,
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .main-btn .btn-text {
@@ -2094,6 +2157,10 @@ section {
     width: 310px;
     height: 310px;
   }
+  .orbital-ring--outer {
+    width: 370px;
+    height: 370px;
+  }
 }
 
 @media screen and (max-width: 700px) {
@@ -2193,6 +2260,10 @@ section {
   .orbital-ring {
     width: 250px;
     height: 250px;
+  }
+  .orbital-ring--outer {
+    width: 296px;
+    height: 296px;
   }
   .controls {
     top: auto;

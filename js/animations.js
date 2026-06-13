@@ -173,4 +173,26 @@
     const aboutContainer = activeAbout.querySelector('.about-container') || activeAbout;
     animateCounters(aboutContainer);
   }
+
+  /* ── Magnetic Buttons (hero CTAs) ── */
+  // The hero buttons drift a few pixels toward the cursor as it nears them, like
+  // a small gravitational pull, then ease back to rest. Pointer-precise devices
+  // only; skipped entirely for touch and reduced motion.
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (!prefersReduced && finePointer) {
+    const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+    const STRENGTH = 0.25;
+    const MAX = 7;
+    document.querySelectorAll('[data-magnetic]').forEach((el) => {
+      el.addEventListener('mousemove', (e) => {
+        const r = el.getBoundingClientRect();
+        const x = clamp((e.clientX - (r.left + r.width / 2)) * STRENGTH, -MAX, MAX);
+        const y = clamp((e.clientY - (r.top + r.height / 2)) * STRENGTH, -MAX, MAX);
+        el.style.transform = `translate(${x}px, ${y}px)`;
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.transform = '';
+      });
+    });
+  }
 })();
