@@ -69,7 +69,7 @@
                         <span class="btn-text">View Resume</span>
                         <span class="btn-icon"><i class="fas fa-download"></i></span>
                     </a>
-                    <a href="blog/" class="ghost-btn" data-magnetic>
+                    <a href="#blog" class="ghost-btn" data-magnetic>
                         <i class="fas fa-feather-alt" aria-hidden="true"></i>
                         <span>Read My Writing</span>
                     </a>
@@ -893,7 +893,7 @@
                     <div class="hover-items">
                         <h3>The Blog</h3>
                         <div class="icons">
-                            <a href="blog/" class="icon" aria-label="Read the blog">
+                            <a href="#blog" class="icon" aria-label="Read the blog">
                                 <i class="fas fa-feather-alt"></i>
                             </a>
                         </div>
@@ -1055,6 +1055,28 @@
             </div>
         </section>
 
+        <section class="container" id="blog">
+            <div class="blogs-content">
+                <div class="main-title" data-reveal>
+                    <h2>From the <span>Blog</span><span class="bg-text">Writing</span></h2>
+                </div>
+                <p class="port-text" data-reveal>
+                    Build logs and teardowns from the edge of AI hardware. Long form, and honest about the failures. Opening a post takes you to the full article.
+                </p>
+                <div class="blogs" data-reveal>
+                    <a class="blog glass-card blog-post-card" href="blog/room-sentinel.html">
+                        <img src="img/room-sentinel-board.jpg" alt="Room Sentinel, an offline edge-AI room monitor on a Synaptics Coralboard">
+                        <div class="blog-text">
+                            <div class="post-meta"><span>Room Sentinel</span><span>14 min read</span></div>
+                            <h4>Running four AI models on a 2-core board, fully offline</h4>
+                            <p>Vision, speech, a local LLM, and a voice. The whole interface is one button and a buzzer. A teardown of a real machine that can only speak in sound.</p>
+                            <span class="dive-hint">Read the teardown &rarr;</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <section class="container" id="favourite-sports">
             <div class="blogs-content">
                 <div class="main-title" data-reveal>
@@ -1200,10 +1222,10 @@
             <i class="far fa-newspaper"></i>
             <span class="nav-tooltip">Books</span>
         </div>
-        <a class="control" href="/blog/" aria-label="Blog">
+        <div class="control" data-id="blog">
             <i class="fas fa-feather-alt"></i>
             <span class="nav-tooltip">Blog</span>
-        </a>
+        </div>
         <div class="control" data-id="favourite-sports">
             <i class="fas fa-basketball-ball"></i>
             <span class="nav-tooltip">Sports</span>
