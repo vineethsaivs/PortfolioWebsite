@@ -1,0 +1,51 @@
+/* blog-charts.css. Chart, ledger and simulator styles for the data-driven posts.
+   Uses the tokens from blog.css. No new palette: red accent, one soft blue, grays. */
+.chart { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 18px; padding: clamp(14px, 3vw, 24px); margin: var(--space-12) 0; }
+.chart svg { display: block; width: 100%; height: auto; }
+.chart figcaption { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.8rem; font-family: var(--font-head); line-height: 1.5; }
+.c-lab { fill: var(--text-secondary); font: 500 14px var(--font-head); }
+.c-val { fill: var(--text-primary); font: 700 15px var(--font-head); }
+.c-tick { fill: var(--text-muted); font: 500 12px var(--font-body); }
+.c-note { fill: var(--text-secondary); font: 500 12.5px var(--font-body); }
+.c-note.c-a { fill: var(--accent-red-light); } .c-note.c-b { fill: #7ab8ff; }
+.c-track { fill: var(--bg-elevated); }
+.c-bar-a { fill: #cfcfcf; } .c-bar-b { fill: var(--accent-red); } .c-bar-n { fill: #4a4a4a; }
+.c-axis { stroke: rgba(255,255,255,0.28); stroke-width: 1.2; }
+.c-grid { stroke: rgba(255,255,255,0.07); stroke-width: 1; }
+.c-mean { stroke: rgba(255,255,255,0.45); stroke-width: 1.3; stroke-dasharray: 5 5; }
+.c-div { stroke: rgba(255,255,255,0.25); stroke-width: 1; stroke-dasharray: 2 5; }
+.c-target { stroke: rgba(255,255,255,0.55); stroke-width: 1.3; stroke-dasharray: 6 5; }
+.c-gap { stroke: var(--accent-red-light); stroke-width: 2; }
+.c-line-a, .c-line-b { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.c-line-a { stroke: var(--accent-red); } .c-line-b { stroke: #7ab8ff; }
+.c-dot-a { fill: var(--accent-red); } .c-dot-b { fill: #7ab8ff; }
+.c-dot-open { fill: none; stroke: var(--accent-red-light); stroke-width: 2; }
+.c-ring { fill: none; stroke: #f5f5f5; stroke-width: 1.6; }
+.c-ci { stroke: #7ab8ff; stroke-width: 3; stroke-linecap: round; }
+
+.arch-row.formula { align-items: center; }
+.arch-row.formula .arch-step { font-family: var(--font-head); font-size: 1.8rem; color: var(--accent-red-light); flex: 0 0 auto; align-self: center; padding: 0 4px; }
+.arch-node.is-result { border-color: rgba(229, 9, 20, 0.45); background: rgba(229, 9, 20, 0.08); }
+.arch-node span { display: block; font-size: 0.8rem; color: var(--text-secondary); margin-top: 6px; line-height: 1.35; }
+
+.ledger { display: grid; gap: 10px; }
+.led-row { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 16px 18px; }
+.led-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 14px; margin-bottom: 6px; }
+.led-head b { font-family: var(--font-head); font-size: 1.05rem; color: var(--text-primary); }
+.led-row p { margin: 0; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; }
+.chip { font-family: var(--font-head); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 999px; padding: 4px 11px; border: 1px solid; white-space: nowrap; }
+.chip--n { color: #7ab8ff; border-color: rgba(122,184,255,0.4); background: rgba(122,184,255,0.07); }
+.chip--w { color: var(--accent-red-light); border-color: rgba(229,9,20,0.4); background: rgba(229,9,20,0.07); }
+
+.sim { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 18px; padding: clamp(14px, 3vw, 24px); }
+.sim-head { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+.sim-head b { font-family: var(--font-head); font-size: 1.1rem; }
+.sim-head span { font-size: 0.82rem; color: var(--text-muted); }
+.sim svg { display: block; width: 100%; height: auto; }
+.sim-read { font-family: var(--font-head); font-size: 1.05rem; margin: 8px 0 12px; min-height: 1.6em; color: var(--text-primary); }
+.sim-actions { margin-bottom: 18px; }
+.sim-btn { font-family: var(--font-head); font-weight: 600; font-size: 0.95rem; color: #fff; background: var(--accent-red); border: 0; border-radius: 999px; padding: 11px 22px; cursor: pointer; }
+.sim-btn:hover { background: var(--accent-red-light); }
+.sim-btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.sim-foot { font-size: 0.88rem; color: var(--text-secondary); margin: 10px 0 0; }
+@media (max-width: 560px) { .c-lab { font-size: 13px; } .arch-row.formula { flex-direction: column; } .arch-row.formula .arch-step { padding: 2px 0; } }

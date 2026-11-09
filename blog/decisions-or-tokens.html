@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>I ran the same code twice and got 123 and 101 | Vineeth</title>
+  <meta name="description" content="What an ARC-AGI-3 agent taught me about noise, best-of-many leaderboards, and fooling yourself. From simple to deep, with diagrams and a simulator you can try.">
+  <meta name="author" content="Vineeth">
+  <meta name="theme-color" content="#0a0a0a">
+  <link rel="canonical" href="https://vineethsai.me/blog/decisions-or-tokens.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="I ran the same code twice and got 123 and 101">
+  <meta property="og:description" content="What an ARC-AGI-3 agent taught me about noise, best-of-many leaderboards, and fooling yourself. From simple to deep, with diagrams and a simulator you can try.">
+  <meta property="og:image" content="https://vineethsai.me/img/decisions-or-tokens-cover.png">
+  <meta property="og:url" content="https://vineethsai.me/blog/decisions-or-tokens.html">
+  <meta property="og:site_name" content="vineethsai.me">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="I ran the same code twice and got 123 and 101">
+  <meta name="twitter:description" content="What an ARC-AGI-3 agent taught me about noise, best-of-many leaderboards, and fooling yourself. From simple to deep, with diagrams and a simulator you can try.">
+  <meta name="twitter:image" content="https://vineethsai.me/img/decisions-or-tokens-cover.png">
+
+  <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230a0a0a'/><text y='70' x='50' text-anchor='middle' font-size='54' font-family='sans-serif' fill='%23e50914'>V</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles/blog.css">
+  <link rel="stylesheet" href="/styles/blog-charts.css">
+</head>
+<body class="blog-article">
+
+  <div id="read-progress" aria-hidden="true"></div>
+  <a class="skip-link" href="#article-main">Skip to content</a>
+
+  <nav class="article-topbar" aria-label="Site">
+    <a class="tb-link" href="/"><i class="fas fa-arrow-left"></i> Portfolio</a>
+    <a class="tb-link" href="/#blog"><i class="fas fa-feather-alt"></i> Blog</a>
+    <span class="tb-spacer"></span>
+    <span class="tb-brand">VINEETH<span>.</span></span>
+  </nav>
+
+  <div class="article-shell">
+
+    <header class="article-hero">
+      <div class="hero-eyebrow">ARC Prize 2026 &middot; What I learned</div>
+      <h1 class="hero-title">I ran the same code twice and got 123 and 101</h1>
+      <p class="hero-dek">A story about measuring, and how easy it is to fool yourself. Simple first, then deeper.</p>
+      <div class="hero-status">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>Same code. Two answers. Now what?</span>
+      </div>
+      <svg class="hero-wave" data-wave-sweep viewBox="0 0 360 34" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 17 H70 V6 H82 V17 H110 V6 H122 V17 H150 V6 H162 V17 H360"></path>
+      </svg>
+    </header>
+
+    <aside class="toc-rail" data-toc>
+      <div class="toc-title">On this page</div>
+      <nav aria-label="On this page">
+        <a class="toc-link" data-toc-link href="#sec-same"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> Same code, two answers</a>
+        <a class="toc-link" data-toc-link href="#sec-game"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> The game</a>
+        <a class="toc-link" data-toc-link href="#sec-built"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> What I built</a>
+        <a class="toc-link" data-toc-link href="#sec-two"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> Tokens or decisions</a>
+        <a class="toc-link" data-toc-link href="#sec-thermo"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> A thermometer that jumps</a>
+        <a class="toc-link" data-toc-link href="#sec-runs"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> How many runs?</a>
+        <a class="toc-link" data-toc-link href="#sec-tried"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> What I tried</a>
+        <a class="toc-link" data-toc-link href="#sec-fooled"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> The idea that fooled me</a>
+        <a class="toc-link" data-toc-link href="#sec-board"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> The leaderboard</a>
+        <a class="toc-link" data-toc-link href="#sec-top"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> What the top teams did</a>
+        <a class="toc-link" data-toc-link href="#sec-copy"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> What to copy</a>
+        <a class="toc-link" data-toc-link href="#sec-end"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> Limits and thanks</a>
+      </nav>
+    </aside>
+
+    <main id="article-main" class="article-body">
+
+      <section id="sec-same" class="article-section" data-toc-section data-reveal>
+        <div class="section-eyebrow">Section 01</div>
+        <h2>The same code gave two different answers</h2>
+        <p>Here is the strange thing that started all this. I had an AI agent that plays games. I ran it on 25 games and it cleared 123 levels out of 183.</p>
+        <p>Then I ran the exact same code again. Same files. Same settings. Same kind of machine. It cleared 101.</p>
+        <p>Nothing changed. That is a gap of 22 levels, from nothing at all.</p>
+<figure class="chart breakout chart--hero" data-reveal><svg viewBox="0 0 720 170" role="img" aria-label="Two runs of identical code on the 25 public games: the first cleared 123 of 183 levels, the second 101."><text x="156" y="52" class="c-lab" text-anchor="end">Run 1</text><rect x="170" y="30" width="480.0" height="34" rx="6" class="c-track"/><rect x="170" y="30" width="322.6" height="34" rx="6" class="c-bar-a"/><text x="502.6" y="53" class="c-val">123</text><text x="156" y="104" class="c-lab" text-anchor="end">Run 2</text><rect x="170" y="82" width="480.0" height="34" rx="6" class="c-track"/><rect x="170" y="82" width="264.9" height="34" rx="6" class="c-bar-b"/><text x="444.9" y="105" class="c-val">101</text><text x="170" y="148" class="c-note">levels cleared, out of 183 on the 25 public games. Same code, byte for byte.</text><line x1="434.9" y1="72" x2="492.6" y2="72" class="c-gap"/></svg><figcaption>The first surprise. Both runs used byte-identical code.</figcaption></figure>
+        <p>This post is about why that happens, why it matters more than any clever idea I had, and what it did to the competition I spent the last weeks on. I will start simple and go deeper as we go. If you stop halfway, you still get the main idea.</p>
+        <div class="callout callout--note"><div class="callout-label">The short version</div><p>Small gains are invisible when the same code can swing by 20 levels. Most of my ideas were small. So I could not tell which ones worked, and neither, I think, can most people who tune agents this way.</p></div>
+      </section>
+      <div class="beep-divider" aria-hidden="true"><span class="bar" style="height:8px"></span><span class="bar" style="height:18px"></span><span class="bar" style="height:26px"></span><span class="bar" style="height:14px"></span><span class="bar" style="height:8px"></span></div>
+      <section id="sec-game" class="article-section" data-toc-section data-reveal>
+        <div class="section-eyebrow">Section 02</div>
+        <h2>The game, in plain words</h2>
+        <p>ARC-AGI-3 is a set of small games on a grid. There are no instructions. The agent sees a picture, presses a key, sees what changed, and has to work out the rules by itself. Then it has to clear level after level. Every game is new to it.</p>
+        <p>The score rewards two things: how many levels you clear, and how few moves you use compared to a person. A human who needs 20 moves beats an agent that needs 60.</p>
+        <p>The competition, ARC Prize 2026, made it hard on purpose. The scored run is offline. It gets one GPU, nine hours, and 110 hidden games. At the end you get one number back. No log. You never see what the agent did.</p>
+        <div class="vital-stats breakout" aria-label="Competition numbers">
+          <div class="stat"><span class="stat-num">25</span><span class="stat-label">public games to practice on</span></div>
+          <div class="stat"><span class="stat-num">183</span><span class="stat-label">levels in those games</span></div>
+          <div class="stat"><span class="stat-num">110</span><span class="stat-label">hidden games, scored</span></div>
+          <div class="stat"><span class="stat-num">9</span><span class="stat-unit">h</span><span class="stat-label">for the whole run</span></div>
+          <div class="stat"><span class="stat-num">1</span><span class="stat-label">GPU</span></div>
+          <div class="stat"><span class="stat-num is-zero">0</span><span class="stat-label">internet</span></div>
+        </div>
+      </section>
+      <div class="beep-divider" aria-hidden="true"><span class="bar" style="height:8px"></span><span class="bar" style="height:16px"></span><span class="bar" style="height:10px"></span></div>
+      <section id="sec-built" class="article-section" data-toc-section data-reveal>
+        <div class="section-eyebrow">Section 03</div>
+        <h2>What I built, and what I did not</h2>
+        <p>I did not invent this agent. I started from Daniel Franzen's public notebook. It runs Tufa Labs' open harness on a 4-bit Qwen model. Hundreds of teams started from the same place. My job was to make it better.</p>
+        <p>Claude, the AI from Anthropic, wrote most of the code, the analysis and the first draft of this text, working with me. I set the goals and limits, checked the results, and made the final calls, including which two runs to hand in as my Final Submissions.</p>
+        <p>The question I asked was simple: what makes this agent score higher?</p>
+      </section>
+      <div class="beep-divider" aria-hidden="true"><span class="bar" style="height:8px"></span><span class="bar" style="height:14px"></span><span class="bar" style="height:22px"></span><span class="bar" style="height:14px"></span><span class="bar" style="height:8px"></span></div>
+      <section id="sec-two" class="article-section" data-toc-section data-reveal>
+        <div class="section-eyebrow">Section 04</div>
+        <h2>Two things a score is made of</h2>
+        <p>Picture the agent as a student taking a very long exam. Two things decide how well they do.</p>
+        <p>First, how much they can write in the time allowed. For a model, the pieces of text it produces are called tokens. A faster server writes more tokens in nine hours. Second, how good each bit of thinking is. Do the tokens turn into clever moves, or into wandering?</p>
+        <div class="arch breakout" data-reveal aria-label="Levels cleared equals tokens the server can write, times levels cleared per token.">
+          <div class="arch-row formula">
+            <div class="arch-node"><b>Tokens</b><span>how much the model can think and write in nine hours</span></div>
+            <div class="arch-step" aria-hidden="true">&times;</div>
+            <div class="arch-node"><b>Decisions</b><span>how many levels each token buys</span></div>
+            <div class="arch-step" aria-hidden="true">=</div>
+            <div class="arch-node is-result"><b>Levels</b><span>your score</span></div>
+          </div>
+        </div>
+        <p>So there are two ways to get better. Make the server faster, so there are more tokens. Or make the decisions better, with smarter prompts, fixes or training. Every idea I tried is one of those two.</p>
+        <p>The paper behind this post is called <em>Decisions or Tokens?</em> because that is the question. To answer it, I had to measure. And that is where it got interesting.</p>
+      </section>
+      <div class="beep-divider" aria-hidden="true"><span class="bar" style="height:8px"></span><span class="bar" style="height:20px"></span><span class="bar" style="height:12px"></span><span class="bar" style="height:24px"></span><span class="bar" style="height:8px"></span></div>
+      <section id="sec-thermo" class="article-section" data-toc-section data-reveal>
+        <div class="section-eyebrow">Section 05</div>
+        <h2>A thermometer that jumps around</h2>
+        <p>Imagine a thermometer that reads 20 degrees, then 14, in the same room, a minute apart. You turn on the heater. It now reads 17. Did the heater work? You cannot tell.</p>
+        <p>That was my test. So before I tried any idea, I measured the thermometer. I ran identical code twice, six times, on different days. In every pair, the second run was lower.</p>
+<figure class="chart breakout " data-reveal><svg viewBox="0 0 720 250" role="img" aria-label="Six pairs of identical runs. In every pair the second run scored lower, by 16, 6, 4, 22, 3 and 4 levels."><line x1="60" y1="50" x2="700" y2="50" class="c-axis"/><text x="50" y="54" class="c-tick" text-anchor="end">0</text><rect x="80.0" y="50" width="58" height="106.7" rx="5" class="c-bar-b"/><text x="109.0" y="174.7" class="c-val" text-anchor="middle">-16</text><text x="109.0" y="38" class="c-tick" text-anchor="middle">pair 1</text><rect x="194.4" y="50" width="58" height="40.0" rx="5" class="c-bar-b"/><text x="223.4" y="108.0" class="c-val" text-anchor="middle">-6</text><text x="223.4" y="38" class="c-tick" text-anchor="middle">pair 2</text><rect x="308.8" y="50" width="58" height="26.7" rx="5" class="c-bar-b"/><text x="337.8" y="94.7" class="c-val" text-anchor="middle">-4</text><text x="337.8" y="38" class="c-tick" text-anchor="middle">pair 3</text><rect x="423.2" y="50" width="58" height="146.7" rx="5" class="c-bar-b"/><text x="452.2" y="214.7" class="c-val" text-anchor="middle">-22</text><text x="452.2" y="38" class="c-tick" text-anchor="middle">pair 4</text><rect x="537.6" y="50" width="58" height="20.0" rx="5" class="c-bar-b"/><text x="566.6" y="88.0" class="c-val" text-anchor="middle">-3</text><text x="566.6" y="38" class="c-tick" text-anchor="middle">pair 5</text><rect x="652.0" y="50" width="58" height="26.7" rx="5" class="c-bar-b"/><text x="681.0" y="94.7" class="c-val" text-anchor="middle">-4</text><text x="681.0" y="38" class="c-tick" text-anchor="middle">pair 6</text><line x1="60" y1="111.1" x2="700" y2="111.1" class="c-mean"/><text x="696" y="129.1" class="c-note" text-anchor="end">average shift: -9.2 levels</text></svg><figcaption>Second run minus first run, for six pairs of identical code. Always lower, by 9 levels on average. I still cannot explain why.</figcaption></figure>
+        <p>I checked boot times and start times. Day, order and machine all differ between the runs, and my data cannot separate them. On a single day, eight identical runs still ranged from 115 to 132.</p>
+        <p>My guess about the cause: the model picks its words with some randomness, and in a game one early choice can send a whole level a different way. That is a guess. The size of the swing is a measurement.</p>
+      </section>
+      <div class="beep-divider" aria-hidden="true"><span class="bar" style="height:8px"></span><span class="bar" style="height:16px"></span><span class="bar" style="height:10px"></span></div>
+      <section id="sec-runs" class="article-section" data-toc-section data-reveal>
+        <div class="section-eyebrow">Section 06</div>
+        <h2>How many runs do you need?</h2>
+        <p>Think of a basketball player. You change their stance. They hit 6 of 10 shots before and 7 of 10 after. Did the stance help? Of course you cannot say. You need many more shots.</p>
+        <p>Same here. The smallest gain you can reliably see shrinks only slowly as you add runs. It goes with the square root. Four times the runs buys you only half the blur.</p>
+<figure class="chart breakout " data-reveal><svg viewBox="0 0 720 330" role="img" aria-label="Smallest gain you can reliably see, against runs per arm. With 2 runs per arm it is about 17 levels on one day and 23 across days. To see 10 levels you need about 6 runs on one day and 11 across days."><line x1="64" y1="278.0" x2="696" y2="278.0" class="c-axis"/><text x="54" y="282.0" class="c-tick" text-anchor="end">0</text><line x1="64" y1="214.5" x2="696" y2="214.5" class="c-grid"/><text x="54" y="218.5" class="c-tick" text-anchor="end">10</text><line x1="64" y1="151.0" x2="696" y2="151.0" class="c-grid"/><text x="54" y="155.0" class="c-tick" text-anchor="end">20</text><line x1="64" y1="87.5" x2="696" y2="87.5" class="c-grid"/><text x="54" y="91.5" class="c-tick" text-anchor="end">30</text><line x1="64" y1="24.0" x2="696" y2="24.0" class="c-grid"/><text x="54" y="28.0" class="c-tick" text-anchor="end">40</text><text x="64.0" y="298" class="c-tick" text-anchor="middle">1</text><text x="112.6" y="298" class="c-tick" text-anchor="middle">2</text><text x="209.8" y="298" class="c-tick" text-anchor="middle">4</text><text x="307.1" y="298" class="c-tick" text-anchor="middle">6</text><text x="404.3" y="298" class="c-tick" text-anchor="middle">8</text><text x="501.5" y="298" class="c-tick" text-anchor="middle">10</text><text x="598.8" y="298" class="c-tick" text-anchor="middle">12</text><text x="696.0" y="298" class="c-tick" text-anchor="middle">14</text><text x="380.0" y="322" class="c-lab" text-anchor="middle">runs per arm</text><text transform="translate(16 151.0) rotate(-90)" class="c-lab" text-anchor="middle">smallest visible gain (levels)</text><line x1="64" y1="214.5" x2="696" y2="214.5" class="c-target"/><text x="72" y="230.5" class="c-note">a 10-level gain</text><polyline points="64.0,70.6 76.2,92.5 88.3,108.6 100.5,121.2 112.6,131.3 124.8,139.7 136.9,146.8 149.1,152.9 161.2,158.2 173.4,162.9 185.5,167.1 197.7,170.9 209.8,174.3 222.0,177.4 234.2,180.2 246.3,182.8 258.5,185.2 270.6,187.5 282.8,189.5 294.9,191.5 307.1,193.3 319.2,195.0 331.4,196.6 343.5,198.2 355.7,199.6 367.8,201.0 380.0,202.3 392.2,203.5 404.3,204.7 416.5,205.8 428.6,206.8 440.8,207.9 452.9,208.9 465.1,209.8 477.2,210.7 489.4,211.6 501.5,212.4 513.7,213.2 525.8,214.0 538.0,214.7 550.2,215.5 562.3,216.2 574.5,216.8 586.6,217.5 598.8,218.1 610.9,218.7 623.1,219.3 635.2,219.9 647.4,220.5 659.5,221.0 671.7,221.5 683.8,222.1 696.0,222.6" class="c-line-a"/><polyline points="64.0,128.4 76.2,144.2 88.3,155.8 100.5,164.9 112.6,172.2 124.8,178.3 136.9,183.4 149.1,187.8 161.2,191.6 173.4,195.0 185.5,198.0 197.7,200.7 209.8,203.2 222.0,205.4 234.2,207.5 246.3,209.4 258.5,211.1 270.6,212.7 282.8,214.2 294.9,215.6 307.1,216.9 319.2,218.2 331.4,219.3 343.5,220.4 355.7,221.5 367.8,222.4 380.0,223.4 392.2,224.3 404.3,225.1 416.5,225.9 428.6,226.7 440.8,227.4 452.9,228.1 465.1,228.8 477.2,229.5 489.4,230.1 501.5,230.7 513.7,231.3 525.8,231.8 538.0,232.4 550.2,232.9 562.3,233.4 574.5,233.9 586.6,234.4 598.8,234.8 610.9,235.3 623.1,235.7 635.2,236.1 647.4,236.5 659.5,236.9 671.7,237.3 683.8,237.7 696.0,238.0" class="c-line-b"/><circle cx="112.6" cy="131.3" r="5" class="c-dot-a"/><text x="122.6" y="129.3" class="c-val">23</text><circle cx="112.6" cy="172.2" r="5" class="c-dot-b"/><text x="122.6" y="194.2" class="c-val">17</text><text x="482.1" y="199.0" class="c-note c-a">across days</text><text x="482.1" y="251.7" class="c-note c-b">same day</text></svg><figcaption>The smallest gain a comparison can see, by runs per arm. Rule of thumb: 2.8 times the noise times the square root of 2 over n.</figcaption></figure>
+        <p>With two runs per idea, I could only see gains above about 17 levels on one day, or 23 across days. Most of my ideas were worth less than 10.</p>
+        <p>To see a 10-level gain, I needed somewhere between 5 and 12 runs per idea, depending on which noise estimate holds. A run took about two hours and four dollars on a rented copy of the competition GPU. My budget allowed two or three per idea.</p>
+        <div class="callout callout--rule"><div class="callout-label">The rule I wish I had on day one</div><p>A test that cannot see an effect cannot say the effect is zero. "No difference" and "too small to see" are different sentences.</p></div>
+      </section>
+      <div class="beep-divider" aria-hidden="true"><span class="bar" style="height:8px"></span><span class="bar" style="height:18px"></span><span class="bar" style="height:26px"></span><span class="bar" style="height:14px"></span><span class="bar" style="height:8px"></span></div>
+      <section id="sec-tried" class="article-section" data-toc-section data-reveal>
+        <div class="section-eyebrow">Section 07</div>
+        <h2>What I tried</h2>
+        <p>Here is the honest ledger. Each line is an idea, and what I can and cannot say about it.</p>
+        <div class="ledger breakout" data-reveal>
+          <div class="led-row"><div class="led-head"><b>A faster server</b><span class="chip chip--n">Too small to see</span></div><p>About 11% more tokens. By replaying logged attempts, that is worth roughly 4 levels. Real, but far under the noise.</p></div>
+          <div class="led-row"><div class="led-head"><b>Pausing the agent less</b><span class="chip chip--w">Did not hold up</span></div><p>Looked like +12.5 levels. When tested properly it was -2.5. The next section is about this one.</p></div>
+          <div class="led-row"><div class="led-head"><b>Four small harness fixes</b><span class="chip chip--n">Noise-sized</span></div><p>Each led its control by -1 to +6 levels, +3.2 together. Noise alone explains that.</p></div>
+          <div class="led-row"><div class="led-head"><b>Fine-tuning on its own wins</b><span class="chip chip--w">Looked worse, not proven</span></div><p>Three runs cleared 109, 115 and 117 levels. Two same-card controls cleared 132 and 130. I did not interleave them, so I make no causal claim.</p></div>
+          <div class="led-row"><div class="led-head"><b>Reinforcement learning</b><span class="chip chip--w">Passed no gate</span></div><p>My small adapters never cleared the bar I set before running them.</p></div>
+        </div>
+        <p>Look at the pattern. Almost nothing here is a clear yes or a clear no. That is not because the ideas were bad. It is because my instrument was too blurry to judge them.</p>
+        <p>There is one more trap in that table. My own rule for the four harness fixes, three runs against seven, would ship a change that truly loses 6 levels about one time in five. Cheap tests let bad ideas through, too.</p>
+      </section>
+      <div class="beep-divider" aria-hidden="true"><span class="bar" style="height:8px"></span><span class="bar" style="height:14px"></span><span class="bar" style="height:22px"></span><span class="bar" style="height:14px"></span><span class="bar" style="height:8px"></span></div>
+      <section id="sec-fooled" class="article-section" data-toc-section data-reveal>
+        <div class="section-eyebrow">Section 08</div>
+        <h2>The idea that fooled me</h2>
+        <p>One idea looked great. The agent thinks, then it has to act. If one burst of thinking runs long, the harness pauses it and starts a new request, which re-sends the start of the conversation. That wastes a lot of work.</p>
+        <p>So I moved the pause point from 2,048 tokens to 8,192. Runs with the change cleared 128 and 124 levels. Runs without it cleared about 111. That is +12.5. I shipped it.</p>
+        <p>Then I did the test I should have done first. I ran both versions side by side on the same day, interleaved, six runs each. The answer was -2.5 levels, and the plausible range ran from -14 to +9.</p>
+<figure class="chart breakout " data-reveal><svg viewBox="0 0 720 230" role="img" aria-label="Rarer yield: plus 12.5 levels when compared across days, but minus 2.5 levels (95 percent interval minus 14.2 to plus 9.2) when the arms were interleaved on one day."><line x1="40.0" y1="44" x2="40.0" y2="170" class="c-grid"/><text x="40.0" y="192" class="c-tick" text-anchor="middle">-20</text><line x1="200.0" y1="44" x2="200.0" y2="170" class="c-grid"/><text x="200.0" y="192" class="c-tick" text-anchor="middle">-10</text><line x1="360.0" y1="44" x2="360.0" y2="170" class="c-axis"/><text x="360.0" y="192" class="c-tick" text-anchor="middle">0</text><line x1="520.0" y1="44" x2="520.0" y2="170" class="c-grid"/><text x="520.0" y="192" class="c-tick" text-anchor="middle">+10</text><line x1="680.0" y1="44" x2="680.0" y2="170" class="c-grid"/><text x="680.0" y="192" class="c-tick" text-anchor="middle">+20</text><text x="360.0" y="216" class="c-lab" text-anchor="middle">levels gained by the change</text><text x="40" y="30" class="c-lab">Across different days</text><circle cx="560.0" cy="68" r="9" class="c-dot-a"/><text x="576.0" y="73" class="c-val">+12.5</text><text x="40" y="106" class="c-lab">Interleaved, same day</text><line x1="132.8" y1="132" x2="507.2" y2="132" class="c-ci"/><line x1="132.8" y1="124" x2="132.8" y2="140" class="c-ci"/><line x1="507.2" y1="124" x2="507.2" y2="140" class="c-ci"/><circle cx="320.0" cy="132" r="9" class="c-dot-b"/><text x="320.0" y="164" class="c-val" text-anchor="middle">-2.5</text></svg><figcaption>The same change, measured two ways. Across days it looked like a win. Interleaved, it vanished into the noise. The blue bar is the 95% interval.</figcaption></figure>
+        <p>The earlier gain was probably drift between days, differences between builds, and extra tokens. The change itself may still help a little. My data cannot exclude small gains. It only excludes the big one I thought I had.</p>
+        <blockquote class="pullquote">A gain across different days is a hint, not a result.</blockquote>
+        <p>Richard Feynman said you must not fool yourself, and you are the easiest person to fool. This was that, in my own data.</p>
+      </section>
+      <div class="beep-divider" aria-hidden="true"><span class="bar" style="height:8px"></span><span class="bar" style="height:18px"></span><span class="bar" style="height:26px"></span><span class="bar" style="height:14px"></span><span class="bar" style="height:8px"></span></div>
+      <section id="sec-board" class="article-section" data-toc-section data-reveal>
+        <div class="section-eyebrow">Section 09</div>
+        <h2>The leaderboard shows your best draw</h2>
+        <p>The competition lets you submit one scored run per day. The public leaderboard keeps your best one. So the number you see is not an average. It is a maximum.</p>
+<figure class="chart breakout " data-reveal><svg viewBox="0 0 720 320" role="img" aria-label="Every daily board draw from October 3 to November 2. Scores sit between 27 and 41 apart from three zeros. The two Final Submissions, 40.09 on October 13 and 40.98 on October 20, are the two highest draws."><line x1="56" y1="251.8" x2="700" y2="251.8" class="c-grid"/><text x="46" y="255.8" class="c-tick" text-anchor="end">25</text><line x1="56" y1="190.8" x2="700" y2="190.8" class="c-grid"/><text x="46" y="194.8" class="c-tick" text-anchor="end">30</text><line x1="56" y1="129.8" x2="700" y2="129.8" class="c-grid"/><text x="46" y="133.8" class="c-tick" text-anchor="end">35</text><line x1="56" y1="68.8" x2="700" y2="68.8" class="c-grid"/><text x="46" y="72.8" class="c-tick" text-anchor="end">40</text><line x1="56" y1="270" x2="700" y2="270" class="c-axis"/><line x1="243.0" y1="20" x2="243.0" y2="264" class="c-div"/><text x="249.0" y="256" class="c-note">yield change ships</text><line x1="56" y1="134.8" x2="700" y2="134.8" class="c-mean"/><circle cx="66.4" cy="264.0" r="5" class="c-dot-open"/><circle cx="87.2" cy="203.4" r="4.5" class="c-dot-a"/><circle cx="107.9" cy="167.6" r="4.5" class="c-dot-a"/><circle cx="128.7" cy="197.6" r="4.5" class="c-dot-a"/><circle cx="149.5" cy="184.0" r="4.5" class="c-dot-a"/><circle cx="170.3" cy="212.9" r="4.5" class="c-dot-a"/><circle cx="191.0" cy="225.6" r="4.5" class="c-dot-a"/><circle cx="211.8" cy="264.0" r="5" class="c-dot-open"/><circle cx="232.6" cy="209.0" r="4.5" class="c-dot-a"/><circle cx="253.4" cy="137.9" r="4.5" class="c-dot-a"/><circle cx="274.1" cy="67.7" r="11" class="c-ring"/><circle cx="274.1" cy="67.7" r="4.5" class="c-dot-a"/><text x="274.1" y="49.7" class="c-val" text-anchor="middle">40.09</text><circle cx="294.9" cy="139.3" r="4.5" class="c-dot-a"/><circle cx="315.7" cy="170.9" r="4.5" class="c-dot-a"/><circle cx="336.5" cy="179.0" r="4.5" class="c-dot-a"/><circle cx="357.2" cy="153.6" r="4.5" class="c-dot-a"/><circle cx="378.0" cy="264.0" r="5" class="c-dot-open"/><circle cx="398.8" cy="203.4" r="4.5" class="c-dot-a"/><circle cx="419.5" cy="56.8" r="11" class="c-ring"/><circle cx="419.5" cy="56.8" r="4.5" class="c-dot-a"/><text x="419.5" y="38.8" class="c-val" text-anchor="middle">40.98</text><circle cx="440.3" cy="129.2" r="4.5" class="c-dot-a"/><circle cx="461.1" cy="117.2" r="4.5" class="c-dot-a"/><circle cx="481.9" cy="98.6" r="4.5" class="c-dot-a"/><circle cx="502.6" cy="118.8" r="4.5" class="c-dot-a"/><circle cx="523.4" cy="71.4" r="4.5" class="c-dot-a"/><circle cx="544.2" cy="117.8" r="4.5" class="c-dot-a"/><circle cx="565.0" cy="153.1" r="4.5" class="c-dot-a"/><circle cx="585.7" cy="148.7" r="4.5" class="c-dot-a"/><circle cx="606.5" cy="91.1" r="4.5" class="c-dot-a"/><circle cx="627.3" cy="195.3" r="4.5" class="c-dot-a"/><circle cx="648.1" cy="126.8" r="4.5" class="c-dot-a"/><circle cx="668.8" cy="147.4" r="4.5" class="c-dot-a"/><circle cx="689.6" cy="113.0" r="4.5" class="c-dot-a"/><text x="66.4" y="290" class="c-tick" text-anchor="middle">10-03</text><text x="170.3" y="290" class="c-tick" text-anchor="middle">10-08</text><text x="274.1" y="290" class="c-tick" text-anchor="middle">10-13</text><text x="378.0" y="290" class="c-tick" text-anchor="middle">10-18</text><text x="481.9" y="290" class="c-tick" text-anchor="middle">10-23</text><text x="585.7" y="290" class="c-tick" text-anchor="middle">10-28</text><text x="689.6" y="290" class="c-tick" text-anchor="middle">11-02</text><text x="378.0" y="314" class="c-lab" text-anchor="middle">one run per day. Dashed line: average of the 17 valid draws (34.6). Open circles: the three 0.00 draws.</text></svg><figcaption>Every scored run since October 3. The two ringed dots are the two Final Submissions. They are also my two highest draws.</figcaption></figure>
+        <p>On October 13, a 40.09 draw lifted me from 32nd to 9th on the public board. A small automated news site, <a href="https://arc.markbarney.net/news/2026-10-13-evening-arc-3" target="_blank" rel="noopener">The Loose Goose</a>, ran the headline "Vineeth joins the top ten." That was fun, and I am proud of it. But it was a one-day snapshot. By the deadline my best was 40.98 and I finished rank 26 of 5,073, in the top 0.5%.</p>
+        <p>Now look at the dots. My 17 valid draws averaged 34.6, and the spread is about 3.4. If you roll 17 times from a spread like that, the best one lands near 40 to 41, even if nothing you did worked. Try it.</p>
+        <div class="sim breakout" data-sim data-reveal>
+          <div class="sim-head"><b>Try it: seventeen days of draws</b><span>A simulation, not my data. It uses my real average (34.6) and spread (3.4).</span></div>
+          <svg class="sim-dots" viewBox="0 0 720 220" role="img" aria-label="Simulated draws"></svg>
+          <div class="sim-read"><span data-sim-best>Press the button.</span></div>
+          <div class="sim-actions"><button type="button" class="sim-btn" data-sim-roll>Draw 17 days</button></div>
+          <svg class="sim-hist" viewBox="0 0 720 216" role="img" aria-label="Best of 17 over many simulated seasons"></svg>
+          <p class="sim-foot" data-sim-foot></p>
+        </div>
+        <p>So I do not read 40.98 as proof of a better agent. It is what a maximum looks like. The private half of the games, scored on different games, is due on December 4. I expect it near 35 to 37, and I will update this page when it posts.</p>
+      </section>
+      <div class="beep-divider" aria-hidden="true"><span class="bar" style="height:8px"></span><span class="bar" style="height:16px"></span><span class="bar" style="height:10px"></span></div>
+      <section id="sec-top" class="article-section" data-toc-section data-reveal>
+        <div class="section-eyebrow">Section 10</div>
+        <h2>What the top teams did</h2>
+        <p>The top score on the final public board was 75.56. My best was 40.98. What explains the gap? I do not know. The full write-ups open after the paper deadline. But the public forum posts say some things.</p>
+        <p>First, speed. The first-place team reports about 3,800 tokens per second with all 110 games running at once. The sixth-place team reports going from about 600 to about 3,500. Mine was about 870 to 970.</p>
+<figure class="chart breakout " data-reveal><svg viewBox="0 0 720 250" role="img" aria-label="Reported generated tokens per second on the same GPU: mine about 870 to 970, 19th place about 1,480, 6th place about 3,500, first place about 3,800."><text x="176" y="43" class="c-lab" text-anchor="end">Mine (14 sessions)</text><rect x="190" y="20" width="101.2" height="34" rx="6" class="c-bar-b"/><text x="301.2" y="43" class="c-val">about 870 to 970</text><text x="176" y="95" class="c-lab" text-anchor="end">19th place</text><rect x="190" y="72" width="162.8" height="34" rx="6" class="c-bar-n"/><text x="362.8" y="95" class="c-val">about 1,480</text><text x="176" y="147" class="c-lab" text-anchor="end">6th place</text><rect x="190" y="124" width="385.0" height="34" rx="6" class="c-bar-n"/><text x="585.0" y="147" class="c-val">about 3,500</text><text x="176" y="199" class="c-lab" text-anchor="end">1st place</text><rect x="190" y="176" width="418.0" height="34" rx="6" class="c-bar-n"/><text x="618.0" y="199" class="c-val">about 3,800</text><text x="190" y="220" class="c-note">Generated tokens per second on the same kind of GPU.</text><text x="190" y="238" class="c-note">Other teams' numbers come from their own forum posts.</text></svg><figcaption>Generated tokens per second, as reported. Mine is measured on my replica runs. The others are from their own forum posts.</figcaption></figure>
+        <p>The sixth-place team also reports its board score rising from 25.72 to 47.19 over two weeks in October, alongside large serving changes. That is a 20-point climb. I changed my speed by 11% and could not see the effect. They changed theirs several times over.</p>
+        <p>Second, training. The first-place team used the base model for roughly the first six hours, then switched to a model trained with reinforcement learning for the last three. The author says there is no clean test that isolates what the trained model added.</p>
+        <blockquote class="pullquote">I measured the thermometer. I never found out how big the fire was.</blockquote>
+        <p>That is the honest reading. My results explain why a small speed-up was invisible. They do not say a big one is useless. The field made big moves and gained a lot. I measured small ones and could not tell. And the first-place team's author says there is no clean test for their training step either.</p>
+      </section>
+      <div class="beep-divider" aria-hidden="true"><span class="bar" style="height:8px"></span><span class="bar" style="height:18px"></span><span class="bar" style="height:26px"></span><span class="bar" style="height:14px"></span><span class="bar" style="height:8px"></span></div>
+      <section id="sec-copy" class="article-section" data-toc-section data-reveal>
+        <div class="section-eyebrow">Section 11</div>
+        <h2>What I would tell you to copy</h2>
+        <p>If your work is tuning an agent, or anything where a run gives you one noisy number, take these.</p>
+        <div class="callout callout--rule"><div class="callout-label"><svg class="wave-glyph" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6 H4 V2 H6 V6 H9 V2 H11 V6 H18"/></svg> Rule 1</div><p><b>Measure the noise first.</b> Run identical code about eight times on one day, plus a few pairs across days. Do it before testing any idea.</p></div>
+        <div class="callout callout--rule"><div class="callout-label"><svg class="wave-glyph" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6 H4 V2 H6 V6 H9 V2 H11 V6 H18"/></svg> Rule 2</div><p><b>Know your detection line.</b> With n runs per arm you can see about 2.8 times the noise times the square root of 2 over n. If your idea is smaller, say so before you start.</p></div>
+        <div class="callout callout--rule"><div class="callout-label"><svg class="wave-glyph" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6 H4 V2 H6 V6 H9 V2 H11 V6 H18"/></svg> Rule 3</div><p><b>Interleave.</b> Run the two versions side by side on one day. Gains measured across days are hints.</p></div>
+        <div class="callout callout--rule"><div class="callout-label"><svg class="wave-glyph" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6 H4 V2 H6 V6 H9 V2 H11 V6 H18"/></svg> Rule 4</div><p><b>Judge a small change by the behavior it targets.</b> Write the pass rule first. Use the final score only to veto big harm.</p></div>
+        <div class="callout callout--rule"><div class="callout-label"><svg class="wave-glyph" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6 H4 V2 H6 V6 H9 V2 H11 V6 H18"/></svg> Rule 5</div><p><b>Write your kill rule before the first run.</b> Otherwise every result will look like a reason to keep going.</p></div>
+        <p>None of this is special to games. A study of coding agents on SWE-Bench finds similar spread, so a single run per version could only detect about 6 points there.</p>
+      </section>
+      <div class="beep-divider" aria-hidden="true"><span class="bar" style="height:8px"></span><span class="bar" style="height:14px"></span><span class="bar" style="height:22px"></span><span class="bar" style="height:14px"></span><span class="bar" style="height:8px"></span></div>
+      <section id="sec-end" class="article-section" data-toc-section data-reveal>
+        <div class="section-eyebrow">Section 12</div>
+        <h2>Limits, and thank you</h2>
+        <p>This is one stack, one GPU, and 25 public games. I tuned and chose what to ship on those same games, so my development numbers may overstate how it does on new ones. Most of my results are null, and I say so. The scored private result is not in yet.</p>
+        <p>Most of the credit belongs to others: Qwen's model, Intel's 4-bit weights, albucino's drafter, J. Pezzulli's serving build, Tufa Labs' harness and RE-ARC-3, and Daniel Franzen's notebook, which is the base of everything here. Claude wrote most of the code and text with me.</p>
+        <p>If you want the details, every number in this post traces to a table in the paper. The paper is long. This post is the short way in.</p>
+        <svg class="hero-wave" data-wave-sweep viewBox="0 0 360 34" preserveAspectRatio="none" aria-hidden="true" style="margin-top:1.5rem"><path d="M0 17 H70 V6 H82 V17 H110 V6 H122 V17 H150 V6 H162 V17 H360"></path></svg>
+      </section>
+
+    </main>
+
+    <footer class="article-footer">
+      <p class="af-line">Built by Vineeth, with Claude. Numbers are from the paper; private scores are not in yet.</p>
+      <div class="af-links">
+        <a href="https://github.com/vineethsaivs/arc3-decisions-or-tokens" target="_blank" rel="noopener"><i class="fab fa-github" aria-hidden="true"></i> Paper &amp; code</a>
+        <a href="https://www.kaggle.com/competitions/arc-prize-2026-paper-track/writeups/decisions-or-tokens-what-moves-an-offline-arc-agi" target="_blank" rel="noopener"><i class="fab fa-kaggle" aria-hidden="true"></i> Kaggle Writeup</a>
+        <a href="/#blog"><i class="fas fa-feather-alt" aria-hidden="true"></i> More writing</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script defer src="/blog/decisions-or-tokens.js"></script>
+</body>
+</html>
