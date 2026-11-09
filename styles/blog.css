@@ -850,3 +850,27 @@ html[data-theme="light"] .tb-theme .fa-moon { display: none; }
   .toc-link { padding: 10px 12px; }
 }
 @media (max-width: 1199px) { .toc-link { padding-block: 9px; } }
+
+/* Light theme: Room Sentinel components that hard-code dark colors */
+html[data-theme="light"] .codeblock .code-head { background: rgba(20, 20, 20, 0.05); }
+html[data-theme="light"] .codeblock pre { color: #2a2a2e; }
+html[data-theme="light"] .codeblock .tok-str { color: #2d6a35; }
+html[data-theme="light"] .photo-slot { background: var(--bg-elevated); }
+html[data-theme="light"] .meltdown-card.is-dead { border-color: #b5b5b0; }
+html[data-theme="light"] .meltdown-card.is-dead .core-fill { background: linear-gradient(90deg, #b5b5b0, #8b8b90); }
+html[data-theme="light"] .meltdown-card .free-mem,
+html[data-theme="light"] .sps-caption.good,
+html[data-theme="light"] .ms-col.clean .ms-tag { color: #2d6a35; }
+html[data-theme="light"] .meltdown-card .replay-btn:hover,
+html[data-theme="light"] .article-footer .af-links a:hover,
+html[data-theme="light"] .ring-node.lit text { color: var(--text-primary); fill: var(--text-primary); }
+html[data-theme="light"] .sps-band.gap { background: repeating-linear-gradient(45deg, #e4e4e0, #e4e4e0 6px, #d8d8d3 6px, #d8d8d3 12px); }
+html[data-theme="light"] .timing-wave .tw-silent { stroke: #8b8b90; }
+html[data-theme="light"] .ring-node.lit circle { filter: none; }
+html[data-theme="light"] .beep-console { box-shadow: var(--box-shadow-1); }
+
+/* Long unbreakable strings (URLs) must wrap on phones */
+.article-body p, .article-body li { overflow-wrap: anywhere; }
+/* Small red text: use the per-theme text red (lighter on dark, darker on light) */
+.arch-tag, .sps-band.ghost { color: var(--accent-red-light); }
+html[data-theme="light"] .arch-tag, html[data-theme="light"] .sps-band.ghost { color: #a30611; }
