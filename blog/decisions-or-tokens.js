@@ -115,3 +115,13 @@
 
   progressAndToc(); reveal(); simulator();
 })();
+
+// Theme toggle: light is the default (set in <head>), the choice is remembered.
+(function () {
+  var b = document.querySelector('.tb-theme'); if (!b) return;
+  b.addEventListener('click', function () {
+    var next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+})();

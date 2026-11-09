@@ -23,7 +23,7 @@
   /* Text */
   --text-primary: #f5f5f5;
   --text-secondary: #a0a0a0;
-  --text-muted: #666666;
+  --text-muted: #8c8c8c;   /* was #666 (3.4:1 on #0a0a0a); this is 5.9:1 */
 
   /* Glass */
   --glass-bg: rgba(20, 20, 20, 0.6);
@@ -33,6 +33,15 @@
   /* Borders & shadows */
   --border-subtle: rgba(255, 255, 255, 0.08);
   --box-shadow-1: 0 4px 20px rgba(0, 0, 0, 0.5);
+
+  /* Theme tokens (the light theme below overrides these) */
+  --body-ink: #e8e8e8;
+  --line-rgb: 255, 255, 255;     /* strokes, rules, faint fills */
+  --blue: #7ab8ff;  --blue-rgb: 122, 184, 255;
+  --bar-a: #cfcfcf; --bar-n: #4a4a4a;
+  --chrome-bg: rgba(10, 10, 10, 0.78);
+  --sel-bg: rgba(229, 9, 20, 0.3);  --sel-fg: #fff;
+  color-scheme: dark;
 
   /* Blog-only layout tokens */
   --reading-width: 780px;   /* the content column: text AND every diagram share this width */
@@ -83,7 +92,7 @@ h1, h2, h3, h4 {
   margin: 0 0 0.6em;
 }
 
-::selection { background: rgba(229, 9, 20, 0.3); color: #fff; }
+::selection { background: var(--sel-bg); color: var(--sel-fg); }
 
 /* Visually-hidden helper for screen-reader-only text */
 .sr-only {
@@ -122,7 +131,7 @@ h1, h2, h3, h4 {
   z-index: 150;
   display: flex; align-items: center; gap: 20px;
   padding: 0 clamp(16px, 4vw, 40px);
-  background: rgba(10, 10, 10, 0.72);
+  background: var(--chrome-bg);
   backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
   border-bottom: 1px solid var(--border-subtle);
@@ -186,7 +195,7 @@ h1, h2, h3, h4 {
    the footer all live in the content column, so they share one set of edges. */
 .article-shell {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);   /* minmax(0,..): a nowrap TOC row must not widen the track */
   padding-inline: clamp(20px, 5vw, 24px);
   padding-top: var(--topbar-h);
   padding-bottom: var(--space-24);
@@ -212,7 +221,7 @@ h1, h2, h3, h4 {
 
 .article-body p,
 .article-body ul,
-.article-body ol { margin: 0 0 var(--space-6); color: #e8e8e8; text-wrap: pretty; }
+.article-body ol { margin: 0 0 var(--space-6); color: var(--body-ink); text-wrap: pretty; }
 .article-body strong { color: var(--text-primary); font-weight: 600; }
 .article-body a { border-bottom: 1px solid rgba(229, 9, 20, 0.35); }
 .article-body a:hover { border-bottom-color: var(--accent-red); }
@@ -272,9 +281,10 @@ h1, h2, h3, h4 {
 }
 @media (max-width: 1199px) {
   .toc-rail {
+    width: 100%; min-width: 0;   /* auto margins shrink-wrap the nowrap row, so pin the width */
     position: sticky; top: var(--topbar-h); z-index: 90;
     margin: 0 auto var(--space-6); max-width: var(--reading-width);
-    background: rgba(10, 10, 10, 0.82);
+    background: var(--chrome-bg);
     backdrop-filter: blur(var(--glass-blur));
     -webkit-backdrop-filter: blur(var(--glass-blur));
     border-bottom: 1px solid var(--border-subtle);
@@ -316,10 +326,10 @@ h1, h2, h3, h4 {
 .callout p:last-child { margin-bottom: 0; }
 .callout--war { border-color: rgba(229, 9, 20, 0.32); background: rgba(229, 9, 20, 0.05); }
 .callout--war .callout-label { color: var(--accent-red-light); }
-.callout--rule { border-color: rgba(255, 255, 255, 0.16); background: rgba(255, 255, 255, 0.025); }
+.callout--rule { border-color: rgba(var(--line-rgb), 0.16); background: rgba(var(--line-rgb), 0.03); }
 .callout--rule .callout-label { color: var(--text-primary); }
-.callout--note { border-color: rgba(122, 184, 255, 0.3); background: rgba(122, 184, 255, 0.05); }
-.callout--note .callout-label { color: #7ab8ff; }
+.callout--note { border-color: rgba(var(--blue-rgb), 0.32); background: rgba(var(--blue-rgb), 0.06); }
+.callout--note .callout-label { color: var(--blue); }
 .callout--quirk { border-style: dashed; border-color: rgba(160, 160, 160, 0.4); }
 .callout--quirk .callout-label { color: var(--text-secondary); }
 .callout .wave-glyph { width: 18px; height: 12px; }
@@ -788,3 +798,55 @@ figure.photo-fig { margin: 0; }
   .toc-link, .beep-chip, .post-card { transition: none; }
   .beep-divider .bar { transition: none; }
 }
+
+
+/* ----------------------------------------------------------------------------
+   Light theme. Opt-in per page: <html data-theme="light">. Pages without the
+   attribute (Room Sentinel) stay dark. Off-white page, near-black ink, and a
+   darker red and blue so small text keeps 4.5:1 on white.
+   -------------------------------------------------------------------------- */
+html[data-theme="light"] {
+  --bg-deep: #fcfcfb;  --bg-surface: #f3f3f1;  --bg-elevated: #e8e8e5;
+  --text-primary: #141414;  --text-secondary: #4d4d52;  --text-muted: #66666b;
+  --body-ink: #252528;
+  --accent-red: #d0081a;  --accent-red-light: #bf0716;  --accent-red-dark: #8f0510;
+  --blue: #1b5fb4;  --blue-rgb: 27, 95, 180;
+  --line-rgb: 20, 20, 20;
+  --bar-a: #4d4d52;  --bar-n: #c4c4c0;
+  --glass-bg: rgba(255, 255, 255, 0.7);  --glass-border: rgba(208, 8, 26, 0.14);
+  --border-subtle: rgba(20, 20, 20, 0.11);
+  --box-shadow-1: 0 4px 20px rgba(20, 20, 20, 0.1);
+  --chrome-bg: rgba(252, 252, 251, 0.86);
+  --sel-bg: rgba(208, 8, 26, 0.18);  --sel-fg: #141414;
+  color-scheme: light;
+}
+html[data-theme="light"] #read-progress { box-shadow: none; }
+html[data-theme="light"] .status-dot { box-shadow: 0 0 10px rgba(208, 8, 26, 0.45); }
+html[data-theme="light"] .article-body a { border-bottom-color: rgba(191, 7, 22, 0.4); }
+html[data-theme="light"] .pullquote { background: linear-gradient(180deg, rgba(208, 8, 26, 0.05), transparent); }
+html[data-theme="light"] .toc-link.active { background: rgba(208, 8, 26, 0.08); }
+
+/* Theme toggle in the top bar */
+.tb-theme {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  font-family: var(--font-head); font-size: 0.9rem; font-weight: 500;
+  color: var(--text-secondary); background: none; border: 1px solid var(--border-subtle);
+  border-radius: 999px; padding: 6px 12px; margin-right: 14px; min-height: 36px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.tb-theme:hover { color: var(--text-primary); border-color: rgba(var(--line-rgb), 0.3); }
+.tb-theme:focus-visible { outline: 2px solid var(--accent-red-light); outline-offset: 3px; }
+.tb-theme .fa-sun { display: none; }
+html[data-theme="light"] .tb-theme .fa-sun { display: inline; }
+html[data-theme="light"] .tb-theme .fa-moon { display: none; }
+@media (max-width: 480px) { .tb-theme span { display: none; } .tb-theme { padding: 6px 10px; margin-right: 8px; } }
+
+/* Small screens: keep the top bar on one line and the tap targets at 40px */
+.article-topbar .tb-link { min-height: 40px; }
+@media (max-width: 480px) {
+  .article-topbar { gap: 14px; }
+  .article-topbar .tb-brand { display: none; }
+  .article-topbar .tb-theme { margin-left: auto; margin-right: 0; }
+  .toc-link { padding: 10px 12px; }
+}
+@media (max-width: 1199px) { .toc-link { padding-block: 9px; } }
