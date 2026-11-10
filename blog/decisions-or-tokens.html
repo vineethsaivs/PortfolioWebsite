@@ -4,22 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>I ran the same code twice and got 123 and 101 | Vineeth</title>
-  <meta name="description" content="What an ARC-AGI-3 agent taught me about noise, best-of-many leaderboards, and fooling yourself. From simple to deep, with diagrams and a simulator you can try.">
+  <title>Measuring Progress on ARC-AGI-3 When Every Run Scores Differently | Vineeth</title>
+  <meta name="description" content="How to tell whether a change to an AI agent worked when every run scores differently. Lessons in measurement from an ARC Prize 2026 entry, with diagrams and a simulator you can try.">
   <meta name="author" content="Vineeth">
   <meta name="theme-color" content="#0a0a0a">
   <link rel="canonical" href="https://vineethsai.me/blog/decisions-or-tokens.html">
 
   <meta property="og:type" content="article">
-  <meta property="og:title" content="I ran the same code twice and got 123 and 101">
-  <meta property="og:description" content="What an ARC-AGI-3 agent taught me about noise, best-of-many leaderboards, and fooling yourself. From simple to deep, with diagrams and a simulator you can try.">
+  <meta property="og:title" content="Measuring Progress on ARC-AGI-3 When Every Run Scores Differently">
+  <meta property="og:description" content="How to tell whether a change to an AI agent worked when every run scores differently. Lessons in measurement from an ARC Prize 2026 entry, with diagrams and a simulator you can try.">
   <meta property="og:image" content="https://vineethsai.me/img/decisions-or-tokens-cover.png">
   <meta property="og:url" content="https://vineethsai.me/blog/decisions-or-tokens.html">
   <meta property="og:site_name" content="vineethsai.me">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="I ran the same code twice and got 123 and 101">
-  <meta name="twitter:description" content="What an ARC-AGI-3 agent taught me about noise, best-of-many leaderboards, and fooling yourself. From simple to deep, with diagrams and a simulator you can try.">
+  <meta name="twitter:title" content="Measuring Progress on ARC-AGI-3 When Every Run Scores Differently">
+  <meta name="twitter:description" content="How to tell whether a change to an AI agent worked when every run scores differently. Lessons in measurement from an ARC Prize 2026 entry, with diagrams and a simulator you can try.">
   <meta name="twitter:image" content="https://vineethsai.me/img/decisions-or-tokens-cover.png">
 
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
@@ -50,11 +50,11 @@
   <div class="article-shell">
 
     <header class="article-hero">
-      <h1 class="hero-title">I ran the same code twice and got 123 and 101</h1>
-      <p class="hero-dek">What an ARC Prize 2026 entry taught me about measuring, and how easy it is to fool yourself. Simple first, then deeper.</p>
+      <h1 class="hero-title">Measuring Progress on ARC-AGI-3 When Every Run Scores Differently</h1>
+      <p class="hero-dek">Lessons in measurement from ARC Prize 2026: how to test a change, read a leaderboard, and trust a result. Simple first, then deeper.</p>
       <div class="hero-status">
         <span class="status-dot" aria-hidden="true"></span>
-        <span>Same code. Two answers. Now what?</span>
+        <span>Identical code scored 123, then 101</span>
       </div>
       <svg class="hero-wave" data-wave-sweep viewBox="0 0 360 34" preserveAspectRatio="none" aria-hidden="true">
         <path d="M0 17 H70 V6 H82 V17 H110 V6 H122 V17 H150 V6 H162 V17 H360"></path>
@@ -82,10 +82,10 @@
     <main id="article-main" class="article-body">
 
       <section id="sec-same" class="article-section" data-toc-section data-reveal>
-        <h2>The same code gave two different answers</h2>
+        <h2>Identical code, two different scores</h2>
         <p>Here is the strange thing that started all this. I had an AI agent that plays games. I ran it on 25 games and it cleared 123 levels out of 183.</p>
-        <p>Then I ran the exact same code again. Same files. Same settings. Same kind of machine. It cleared 101.</p>
-        <p>Nothing changed. That is a gap of 22 levels, from nothing at all.</p>
+        <p>Then I ran the exact same code again. Same files, same settings, same kind of machine, and the same 25 games. It cleared 101.</p>
+        <p>The games did not change either. The gap comes from the model's own sampling and the timing of the server, and it was 22 levels.</p>
 <figure class="chart breakout chart--hero" data-reveal><div class="svg-scroll" tabindex="0" role="group" aria-label="Chart, scrolls sideways on small screens"><svg viewBox="0 0 720 170" role="img" aria-label="Two runs of identical code on the 25 public games: the first cleared 123 of 183 levels, the second 101."><text x="156" y="52" class="c-lab" text-anchor="end">Run 1</text><rect x="170" y="30" width="480.0" height="34" rx="6" class="c-track"/><rect x="170" y="30" width="322.6" height="34" rx="6" class="c-bar-a"/><text x="502.6" y="53" class="c-val">123</text><text x="156" y="104" class="c-lab" text-anchor="end">Run 2</text><rect x="170" y="82" width="480.0" height="34" rx="6" class="c-track"/><rect x="170" y="82" width="264.9" height="34" rx="6" class="c-bar-b"/><text x="444.9" y="105" class="c-val">101</text><text x="170" y="148" class="c-note">levels cleared, out of 183 on the 25 public games. Same code, byte for byte.</text><line x1="434.9" y1="72" x2="492.6" y2="72" class="c-gap"/></svg></div><div class="swipe-hint" aria-hidden="true">Swipe sideways for the full chart &rarr;</div><figcaption>The first surprise. Both runs used byte-identical code.</figcaption></figure>
         <p>This post is about why that happens, why it matters more than any clever idea I had, and what it did to the competition I spent the last weeks on. I will start simple and go deeper as we go. If you stop halfway, you still get the main idea.</p>
         <div class="callout callout--note"><div class="callout-label">The short version</div><p>Small gains are invisible when the same code can swing by 20 levels. Most of my ideas were small. So I could not tell which ones worked, and neither, I think, can most people who tune agents this way.</p></div>
