@@ -874,3 +874,5 @@ html[data-theme="light"] .beep-console { box-shadow: var(--box-shadow-1); }
 /* Small red text: use the per-theme text red (lighter on dark, darker on light) */
 .arch-tag, .sps-band.ghost { color: var(--accent-red-light); }
 html[data-theme="light"] .arch-tag, html[data-theme="light"] .sps-band.ghost { color: #a30611; }
+
+.article-body p code { font-family: "SF Mono", ui-monospace, monospace; font-size: 0.88em; background: rgba(var(--line-rgb), 0.08); padding: 1px 5px; border-radius: 4px; }
