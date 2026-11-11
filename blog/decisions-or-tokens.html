@@ -5,21 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Measuring Progress on ARC-AGI-3 When Every Run Scores Differently | Vineeth</title>
-  <meta name="description" content="How to tell whether a change to an AI agent worked when every run scores differently. Lessons in measurement from an ARC Prize 2026 entry, with diagrams and a simulator you can try.">
+  <meta name="description" content="How to build an agent for a world it has never seen, and how to tell whether a change really helped when every run scores differently. Lessons from an ARC Prize 2026 entry, with diagrams and a simulator.">
   <meta name="author" content="Vineeth">
   <meta name="theme-color" content="#0a0a0a">
   <link rel="canonical" href="https://vineethsai.me/blog/decisions-or-tokens.html">
 
   <meta property="og:type" content="article">
   <meta property="og:title" content="Measuring Progress on ARC-AGI-3 When Every Run Scores Differently">
-  <meta property="og:description" content="How to tell whether a change to an AI agent worked when every run scores differently. Lessons in measurement from an ARC Prize 2026 entry, with diagrams and a simulator you can try.">
+  <meta property="og:description" content="How to build an agent for a world it has never seen, and how to tell whether a change really helped when every run scores differently. Lessons from an ARC Prize 2026 entry, with diagrams and a simulator.">
   <meta property="og:image" content="https://vineethsai.me/img/decisions-or-tokens-cover.png">
   <meta property="og:url" content="https://vineethsai.me/blog/decisions-or-tokens.html">
   <meta property="og:site_name" content="vineethsai.me">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Measuring Progress on ARC-AGI-3 When Every Run Scores Differently">
-  <meta name="twitter:description" content="How to tell whether a change to an AI agent worked when every run scores differently. Lessons in measurement from an ARC Prize 2026 entry, with diagrams and a simulator you can try.">
+  <meta name="twitter:description" content="How to build an agent for a world it has never seen, and how to tell whether a change really helped when every run scores differently. Lessons from an ARC Prize 2026 entry, with diagrams and a simulator.">
   <meta name="twitter:image" content="https://vineethsai.me/img/decisions-or-tokens-cover.png">
 
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
@@ -51,7 +51,7 @@
 
     <header class="article-hero">
       <h1 class="hero-title">Measuring Progress on ARC-AGI-3 When Every Run Scores Differently</h1>
-      <p class="hero-dek">Lessons in measurement from ARC Prize 2026: how to test a change, read a leaderboard, and trust a result. Simple first, then deeper.</p>
+      <p class="hero-dek">Lessons from ARC Prize 2026 on building an agent for a world it has never seen, and on measuring whether a change really helped. Simple first, then deeper.</p>
       <div class="hero-status">
         <span class="status-dot" aria-hidden="true"></span>
         <span>Identical code scored 123, then 101</span>
@@ -67,6 +67,7 @@
         <a class="toc-link" data-toc-link href="#sec-same"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> A headline, and a puzzle</a>
         <a class="toc-link" data-toc-link href="#sec-game"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> The game</a>
         <a class="toc-link" data-toc-link href="#sec-built"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> Where I started</a>
+        <a class="toc-link" data-toc-link href="#sec-agent"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> How a model acts</a>
         <a class="toc-link" data-toc-link href="#sec-two"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> Tokens or decisions</a>
         <a class="toc-link" data-toc-link href="#sec-thermo"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> A thermometer that jumps</a>
         <a class="toc-link" data-toc-link href="#sec-runs"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> How many runs?</a>
@@ -112,6 +113,17 @@
         <p>I did not build this agent from scratch. I started from Daniel Franzen's public notebook, which runs Tufa Labs' open harness on a 4-bit Qwen model. Hundreds of teams started from that same notebook, so my job was to do better than a copy.</p>
         <p>I worked with Claude, the AI from Anthropic, which wrote most of the code, the analysis and the first draft of this text. I set the goals and limits, checked the results, and made the final calls, including which two runs to hand in as my Final Submissions.</p>
         <p>The question I asked was simple: what makes this agent score higher?</p>
+      </section>
+      <div class="beep-divider" aria-hidden="true"><span class="bar" style="height:8px"></span><span class="bar" style="height:18px"></span><span class="bar" style="height:26px"></span><span class="bar" style="height:14px"></span><span class="bar" style="height:8px"></span></div>
+      <section id="sec-agent" class="article-section" data-toc-section data-reveal>
+        <h2>How a model acts in a world it has never seen</h2>
+        <p>Think of the model as a scientist who has just been dropped into a strange lab. It reasons well, but it has never seen this equipment. What does it need? Not more brains. It needs a bench.</p>
+        <p>The harness is that bench. The public one I started from gives the model four things.</p>
+        <p><b>Eyes.</b> Each game frame arrives as an enlarged picture, plus a diff that shows what just changed. The model's job is to spot cause and effect, so the effect is made easy to see.</p>
+        <p><b>A notebook.</b> A Python session that stays alive between turns. The model can write its guess about the rules as code, run it on what it has already seen, and keep notes. "I think the blue square moves when I press right" becomes something it can check.</p>
+        <p><b>Hands.</b> One <code>action()</code> call presses a key in the game. Only these moves count against the score. Thinking and notebook work are free. So the design pushes the model to think a lot, and to act only once it has a theory.</p>
+        <p><b>Undo.</b> A wrong experiment should not cost the whole level.</p>
+        <p>That is the general recipe: see clearly, think on paper, test cheaply, act deliberately. It is not specific to puzzles. Any agent that has to learn a new environment on the fly needs some version of those four things. What I cannot tell you is how much each one is worth. That is the second half of this post.</p>
       </section>
       <div class="beep-divider" aria-hidden="true"><span class="bar" style="height:8px"></span><span class="bar" style="height:14px"></span><span class="bar" style="height:22px"></span><span class="bar" style="height:14px"></span><span class="bar" style="height:8px"></span></div>
       <section id="sec-two" class="article-section" data-toc-section data-reveal>
@@ -212,6 +224,7 @@
         <div class="callout callout--rule"><div class="callout-label"><svg class="wave-glyph" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6 H4 V2 H6 V6 H9 V2 H11 V6 H18"/></svg> Fourth</div><p><b>Judge a small change by the behavior it targets.</b> Write the pass rule first. Use the final score only to veto big harm.</p></div>
         <div class="callout callout--rule"><div class="callout-label"><svg class="wave-glyph" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6 H4 V2 H6 V6 H9 V2 H11 V6 H18"/></svg> Fifth</div><p><b>Write your stop rule before the first run.</b> Otherwise every result will look like a reason to keep going.</p></div>
         <p>None of this is special to games. A study of coding agents on SWE-Bench finds similar spread, so a single run per version could only detect about 6 points there.</p>
+        <p>And if you are building a general agent: give the model a way to see, a place to think on paper and a cheap way to test ideas, then measure every change with more care than feels necessary.</p>
       </section>
       <div class="beep-divider" aria-hidden="true"><span class="bar" style="height:8px"></span><span class="bar" style="height:14px"></span><span class="bar" style="height:22px"></span><span class="bar" style="height:14px"></span><span class="bar" style="height:8px"></span></div>
       <section id="sec-end" class="article-section" data-toc-section data-reveal>
