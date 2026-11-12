@@ -73,6 +73,7 @@
         <a class="toc-link" data-toc-link href="#sec-runs"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> How many runs?</a>
         <a class="toc-link" data-toc-link href="#sec-tried"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> What I tried</a>
         <a class="toc-link" data-toc-link href="#sec-fooled"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> The idea that fooled me</a>
+        <a class="toc-link" data-toc-link href="#sec-ft"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> Fine-tuning</a>
         <a class="toc-link" data-toc-link href="#sec-board"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> The leaderboard</a>
         <a class="toc-link" data-toc-link href="#sec-top"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> The teams ahead of me</a>
         <a class="toc-link" data-toc-link href="#sec-copy"><svg class="toc-glyph" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5 H3 V2 H5 V5 H8 V2 H10 V5 H14"/></svg> What I would do differently</a>
@@ -185,6 +186,17 @@
         <p>The earlier gain was probably drift between days, differences between builds, and extra tokens. The change itself may still help a little; my data cannot exclude small gains. It only rules out the big one I thought I had.</p>
         <blockquote class="pullquote">A gain across different days is a hint, not a result.</blockquote>
         <p>Richard Feynman said the first rule is not to fool yourself, and that you are the easiest person to fool. This was that, in my own data.</p>
+      </section>
+      <div class="beep-divider" aria-hidden="true"><span class="bar" style="height:8px"></span><span class="bar" style="height:18px"></span><span class="bar" style="height:26px"></span><span class="bar" style="height:14px"></span><span class="bar" style="height:8px"></span></div>
+      <section id="sec-ft" class="article-section" data-toc-section data-reveal>
+        <h2>Teaching the model from its own play</h2>
+        <p>So far I had only changed the bench. The model itself can change too, and that is where fine-tuning comes in. It is the part I find most exciting, because it is where the agent can actually learn something.</p>
+        <p>My first attempt was simple. The agent played 127 practice games from an offline generator of games like the real ones. I kept every reply from a level it cleared and trained a small adapter on those (a rank-16 LoRA, one pass, about eight dollars on one rented GPU). It is like a student who only rereads the exam questions they already got right.</p>
+        <p>Training loss on held-out games fell 13.9%. The levels cleared fell too: 109 and 115 at full strength and 117 at half, against 132 and 130 for two plain runs on the same kind of card. I did not interleave them, so I do not call it proven. But it points one way.</p>
+        <p>My reading, which I have not tested: the filter kept almost everything. The agent clears most levels on those practice games, so "a cleared level" let in 63% of the training text, and half of it came from levels that took more than twice the human number of moves. I had trained the agent on its own slow habits. Lower loss on your own wins is not better decisions. A better filter would pick what the agent does not already do well, such as clearing a level in fewer moves.</p>
+        <p>Reinforcement learning taught me a different lesson. To stop training before the model drifts too far, I used a standard check, a KL estimate, with a stop at 0.02. Before the first update the adapter is zero, so the check was comparing the model with itself. It read 12.9.</p>
+        <p>The reason is that the training forward pass is not deterministic. The same tokens, run through the same model five times, agree exactly on only about 12% of tokens. So I clipped the estimate and read it net of that noise floor. If you use a KL guard, measure its floor first. In the end no adapter passed the gates I set before running them.</p>
+        <p>Neither approach beat the plain model. Both still taught me more than a win would have, because they showed where the real difficulty is: knowing what to teach the model, and knowing whether it worked.</p>
       </section>
       <div class="beep-divider" aria-hidden="true"><span class="bar" style="height:8px"></span><span class="bar" style="height:18px"></span><span class="bar" style="height:26px"></span><span class="bar" style="height:14px"></span><span class="bar" style="height:8px"></span></div>
       <section id="sec-board" class="article-section" data-toc-section data-reveal>
