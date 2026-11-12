@@ -59,3 +59,4 @@
   .svg-scroll svg { min-width: 620px; }
   .swipe-hint { display: block; }
 }
+.chart img { display: block; width: 100%; height: auto; border-radius: 10px; }
