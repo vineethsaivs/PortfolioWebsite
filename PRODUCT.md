@@ -33,6 +33,10 @@ Derived from his own writing, so the site practices what the person preaches:
 4. **Every state earns its beep.** From the buzzer lesson: silence reads as broken. Every interaction (form send, card tap, nav) gives clear feedback, including failure states.
 5. **One heavy thing at a time.** Focus per screen. Do not make two sections compete for the same attention.
 
+## Analytics
+
+GoatCounter (no cookies). Private dashboard: https://vineeth.goatcounter.com. Counts page views, resume opens (`resume`) and blog reads (`read/<post>`: reached the end and had the post on screen for 60 seconds, from `js/read.js`). A new post needs `js/read.js` and the counter script tag, both copied from an existing post.
+
 ## Accessibility & Inclusion
 
 WCAG AA targets on a dark theme: body text >= 4.5:1 against near-black surfaces. Everything is a real link or button; nothing is hidden behind hover. prefers-reduced-motion alternatives for all animation (already partially in place; must stay). Touch devices get first-class treatment: no information locked behind hover.
