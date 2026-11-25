@@ -25,7 +25,7 @@
 
 .arch-row.formula { align-items: center; }
 .arch-row.formula .arch-step { font-family: var(--font-head); font-size: 1.8rem; color: var(--accent-red-light); flex: 0 0 auto; align-self: center; padding: 0 4px; }
-.arch-node.is-result { border-color: rgba(229, 9, 20, 0.45); background: rgba(229, 9, 20, 0.08); }
+.arch-node.is-result { border-color: rgba(237, 6, 18, 0.45); background: rgba(237, 6, 18, 0.08); }
 .arch-node span { display: block; font-size: 0.8rem; color: var(--text-secondary); margin-top: 6px; line-height: 1.35; }
 
 .ledger { display: grid; gap: 10px; }

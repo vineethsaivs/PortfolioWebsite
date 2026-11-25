@@ -10,7 +10,7 @@ Recruiters, hiring managers, fellow AI engineers and researchers, and people Vin
 
 ## Product Purpose
 
-vineethsai.me is Vineeth Sai's personal site: portfolio, research record, and increasingly a home for long-form writing (the Room Sentinel teardown). It exists to show two things at once: a rigorous AI/ML engineer (AT&T, Nabu Tutor, Google, published research projects) and a curiosity-driven person whose passions (astrophysics, philosophy, football, F1, cricket, tennis, basketball, books) all orbit one question: how do things work. Success: a visitor leaves with a clear picture of the person, not just the resume, and the serious ones reach out or read the blog.
+vineethsai.me is Vineeth Sai's personal site: portfolio, research record, and increasingly a home for long-form writing (the Room Sentinel teardown). It exists to show two things at once: a rigorous AI/ML engineer (AT&T, Google, published research) and a curiosity-driven person whose passions (astrophysics, philosophy, football, F1, cricket, tennis, basketball, books) all orbit one question: how do things work. Success: a visitor leaves with a clear picture of the person, not just the resume, and the serious ones reach out or read the blog.
 
 ## Brand Personality
 
@@ -35,4 +35,4 @@ Derived from his own writing, so the site practices what the person preaches:
 
 ## Accessibility & Inclusion
 
-WCAG AA targets on a dark theme: body text >= 4.5:1 against near-black surfaces. Full keyboard access to everything hover reveals (project links, dive cards). prefers-reduced-motion alternatives for all animation (already partially in place; must stay). Touch devices get first-class treatment: no information locked behind hover.
+WCAG AA targets on a dark theme: body text >= 4.5:1 against near-black surfaces. Everything is a real link or button; nothing is hidden behind hover. prefers-reduced-motion alternatives for all animation (already partially in place; must stay). Touch devices get first-class treatment: no information locked behind hover.

@@ -193,6 +193,8 @@ let nebulaParticles, bgStars;
 let fabricMesh = null;
 let fabricUniforms = null;
 let clock;
+let ambientLight, coreLight, daylight;
+let lightTheme = false;
 let raycaster, pointer;
 let hoveredObj = null;
 let focusedIndex = -1;
@@ -281,8 +283,11 @@ function init() {
   controls.minPolarAngle = Math.PI * 0.15;
 
   // Ambient light
-  const ambient = new THREE.AmbientLight(0x222233, 0.5);
-  scene.add(ambient);
+  ambientLight = new THREE.AmbientLight(0x222233, 0.5);
+  scene.add(ambientLight);
+  daylight = new THREE.DirectionalLight(0xffffff, 0); // light theme only: shades the planets
+  daylight.position.set(-14, 22, 18);
+  scene.add(daylight);
 
   // Build scene
   buildCentralStar();
@@ -293,6 +298,9 @@ function init() {
   buildBackgroundStars();
   buildSpacetimeFabric();
   buildMeteors();
+
+  applySceneTheme();
+  window.addEventListener('themechange', applySceneTheme);
 
   // Post-processing
   composer = new EffectComposer(renderer);
@@ -323,6 +331,53 @@ function init() {
   tick();
 }
 
+// ── Theme ───────────────────────────────────────────────────────────────────────
+
+// Dark is a night sky: additive light, glow and bloom. Light is a printed star chart:
+// the same objects in ink on paper, where additive light would simply vanish.
+function applySceneTheme() {
+  lightTheme = document.documentElement.dataset.theme === 'light';
+  const pick = (dark, light) => (lightTheme ? light : dark);
+
+  renderer.toneMapping = pick(THREE.ACESFilmicToneMapping, THREE.NoToneMapping);
+  ambientLight.color.set(pick(0x222233, 0xffffff));
+  ambientLight.intensity = pick(0.5, 0.9);
+  daylight.intensity = pick(0, 2.4);
+  coreLight.intensity = pick(3, 0.4);
+
+  scene.traverse((obj) => {
+    const m = obj.material;
+    if (!m) return;
+    if (obj.userData.glow && obj.name !== 'corona') obj.visible = !lightTheme;
+    m.userData.additive ??= m.blending === THREE.AdditiveBlending;
+    if (m.userData.additive) m.blending = pick(THREE.AdditiveBlending, THREE.NormalBlending);
+    m.needsUpdate = true;
+  });
+
+  scene.getObjectByName('corona').material.uniforms.uLight.value = pick(0, 1);
+  centralStarMesh.material.emissiveIntensity = pick(2, 0.35);
+  passionGroups.forEach((g) => {
+    const m = g.userData.sphere.material;
+    m.emissiveIntensity = pick(0.4, 0.18);
+    m.metalness = pick(0.4, 0.15);
+  });
+  ringMeshes.forEach((r) => { r.material.color.set(pick(0x666666, 0x222222)); r.material.opacity = pick(0.15, 0.28); });
+  connectionLines.forEach((l) => { l.material.opacity = pick(0.15, 0.35); });
+  // The emoji is dimmed at night so bloom does not wash it out.
+  passionGroups.forEach((g) => g.userData.emojiSprite.material.color.set(pick(0x9a9a9a, 0xffffff)));
+  nebulaParticles.material.vertexColors = !lightTheme;
+  nebulaParticles.material.color.set(pick(0xffffff, 0x333333));
+  nebulaParticles.material.opacity = pick(0.4, 0.3);
+  bgStars.material.color.set(pick(0xbbbbbb, 0x222222));
+  bgStars.material.opacity = pick(0.5, 0.4);
+  fabricUniforms.uGridColor.value.set(pick(0x333333, 0x8c8c8c));
+  fabricUniforms.uAlpha.value = pick(1, 1.7);
+  meteors.forEach((m) => {
+    m.line.material.vertexColors = !lightTheme;
+    m.line.material.color.set(pick(0xffffff, 0x222222));
+  });
+}
+
 // ── Central Star ────────────────────────────────────────────────────────────────
 
 function buildCentralStar() {
@@ -347,6 +402,7 @@ function buildCentralStar() {
     uniforms: {
       uTime: { value: 0 },
       uColor: { value: new THREE.Color(0xe50914) },
+      uLight: { value: 0 },
     },
     vertexShader: `
       varying vec3 vNormal;
@@ -360,13 +416,16 @@ function buildCentralStar() {
     fragmentShader: `
       uniform float uTime;
       uniform vec3 uColor;
+      uniform float uLight;
       varying vec3 vNormal;
       varying vec3 vPosition;
       void main() {
         float intensity = pow(0.65 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.5);
         float flicker = 0.8 + 0.2 * sin(uTime * 3.0 + vPosition.y * 5.0);
         float pulse = 0.9 + 0.1 * sin(uTime * 1.5);
-        gl_FragColor = vec4(uColor * intensity * flicker * pulse, intensity * 0.6);
+        vec4 night = vec4(uColor * intensity * flicker * pulse, intensity * 0.6);
+        vec4 day = vec4(uColor, clamp(intensity, 0.0, 1.0) * 0.22 * pulse); // soft tint on paper
+        gl_FragColor = mix(night, day, uLight);
       }
     `,
     transparent: true,
@@ -376,11 +435,12 @@ function buildCentralStar() {
   });
   const corona = new THREE.Mesh(coronaGeo, coronaMat);
   corona.name = 'corona';
+  corona.userData.glow = true;
   scene.add(corona);
 
   // Point light from star
-  const starLight = new THREE.PointLight(0xe50914, 3, 50, 1.5);
-  scene.add(starLight);
+  coreLight = new THREE.PointLight(0xe50914, 3, 50, 1.5);
+  scene.add(coreLight);
 }
 
 // ── Emoji Sprite helper ─────────────────────────────────────────────────────────
@@ -476,6 +536,8 @@ function buildPassionSpheres() {
         depthWrite: false,
       });
       const glow = new THREE.Mesh(glowGeo, glowMat);
+      glow.userData.glow = true;
+      group.userData.glow = glow;
       group.add(glow);
     }
 
@@ -499,8 +561,8 @@ function buildPassionSpheres() {
       Math.sin(angleOffset) * radius
     );
 
-    // Store orbital data
-    group.userData = {
+    // Store orbital data (merge: sphere and emojiSprite are already on userData)
+    Object.assign(group.userData, {
       passionIndex: i,
       ring: p.ring,
       orbitRadius: radius,
@@ -510,7 +572,7 @@ function buildPassionSpheres() {
       baseScale: 1,
       targetScale: 1,
       currentScale: 1,
-    };
+    });
 
     scene.add(group);
     passionGroups.push(group);
@@ -565,6 +627,18 @@ function buildConnectionLines() {
   });
 }
 
+// Round points: without a map, WebGL draws every star as a square.
+function makeDotTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 32;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(16, 16, 15, 0, Math.PI * 2);
+  ctx.fill();
+  return new THREE.CanvasTexture(canvas);
+}
+
 // ── Nebula Particles ────────────────────────────────────────────────────────────
 
 function buildNebulaParticles() {
@@ -575,11 +649,11 @@ function buildNebulaParticles() {
   const sizes = new Float32Array(count);
 
   const palette = [
-    new THREE.Color(0x6366f1),
-    new THREE.Color(0x8b5cf6),
-    new THREE.Color(0xe50914),
-    new THREE.Color(0x0ea5e9),
-    new THREE.Color(0xd946ef),
+    new THREE.Color(0xffffff),
+    new THREE.Color(0xbbbbbb),
+    new THREE.Color(0x777777),
+    new THREE.Color(0xffffff),
+    new THREE.Color(0xed0612), // one dust grain in five is red
   ];
 
   for (let i = 0; i < count; i++) {
@@ -604,7 +678,8 @@ function buildNebulaParticles() {
   geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
   const mat = new THREE.PointsMaterial({
-    size: 0.2,
+    size: 0.24,
+    map: makeDotTexture(),
     vertexColors: true,
     transparent: true,
     opacity: 0.4,
@@ -636,7 +711,8 @@ function buildBackgroundStars() {
   geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
   const mat = new THREE.PointsMaterial({
-    size: 0.1,
+    size: 0.12,
+    map: makeDotTexture(),
     color: 0xaaaacc,
     transparent: true,
     opacity: 0.5,
@@ -675,6 +751,7 @@ function buildSpacetimeFabric() {
     uMassCount: { value: 0 },
     uGridColor: { value: new THREE.Color(0x2a2a55) },
     uGlowIntensity: { value: 0.6 },
+    uAlpha: { value: 1 },
   };
 
   const mat = new THREE.ShaderMaterial({
@@ -731,6 +808,7 @@ function buildSpacetimeFabric() {
       uniform int uMassCount;
       uniform vec3 uGridColor;
       uniform float uGlowIntensity;
+      uniform float uAlpha;
 
       varying vec2 vUv;
       varying float vDepression;
@@ -775,7 +853,7 @@ function buildSpacetimeFabric() {
         // Slight pulse near deep wells
         alpha *= 0.9 + 0.1 * sin(uTime * 2.0 + vDepression * 3.0);
 
-        gl_FragColor = vec4(baseColor, alpha);
+        gl_FragColor = vec4(baseColor, alpha * uAlpha);
       }
     `,
     transparent: true,
@@ -943,7 +1021,7 @@ function updateMeteors(dt) {
 
 function setupAudio() {
   // Check localStorage for mute preference
-  audioMuted = localStorage.getItem('universe-muted') === 'true';
+  audioMuted = localStorage.getItem('universe-muted') !== 'false'; // sound is opt-in
   updateSoundIcon();
 
   // Create audio element (will use a generated tone if no file)
@@ -1038,6 +1116,7 @@ function updateSoundIcon() {
   const icon = btn.querySelector('i');
   if (!icon) return;
   icon.className = audioMuted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
+  btn.setAttribute('aria-pressed', String(!audioMuted));
 }
 
 function fadeAudioIn() {
@@ -1242,7 +1321,7 @@ function showInfoCard(idx) {
   document.getElementById('passion-info-emoji').textContent = passion.emoji;
   document.getElementById('passion-info-name').textContent = passion.label;
   document.getElementById('passion-info-desc').textContent = passion.desc;
-  document.getElementById('passion-info-name').style.color = passion.color;
+  document.getElementById('passion-info-name').style.setProperty('--c', passion.color);
 
   const link = document.getElementById('passion-info-link');
   link.onclick = (e) => {
@@ -1261,60 +1340,8 @@ function hideInfoCard() {
 // ── Deep Dive Modal ─────────────────────────────────────────────────────────────
 
 function showDeepDive(idx) {
-  const passion = PASSIONS[idx];
-  let modal = document.getElementById('passion-deep-dive');
-
-  if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'passion-deep-dive';
-    modal.className = 'passion-deep-dive';
-    document.querySelector('.universe-container').appendChild(modal);
-  }
-
-  const paragraphs = passion.deepDesc.map(p => `<p>${p}</p>`).join('');
-
-  modal.innerHTML = `
-    <div class="deep-dive-backdrop"></div>
-    <div class="deep-dive-content">
-      <button class="deep-dive-close" aria-label="Close">&times;</button>
-      <div class="deep-dive-header">
-        <span class="deep-dive-emoji">${passion.emoji}</span>
-        <h2 class="deep-dive-title" style="color: ${passion.color}">${passion.label}</h2>
-        <div class="deep-dive-accent" style="background: ${passion.color}"></div>
-      </div>
-      <div class="deep-dive-body">
-        ${paragraphs}
-      </div>
-      <div class="deep-dive-quote">Part of what makes me, me.</div>
-    </div>
-  `;
-
-  // Force reflow then add visible class
-  modal.offsetHeight;
-  modal.classList.add('visible');
-
-  // Close handlers
-  const closeBtn = modal.querySelector('.deep-dive-close');
-  const backdrop = modal.querySelector('.deep-dive-backdrop');
-
-  const closeModal = () => {
-    modal.classList.remove('visible');
-    setTimeout(() => {
-      if (modal.parentNode) modal.parentNode.removeChild(modal);
-    }, 400);
-  };
-
-  closeBtn.addEventListener('click', closeModal);
-  backdrop.addEventListener('click', closeModal);
-
-  // ESC closes deep dive (but not the sphere focus)
-  const escHandler = (e) => {
-    if (e.key === 'Escape') {
-      closeModal();
-      document.removeEventListener('keydown', escHandler);
-    }
-  };
-  document.addEventListener('keydown', escHandler);
+  const { emoji, label, color, deepDesc } = PASSIONS[idx];
+  window.openDive(null, { emoji, label, color, paragraphs: deepDesc });
 }
 
 // ── Labels (HTML overlay) ───────────────────────────────────────────────────────
@@ -1347,7 +1374,7 @@ function updateLabels() {
     labelEl.style.left = x + 'px';
     labelEl.style.top = (y - 30) + 'px';
     labelEl.style.opacity = '1';
-    labelEl.style.color = passion.color;
+    labelEl.style.setProperty('--c', passion.color);
   } else {
     labelEl.style.opacity = '0';
   }
@@ -1388,6 +1415,7 @@ function resize() {
   if (rect.width === 0 || rect.height === 0) return;
 
   camera.aspect = rect.width / rect.height;
+  camera.zoom = Math.min(1, camera.aspect * 1.2); // portrait screens: pull back so the orbits fit
   camera.updateProjectionMatrix();
   renderer.setSize(rect.width, rect.height);
   composer.setSize(rect.width, rect.height);
@@ -1493,6 +1521,7 @@ function tick() {
     }
     const sMat = ud.sphere.material;
     sMat.opacity += (sphereTarget - sMat.opacity) * 0.1;
+    if (ud.glow) ud.glow.visible = !lightTheme && !isFocused; // the halo would hide the emoji
     sMat.depthWrite = sMat.opacity >= 0.95;
 
     // Emoji target opacity: inverse-ish of sphere opacity, gated on proximity
@@ -1596,7 +1625,7 @@ function tick() {
   updateAudioFade(dt);
 
   // Render
-  if (bloomEnabled) {
+  if (bloomEnabled && !lightTheme) {
     composer.render();
   } else {
     renderer.render(scene, camera);
@@ -1615,41 +1644,46 @@ function debounce(fn, ms) {
 
 // ── Boot ────────────────────────────────────────────────────────────────────────
 
-function boot() {
-  const section = document.getElementById('my-universe');
-  if (!section) return;
-
-  // If section is already active, init immediately
-  if (section.classList.contains('active')) {
-    init();
-    return;
-  }
-
-  // Otherwise, observe for activation
-  const observer = new MutationObserver((mutations) => {
-    for (const m of mutations) {
-      if (m.attributeName === 'class' && section.classList.contains('active')) {
-        if (!initialized) init();
-        observer.disconnect();
-        break;
-      }
-    }
-  });
-  observer.observe(section, { attributes: true });
-
-  // Also try periodically (fallback)
-  const tryInit = () => {
-    if (!initialized && section.classList.contains('active')) {
-      init();
-    } else if (!initialized) {
-      requestAnimationFrame(tryInit);
-    }
+// Text buttons for every essay: the keyboard, touch and screen-reader way in.
+function buildPassionIndex() {
+  const index = document.getElementById('passion-index');
+  const add = (text, open) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = text;
+    button.addEventListener('click', open);
+    index.appendChild(button);
   };
-  requestAnimationFrame(tryInit);
+  add('The Thread', () => window.openDive('the-thread'));
+  PASSIONS.forEach((p, i) => add(p.label, () => showDeepDive(i)));
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', boot);
+function start() {
+  try {
+    init();
+  } catch (err) {
+    console.error(err);
+    const box = document.getElementById('universe-loading');
+    box.classList.add('failed');
+    box.querySelector('p').textContent =
+      "This browser couldn't start the 3D scene. Every essay is still available below.";
+  }
+}
+
+// Imported by app.js the first time the universe section opens.
+const section = document.getElementById('my-universe');
+buildPassionIndex();
+if (window.matchMedia('(pointer: coarse)').matches) {
+  document.getElementById('universe-hint').textContent = 'Drag to orbit · Tap a sphere · Pinch to zoom';
+}
+if (section.classList.contains('active')) {
+  start();
 } else {
-  boot();
+  // The visitor left before the download finished: start on the next visit.
+  const observer = new MutationObserver(() => {
+    if (!section.classList.contains('active')) return;
+    observer.disconnect();
+    start();
+  });
+  observer.observe(section, { attributes: true, attributeFilter: ['class'] });
 }

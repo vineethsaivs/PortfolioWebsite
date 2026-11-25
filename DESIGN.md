@@ -1,59 +1,59 @@
 # Design
 
-Captured from the existing code (styles/cosmic.css, styles/blog.css, index.html, blog/*.html). This is the committed visual system; preserve identity, refine craft.
+Captured from styles/cosmic.css, styles/blog.css, index.html and blog/*.html. This is the committed visual system; preserve identity, refine craft.
 
 ## Theme
 
-Dark observatory. Near-black space backgrounds, a single red accent (MKBHD black/white/red), white text, starfield canvas behind everything, one signature 3D "My Universe" scene. The blog pages are the most refined expression of the system: restrained, typographic, terminal-flavored details (status dots, waveform SVGs, beep dividers).
+Black observatory. Pure black space, white text, one red (MKBHD black/white/red), starfield canvas behind everything, one signature 3D "My Universe" scene. The blog pages are the most refined expression of the system: restrained, typographic, terminal-flavored details (status dots, waveform SVGs, beep dividers).
 
 ## Color
 
-- `--bg-deep: #0a0a0a` (body)
-- `--bg-surface: #141414` (cards, bars)
-- `--bg-elevated: #1e1e1e` (controls)
-- `--accent-red: #e50914`, `--accent-red-light: #ff2d3b`, `--accent-red-dark: #b30710`
-- `--text-primary: #f5f5f5`, `--text-secondary: #a0a0a0`, `--text-muted: #666`
-- Borders: `rgba(255,255,255,0.08)`; red-tinted borders at ~0.2 alpha for hover/active.
-- Per-passion colors exist in the universe/dive system (green football, yellow tennis, purple Nietzsche, etc.); they appear only inside dive modals and 3D spheres, never on the page chrome.
+Black is the room, white is the voice, red is the signal.
 
-Strategy: restrained. Red stays an accent (lines, links, active states, key words), never large fills except small buttons and the active nav dot.
+- One red: `#ed0612`. 4.5:1 or better on pure black, on pure white, and under white text.
+- Dark (default): ground `#000`, surface `#0f0f0f`, text `#fff` / `#b8b8b8` / `#8c8c8c`.
+- Light: ground `#fff`, surface `#f4f4f4`, text `#0a0a0a` / `#404040` / `#6b6b6b`.
+- Red's jobs, and no others: the primary action, where you are (active nav), the red full stop after page titles, "wrong" (struck values, invalid fields), hover feedback, and at most one solid red block per page (Trojan PR panel, the Off hours closing band).
+- Never: red body text, red labels at rest, red gradients or glows.
+- Links are white (black in light) with a quiet underline that turns red.
+- The universe planets are the one place with other colors.
+- Blog: same palette; blue appears only in charts, and small red labels on grey use a lighter tint for contrast.
+- One toggle (top right), one `localStorage` key (`theme`) for the whole site, via `js/theme.js`.
 
 ## Typography
 
-- Display: Space Grotesk (500/700). Headings, titles, nav brand.
-- Body: Inter (400/500/700).
-- Poppins is loaded as fallback legacy; do not extend its use.
-- Body size 1.05-1.1rem, line-height ~1.7-1.8 for prose; essays cap around 65-75ch.
-- Section titles: large Space Grotesk with one red-accent word.
+- Display: Space Grotesk (500/700). Headings, names, quotes' titles.
+- Body: Inter (400/500/700). No other web fonts on the main site.
+- Mono (system stack) only for real code and values.
+- Prose caps at 65-75ch.
+- Page titles: large, left aligned, sentence case, white with a red full stop. No eyebrow labels.
 
 ## Components
 
-- **Glass card** (`.glass-card`): dark translucent surface, 1px subtle border, 16px radius, red-tinted glow on hover, slight lift. Used for projects, stats, books, sports.
-- **Dot nav** (`.controls`): fixed right-side circular icon buttons with tooltips; active = red gradient circle. Mobile: bottom bar.
-- **Timeline**: 2-col grid, red left rule, circular red icon, duration chip.
-- **Skill accordions**: bordered category rows with pill clouds.
-- **Dive modal** (`.content-deep-dive`): centered dark sheet, emoji, colored title, accent bar, essay paragraphs. The signature reading surface.
-- **Blog system** (blog.css): topbar `VINEETH.`, eyebrow + hero dek + status dot, TOC rail, stat strips, beep dividers, waveform SVGs.
+- **Rows over cards:** lists (builds, essays, sports, timeline, ledger) are rows split by 1px rules.
+- **Bookshelf:** covers stand on a shared shelf rule; titles, quotes and cues align across columns.
+- **Courts:** each sport is an authored line drawing of its field of play.
+- **Features:** projects with image or code panel, sized by importance (6 or 3 of 6 columns).
+- **Fix rows:** wrong value struck through, correct value large, one paragraph, PR link.
+- **Disclosure:** native `<details>` (research, skills, earlier projects).
+- **Essay dialog:** native `<dialog>`, the signature reading surface. White or black page, one short red rule.
+- **Nav:** right-side rail of circular links with tooltips; bottom bar on phones, active item shows its label.
+- **Blog system** (blog.css): topbar, hero dek, TOC rail, stat strips, beep dividers.
 
 ## Motion
 
-- Starfield twinkle + cursor parallax; cursor red glow (desktop only).
-- `[data-reveal]` fade/slide on section activation.
-- Typing headline loop in hero.
-- Card tilt on hover (subtle, 6deg).
-- All gated behind prefers-reduced-motion already; keep it that way.
-- Easing: ease-out / cubic-bezier(0.16, 1, 0.3, 1) for modals.
+- Starfield twinkle and parallax.
+- One authored moment: the hero headline rising into focus, with the orbiting portrait.
+- Section fade on change; magnetic hero buttons.
+- All off under prefers-reduced-motion.
+- Easing: `cubic-bezier(0.16, 1, 0.3, 1)`.
 
 ## Layout
 
-- Single-page tab architecture: sections are absolutely positioned, toggled by `.active` via the dot nav (not a scroll page). Each section is its own "room", which fits the "one heavy thing at a time" principle.
-- Container padding ~3rem 18rem on desktop, stepping down through breakpoints (1432 / 1250 / 1070 / 970 / 700 / 660 / 600 / 520).
-- Grids: portfolio and book/sport cards 3 -> 2 -> 1 columns.
+- One page, one section visible at a time. Nav items are real links; the hash picks the section.
+- Content column 66rem. Breakpoints 1100 / 900 / 700.
 
-## Known rough edges (for audits)
+## Known rough edges
 
-- index.html head lacks description/OG/favicon while blog pages have full meta.
-- Hover-only project titles and links are invisible to touch and keyboard.
-- Contact section facts lag the timeline (old Google title); form posts to a placeholder endpoint.
-- Duplicate project cards; one timeline glow animates to an off-palette purple.
-- No deep links to sections (tab state is not in the URL).
+- Open-source counts are static (dated on the page).
+- The resume PDF is dated March 2026.

@@ -1,124 +1,93 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // ── Section navigation (with shareable #hash deep links) ──
-    const activateSection = (id, updateHash = true) => {
-        const control = document.querySelector(`.control[data-id="${id}"]`);
-        const target = document.getElementById(id);
-        if (!control || !target) return false;
-        document.querySelector(".active-btn")?.classList.remove("active-btn");
-        control.classList.add("active-btn");
-        document.querySelector(".active")?.classList.remove("active");
-        target.classList.add("active");
-        if (updateHash) {
-            history.replaceState(null, '', id === 'home' ? location.pathname + location.search : `#${id}`);
-        }
-        return true;
-    };
+// Section router. Every nav item is a real link; the URL hash picks the section,
+// so keyboard, Back and shared links work without extra code. A hash can also name
+// an element inside a section (#research-projects, #blogs, #favourite-sports).
+(() => {
+    const sections = document.querySelectorAll('.container');
+    const links = document.querySelectorAll('.control');
+    const homeTitle = document.title;
+    let universe;
 
-    [...document.querySelectorAll(".control")].forEach(button => {
-        button.addEventListener("click", function() {
-            // Anchor controls (e.g. the Blog link) have no data-id: let them navigate.
-            if (!this.dataset.id) return;
-            activateSection(this.dataset.id);
+    const loadUniverse = () => {
+        // Three.js is only downloaded by visitors who open the universe.
+        universe ||= import('./js/passions-universe.js').catch((err) => {
+            console.error(err);
+            const box = document.getElementById('universe-loading');
+            box.classList.add('failed');
+            box.querySelector('p').textContent =
+                "The 3D scene didn't load. Check your connection and reload the page. The essays are under Off hours.";
         });
-    });
-
-    // Open the section named in the URL (e.g. vineethsai.me/#contact)
-    const openFromHash = () => {
-        const id = location.hash.slice(1);
-        if (id) activateSection(id, false);
-    };
-    openFromHash();
-    window.addEventListener('hashchange', openFromHash);
-
-    // ── Modal handling ──
-    const modal = document.getElementById('modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDescription = document.getElementById('modal-description');
-    const modalProfessor = document.getElementById('modal-professor');
-    const closeBtn = document.querySelector('.close');
-
-    const openModal = (title, description, professor) => {
-        modal.style.display = 'flex';
-        modalTitle.innerText = title;
-        modalDescription.innerText = description;
-        modalProfessor.innerText = `Professor: ${professor}`;
     };
 
-    const blogs = document.querySelectorAll('#research-projects .blog');
-    blogs.forEach(blog => {
-        blog.addEventListener('click', () => {
-            const title = blog.getAttribute('data-title');
-            const description = blog.getAttribute('data-description');
-            const professor = blog.getAttribute('data-professor');
-            openModal(title, description, professor);
+    const route = (fromUser) => {
+        const el = document.getElementById(location.hash.slice(1)) || document.getElementById('home');
+        const section = el.closest('.container');
+        if (!section) return; // e.g. #main from the skip link
+
+        document.getElementById('dive').close(); // Back button while an essay is open
+        sections.forEach((s) => s.classList.toggle('active', s === section));
+        links.forEach((a) => {
+            const on = a.dataset.id === section.id;
+            a.classList.toggle('active-btn', on);
+            if (on) a.setAttribute('aria-current', 'page');
+            else a.removeAttribute('aria-current');
         });
+
+        const label = document.querySelector(`.control[data-id="${section.id}"]`)?.textContent.trim();
+        document.title = section.id === 'home' ? homeTitle : `${label} | Vineeth Sai`;
+
+        if (fromUser) section.focus({ preventScroll: true });
+        if (el === section) window.scrollTo(0, 0);
+        else el.scrollIntoView();
+        if (section.id === 'my-universe') loadUniverse();
+    };
+
+    window.addEventListener('hashchange', () => route(true));
+    route(false);
+
+    document.querySelector('.skip-link').addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelector('.container.active').focus();
     });
 
-    closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.style.display = 'none';
+    // Contact: copy the address, or hand the message to the visitor's email app.
+    const EMAIL = 'vineethsai4444@gmail.com';
+    const copyStatus = document.getElementById('copy-status');
+    document.getElementById('copy-email').addEventListener('click', async () => {
+        try {
+            await navigator.clipboard.writeText(EMAIL);
+            copyStatus.textContent = 'Copied.';
+        } catch {
+            copyStatus.textContent = "Couldn't copy. Select the address and copy it.";
         }
     });
 
-    // ── Contact form handler ──
     const form = document.getElementById('contactForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const status = document.getElementById('formStatus');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault(); // native validation has already passed
+        const name = form.elements.name.value.trim();
+        const topic = form.elements.topic.value;
+        const subject = topic ? `${topic}, from ${name}` : `Hello from ${name}`;
+        const body = `${form.elements.message.value.trim()}\n\n${name}`;
+        window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        document.getElementById('formStatus').textContent =
+            `Draft opened in your email app. Nothing opened? Write to ${EMAIL}.`;
+    });
 
-    if (form && submitBtn && status) {
-        function setStatus(msg, ok) {
-            status.textContent = msg;
-            status.style.color = ok ? '#22c55e' : '#e50914';
-        }
+    // Local time in San Francisco, so a visitor knows when a reply is likely.
+    const sfTime = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit' });
+    const showTime = () => { document.getElementById('local-time').textContent = `${sfTime.format(new Date())} Pacific`; };
+    showTime();
+    setInterval(showTime, 20000);
 
-        // Paste a real Google Apps Script web app URL here to send messages via fetch.
-        // While it is empty, the form composes an email draft instead, so no message
-        // is ever silently lost.
-        const ENDPOINT = '';
-        const CONTACT_EMAIL = 'vineethsai4444@gmail.com';
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            if (!form.checkValidity()) {
-                setStatus('Please fill all required fields correctly.', false);
-                return;
-            }
-            if (form.website && form.website.value) {
-                setStatus('Spam detected.', false);
-                return;
-            }
-
-            if (!ENDPOINT) {
-                const subject = form.subject.value.trim() || `Hello from ${form.name.value.trim()}`;
-                const body = `${form.message.value.trim()}\n\n${form.name.value.trim()}\n${form.email.value.trim()}`;
-                window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                setStatus('Opening your email app with this message. Just hit send there.', true);
-                return;
-            }
-
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="spinner"></span> Sending\u2026';
-            setStatus('', true);
-
-            try {
-                const formData = new FormData(form);
-                formData.append('source', 'portfolio-contact');
-                formData.append('timestamp', new Date().toISOString());
-                await fetch(ENDPOINT, { method: 'POST', body: formData, mode: 'no-cors' });
-                form.reset();
-                setStatus('Thanks! Your message has been sent.', true);
-            } catch (err) {
-                console.error(err);
-                setStatus(`Something went wrong. Please email me directly at ${CONTACT_EMAIL}.`, false);
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Send Message';
-            }
+    // Magnetic hero buttons: a small pull toward the cursor, precise pointers only.
+    if (window.matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches) {
+        const pull = (d) => Math.max(-7, Math.min(7, d * 0.25));
+        document.querySelectorAll('[data-magnetic]').forEach((el) => {
+            el.addEventListener('mousemove', (e) => {
+                const r = el.getBoundingClientRect();
+                el.style.transform = `translate(${pull(e.clientX - r.left - r.width / 2)}px, ${pull(e.clientY - r.top - r.height / 2)}px)`;
+            });
+            el.addEventListener('mouseleave', () => { el.style.transform = ''; });
         });
     }
-});
+})();
