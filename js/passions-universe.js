@@ -62,7 +62,7 @@ const PASSIONS = [
     desc: 'The universe as the ultimate laboratory. We are made of dead stars.',
     ring: 2, angle: 0,
     deepDesc: [
-      'Every atom of carbon in your body was forged inside a star that exploded before our sun was born. The iron in your blood, the calcium in your bones, the oxygen you are breathing right now, all of it was cooked in a stellar furnace and scattered across space in a supernova billions of years ago. You are, in the most literal sense, made of stardust.',
+      'Every atom of carbon in your body was forged inside a star that died before our sun was born. The iron in your blood, the calcium in your bones, the oxygen you are breathing right now, all of it was cooked in a stellar furnace and scattered across space by dying stars billions of years ago. You are, in the most literal sense, made of stardust.',
       'Astrophysics is the study of the largest laboratory that exists, one where the experiments have been running for 13.8 billion years and we are showing up to read the results. Black holes that warp time. Neutron stars spinning 700 times per second. Galaxies colliding in slow motion over millions of years. The scales are incomprehensible, and yet the same physics that governs a falling apple governs the orbit of a binary pulsar.',
       'What keeps me up at night isn\u2019t the answers. It is the fact that we can even ask the questions. That a species on a small rock can figure out what happens inside a star ten billion light-years away. That is not just science. That is the universe becoming aware of itself.',
     ],
@@ -72,8 +72,8 @@ const PASSIONS = [
     desc: 'The biggest possible question. What is all of this, and why does it exist?',
     ring: 2, angle: 1,
     deepDesc: [
-      '13.8 billion years ago, everything (every galaxy, every star, every atom, every thought you have ever had) was compressed into a point smaller than a proton. Then it expanded. And it is still expanding, accelerating into a future we can barely model. Cosmology is the discipline that takes the biggest possible step back and asks: what is all of this?',
-      'I am haunted by the fine-tuning problem. Change the strong nuclear force by 0.5% and stars can\u2019t form. Shift the cosmological constant slightly and the universe either collapses instantly or flies apart before atoms can bond. We exist in a razor-thin window of parameters that permit complexity. Is that luck? Design? A multiverse where every possibility plays out? Nobody knows.',
+      '13.8 billion years ago, everything that would become every galaxy, every star and every atom we can see was packed into an unimaginably hot, dense state. Then space itself began to expand. And it is still expanding, accelerating into a future we can barely model. Cosmology is the discipline that takes the biggest possible step back and asks: what is all of this?',
+      'I am haunted by the fine-tuning problem. Change the strong nuclear force by about 0.5% and stars may make far too little carbon or oxygen. Make the cosmological constant a thousand times larger and galaxies never form. We exist in a narrow window of parameters that permit complexity. Is that luck? Design? A multiverse where every possibility plays out? Nobody knows.',
       'Cosmology is where physics meets philosophy and neither has the final word. Dark energy makes up 68% of the universe and we have no idea what it is. Dark matter is 27% and we have never detected a single particle of it. We understand less than 5% of what exists. That is not humbling. It is intoxicating. The deepest mystery isn\u2019t out there. We are living inside it.',
     ],
   },
@@ -159,13 +159,28 @@ const PASSIONS = [
   },
 ];
 
-// Ring configurations: [radius, tilt (radians), speed multiplier]
+// Ring configurations. Planetary systems are nearly flat (the Sun's planets stay within about
+// 7 degrees), so inclinations are small; each ring's node differs so the tilts read in 3D.
 const RINGS = [
-  { radius: 8, tilt: 0.15, speed: 1.0 },      // Technology (inner)
-  { radius: 11, tilt: -0.1, speed: 0.75 },     // Philosophy
-  { radius: 14, tilt: 0.2, speed: 0.55 },      // Science
-  { radius: 22, tilt: -0.12, speed: 0.35 },    // Sports (outer)
+  { radius: 8, incl: 0.06, node: 0 },     // Technology (inner)
+  { radius: 11, incl: -0.05, node: 1.1 }, // Philosophy
+  { radius: 14, incl: 0.08, node: 2.3 },  // Science
+  { radius: 22, incl: -0.06, node: 0.6 }, // Sports (outer)
 ];
+const INNER_SPEED = 0.3; // rad/s on the inner ring
+const PLANET_GLOW = 0.24; // just enough that a night side keeps its colour
+
+// Kepler's third law: around the same mass, angular speed falls as radius^-1.5.
+const keplerSpeed = (radius) => INNER_SPEED * (RINGS[0].radius / radius) ** 1.5;
+
+// Rotation from the flat XZ plane into an orbit's plane. Rings, planets and the comet all use it.
+const orbitPlane = ({ incl, node }) =>
+  new THREE.Quaternion().setFromEuler(new THREE.Euler(incl, node, 0, 'YXZ'));
+
+function placeOnOrbit(group) {
+  const { orbitRadius: r, orbitAngle: a, orbitPlane: plane } = group.userData;
+  group.position.set(Math.cos(a) * r, 0, Math.sin(a) * r).applyQuaternion(plane);
+}
 
 // Connections between related passions (indices)
 const CONNECTIONS = [
@@ -215,10 +230,7 @@ let cameraLookTo = new THREE.Vector3();
 let flyT = 0;
 const FLY_DURATION = 1.2;
 
-// Shooting stars
-const METEOR_POOL_SIZE = 4;
-let meteors = [];
-let nextMeteorTime = 0;
+let comet = null;
 
 // Audio
 let audioEl = null;
@@ -297,7 +309,7 @@ function init() {
   buildNebulaParticles();
   buildBackgroundStars();
   buildSpacetimeFabric();
-  buildMeteors();
+  buildComet();
 
   applySceneTheme();
   window.addEventListener('themechange', applySceneTheme);
@@ -307,9 +319,9 @@ function init() {
   composer.addPass(new RenderPass(scene, camera));
   bloomPass = new UnrealBloomPass(
     new THREE.Vector2(window.innerWidth, window.innerHeight),
-    isMobile ? 0.8 : 1.2,
-    0.6,
-    0.2
+    isMobile ? 0.7 : 0.95,
+    0.55,
+    0.3
   );
   composer.addPass(bloomPass);
 
@@ -343,7 +355,7 @@ function applySceneTheme() {
   ambientLight.color.set(pick(0x222233, 0xffffff));
   ambientLight.intensity = pick(0.5, 0.9);
   daylight.intensity = pick(0, 2.4);
-  coreLight.intensity = pick(3, 0.4);
+  coreLight.intensity = pick(16, 0.4);
 
   scene.traverse((obj) => {
     const m = obj.material;
@@ -358,8 +370,8 @@ function applySceneTheme() {
   centralStarMesh.material.emissiveIntensity = pick(2, 0.35);
   passionGroups.forEach((g) => {
     const m = g.userData.sphere.material;
-    m.emissiveIntensity = pick(0.4, 0.18);
-    m.metalness = pick(0.4, 0.15);
+    m.emissiveIntensity = pick(PLANET_GLOW, 0.18);
+    m.metalness = pick(0.1, 0.15);
   });
   ringMeshes.forEach((r) => { r.material.color.set(pick(0x666666, 0x222222)); r.material.opacity = pick(0.15, 0.28); });
   connectionLines.forEach((l) => { l.material.opacity = pick(0.15, 0.35); });
@@ -372,10 +384,9 @@ function applySceneTheme() {
   bgStars.material.opacity = pick(0.5, 0.4);
   fabricUniforms.uGridColor.value.set(pick(0x333333, 0x8c8c8c));
   fabricUniforms.uAlpha.value = pick(1, 1.7);
-  meteors.forEach((m) => {
-    m.line.material.vertexColors = !lightTheme;
-    m.line.material.color.set(pick(0xffffff, 0x222222));
-  });
+  comet.tail.material.opacity = pick(0.9, 0.7);
+  comet.head.material.color.set(pick(0xffffff, 0x222222));
+  updateComet(0); // repaint the tail for this theme, also when motion is off
 }
 
 // ── Central Star ────────────────────────────────────────────────────────────────
@@ -438,8 +449,9 @@ function buildCentralStar() {
   corona.userData.glow = true;
   scene.add(corona);
 
-  // Point light from star
-  coreLight = new THREE.PointLight(0xe50914, 3, 50, 1.5);
+  // The star lights the planets, so each has a day side and a night side. Warm white keeps their
+  // colours readable; the gentle decay (true is 2) keeps the outer ring visible.
+  coreLight = new THREE.PointLight(0xfff1e8, 16, 0, 0.6);
   scene.add(coreLight);
 }
 
@@ -494,9 +506,9 @@ function buildPassionSpheres() {
     const sphereMat = new THREE.MeshStandardMaterial({
       color: color,
       emissive: color,
-      emissiveIntensity: 0.4,
-      metalness: 0.4,
-      roughness: 0.6,
+      emissiveIntensity: PLANET_GLOW,
+      metalness: 0.1,
+      roughness: 0.75,
     });
     sphereMat.transparent = true;
     sphereMat.opacity = 1.0;
@@ -505,9 +517,9 @@ function buildPassionSpheres() {
     sphere.renderOrder = 1;
     group.add(sphere);
 
-    // Glow halo (skip on mobile - bloom handles it)
+    // Thin atmosphere, bright on the day side (skip on mobile)
     if (!isMobile) {
-      const glowGeo = new THREE.SphereGeometry(1.4, 16, 16);
+      const glowGeo = new THREE.SphereGeometry(0.98, 32, 32);
       const glowMat = new THREE.ShaderMaterial({
         uniforms: {
           uTime: { value: 0 },
@@ -515,8 +527,11 @@ function buildPassionSpheres() {
         },
         vertexShader: `
           varying vec3 vNormal;
+          varying float vDay;
           void main() {
             vNormal = normalize(normalMatrix * normal);
+            vec3 worldPos = (modelMatrix * vec4(position, 1.0)).xyz;
+            vDay = dot(normalize(mat3(modelMatrix) * normal), normalize(-worldPos)); // star at origin
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
           }
         `,
@@ -524,10 +539,12 @@ function buildPassionSpheres() {
           uniform float uTime;
           uniform vec3 uColor;
           varying vec3 vNormal;
+          varying float vDay;
           void main() {
             float intensity = pow(0.55 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0);
+            intensity *= smoothstep(-0.35, 0.7, vDay);
             float pulse = 0.85 + 0.15 * sin(uTime * 2.0 + ${i.toFixed(1)});
-            gl_FragColor = vec4(uColor * intensity * pulse, intensity * 0.4);
+            gl_FragColor = vec4(uColor * intensity * pulse, intensity * 0.6);
           }
         `,
         transparent: true,
@@ -541,38 +558,28 @@ function buildPassionSpheres() {
       group.add(glow);
     }
 
-    // Small point light
-    const pLight = new THREE.PointLight(color, 0.5, 8, 2);
-    group.add(pLight);
-
     // Tiny emoji icon INSIDE the sphere , revealed when sphere turns to glass on proximity/focus
     const emojiSprite = makeEmojiSprite(p.emoji);
-    emojiSprite.scale.set(0.55, 0.55, 0.55);
+    emojiSprite.scale.set(0.75, 0.75, 0.75);
     emojiSprite.position.set(0, 0, 0);
     group.add(emojiSprite);
     group.userData.emojiSprite = emojiSprite;
     group.userData.sphere = sphere;
 
-    // Position on orbit
-    const radius = ringConf.radius * mobileScale;
-    group.position.set(
-      Math.cos(angleOffset) * radius,
-      Math.sin(ringConf.tilt) * Math.sin(angleOffset) * radius * 0.3,
-      Math.sin(angleOffset) * radius
-    );
-
     // Store orbital data (merge: sphere and emojiSprite are already on userData)
+    const radius = ringConf.radius * mobileScale;
     Object.assign(group.userData, {
       passionIndex: i,
       ring: p.ring,
       orbitRadius: radius,
       orbitAngle: angleOffset,
-      orbitTilt: ringConf.tilt,
-      orbitSpeed: ringConf.speed,
+      orbitPlane: orbitPlane(ringConf),
+      orbitSpeed: keplerSpeed(ringConf.radius),
       baseScale: 1,
       targetScale: 1,
       currentScale: 1,
     });
+    placeOnOrbit(group);
 
     scene.add(group);
     passionGroups.push(group);
@@ -593,7 +600,9 @@ function buildOrbitalRings() {
       opacity: 0.15,
     });
     const mesh = new THREE.Mesh(geo, mat);
-    mesh.rotation.x = Math.PI / 2 + ring.tilt;
+    // The torus is drawn in XY: lay it flat, then tilt it with the same rotation its planets use.
+    mesh.quaternion.copy(orbitPlane(ring))
+      .multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), Math.PI / 2));
     scene.add(mesh);
     ringMeshes.push(mesh);
   });
@@ -781,8 +790,9 @@ function buildSpacetimeFabric() {
           float dz = pos.z - massPos.z;
           float dist = sqrt(dx * dx + dz * dz);
           float weight = uMassWeights[i];
-          // Gravitational well: smooth falloff
-          float depression = weight / (1.0 + dist * dist * 0.15);
+          // Newtonian potential, softened inside the body: depth falls off as 1/distance.
+          float core = i == 0 ? 2.2 : 0.9;
+          float depression = weight * core / sqrt(dist * dist + core * core);
           totalDepression += depression;
         }
 
@@ -879,7 +889,7 @@ function updateSpacetimeFabric(time) {
   const colors = fabricUniforms.uMassColors.value;
 
   positions[0].set(0, 0, 0);
-  weights[0] = 5.0; // Heavy central star
+  weights[0] = 8.0; // Heavy central star
   colors[0].set(0.9, 0.03, 0.08); // Red
 
   // Passion sphere masses
@@ -889,7 +899,7 @@ function updateSpacetimeFabric(time) {
     const worldPos = new THREE.Vector3();
     group.getWorldPosition(worldPos);
     positions[count].set(worldPos.x, worldPos.y, worldPos.z);
-    weights[count] = 1.5; // Smaller mass for passion spheres
+    weights[count] = 0.6; // far lighter than the star (still exaggerated, to be seen)
     const passionColor = hexToThreeColor(PASSIONS[i].color);
     colors[count].copy(passionColor);
     count++;
@@ -898,123 +908,80 @@ function updateSpacetimeFabric(time) {
   fabricUniforms.uMassCount.value = count;
 }
 
-// ── Shooting Stars (Meteors) ────────────────────────────────────────────────────
+// ── Comet ───────────────────────────────────────────────────────────────────────
 
-function buildMeteors() {
-  for (let i = 0; i < METEOR_POOL_SIZE; i++) {
-    const points = [];
-    const alphas = [];
-    const tailLen = 20;
-    for (let j = 0; j < tailLen; j++) {
-      points.push(new THREE.Vector3(0, 0, 0));
-      alphas.push(1.0 - j / tailLen);
-    }
-    const geo = new THREE.BufferGeometry().setFromPoints(points);
-    const colorArr = new Float32Array(tailLen * 3);
-    for (let j = 0; j < tailLen; j++) {
-      const a = alphas[j];
-      colorArr[j * 3] = a;
-      colorArr[j * 3 + 1] = a * 0.9;
-      colorArr[j * 3 + 2] = a * 0.7;
-    }
-    geo.setAttribute('color', new THREE.BufferAttribute(colorArr, 3));
+// A Kepler ellipse with the star at one focus: it races through the near side and crawls
+// through the far side. Both tails point away from the star; the dust tail also lags behind.
+const COMET = { a: 20, e: 0.78, incl: 0.42, node: -0.5, start: -0.55, grains: 360 };
 
-    const mat = new THREE.LineBasicMaterial({
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.8,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-    });
-    const line = new THREE.Line(geo, mat);
-    line.visible = false;
-
-    // Head glow
-    const headLight = new THREE.PointLight(0xffddaa, 2, 10, 2);
-    headLight.visible = false;
-    scene.add(headLight);
-
-    scene.add(line);
-    meteors.push({
-      line,
-      headLight,
-      active: false,
-      progress: 0,
-      duration: 0.8,
-      startPos: new THREE.Vector3(),
-      direction: new THREE.Vector3(),
-      speed: 0,
-    });
-  }
-  nextMeteorTime = 3 + Math.random() * 5;
+function cometPosition(meanAnomaly, target) {
+  const { a, e } = COMET;
+  const M = Math.atan2(Math.sin(meanAnomaly), Math.cos(meanAnomaly));
+  let E = Math.PI * Math.sign(M); // Newton's method on Kepler's equation M = E - e sin E
+  for (let k = 0; k < 8; k++) E -= (E - e * Math.sin(E) - M) / (1 - e * Math.cos(E));
+  const scale = a * (isMobile ? 0.7 : 1);
+  return target.set((Math.cos(E) - e) * scale, 0, Math.sqrt(1 - e * e) * Math.sin(E) * scale)
+    .applyQuaternion(comet.plane);
 }
 
-function activateMeteor() {
-  const dormant = meteors.find(m => !m.active);
-  if (!dormant) return;
-
-  // Random start position in the upper hemisphere
-  const angle = Math.random() * Math.PI * 2;
-  const elevation = 10 + Math.random() * 20;
-  const dist = 20 + Math.random() * 20;
-  dormant.startPos.set(
-    Math.cos(angle) * dist,
-    elevation,
-    Math.sin(angle) * dist
+function buildComet() {
+  const n = COMET.grains;
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(n * 3), 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(n * 3), 3));
+  const tail = new THREE.Points(geo, new THREE.PointsMaterial({
+    size: 0.26,
+    map: makeDotTexture(),
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.9,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+  }));
+  tail.frustumCulled = false; // the grains move every frame
+  const head = new THREE.Mesh(
+    new THREE.SphereGeometry(0.2, 16, 16),
+    new THREE.MeshBasicMaterial({ color: 0xffffff })
   );
-
-  // Random direction , generally downward and inward
-  dormant.direction.set(
-    (Math.random() - 0.5) * 2,
-    -0.5 - Math.random() * 0.5,
-    (Math.random() - 0.5) * 2
-  ).normalize();
-
-  dormant.speed = 40 + Math.random() * 20;
-  dormant.progress = 0;
-  dormant.active = true;
-  dormant.line.visible = true;
-  dormant.headLight.visible = true;
+  const grains = Array.from({ length: n }, (_, i) => ({
+    dust: i % 2 === 0,
+    age: Math.random(),
+    spread: new THREE.Vector3().randomDirection().multiplyScalar(Math.random()),
+  }));
+  comet = { tail, head, grains, plane: orbitPlane(COMET), anomaly: COMET.start };
+  scene.add(tail, head);
 }
 
-function updateMeteors(dt) {
-  nextMeteorTime -= dt;
-  if (nextMeteorTime <= 0) {
-    activateMeteor();
-    nextMeteorTime = 3 + Math.random() * 5;
-  }
+const cometAway = new THREE.Vector3();
+const cometBack = new THREE.Vector3();
+const cometGrain = new THREE.Vector3();
 
-  for (const m of meteors) {
-    if (!m.active) continue;
-    m.progress += dt;
-    if (m.progress >= m.duration) {
-      m.active = false;
-      m.line.visible = false;
-      m.headLight.visible = false;
-      continue;
-    }
+function updateComet(dt) {
+  comet.anomaly += keplerSpeed(COMET.a) * dt; // mean anomaly advances steadily (Kepler's third law)
+  const head = cometPosition(comet.anomaly, comet.head.position);
+  const r = head.length();
+  const length = Math.min(13, 60 / r); // sunlight is stronger close in, so the tail grows
+  const glow = Math.min(1, 9 / r);
+  cometAway.copy(head).divideScalar(r);
+  cometPosition(comet.anomaly - 0.01, cometBack).sub(head).normalize();
 
-    const t = m.progress;
-    const headPos = m.startPos.clone().addScaledVector(m.direction, m.speed * t);
-    m.headLight.position.copy(headPos);
-
-    // Update tail positions
-    const posArr = m.line.geometry.attributes.position.array;
-    const tailLen = posArr.length / 3;
-    for (let j = 0; j < tailLen; j++) {
-      const trailT = t - (j / tailLen) * 0.15;
-      const pos = m.startPos.clone().addScaledVector(m.direction, m.speed * Math.max(0, trailT));
-      posArr[j * 3] = pos.x;
-      posArr[j * 3 + 1] = pos.y;
-      posArr[j * 3 + 2] = pos.z;
-    }
-    m.line.geometry.attributes.position.needsUpdate = true;
-
-    // Fade out near end
-    const fade = m.progress > m.duration * 0.6 ? 1 - (m.progress - m.duration * 0.6) / (m.duration * 0.4) : 1;
-    m.line.material.opacity = 0.8 * fade;
-    m.headLight.intensity = 2 * fade;
-  }
+  const pos = comet.tail.geometry.attributes.position;
+  const col = comet.tail.geometry.attributes.color;
+  comet.grains.forEach((g, i) => {
+    g.age = (g.age + dt * 0.45) % 1; // grains stream outward
+    const s = g.age;
+    cometGrain.copy(head)
+      .addScaledVector(cometAway, s * length * (g.dust ? 0.7 : 1))
+      .addScaledVector(cometBack, g.dust ? s * s * length * 0.5 : 0)
+      .addScaledVector(g.spread, s * (g.dust ? 1.1 : 0.2));
+    pos.setXYZ(i, cometGrain.x, cometGrain.y, cometGrain.z);
+    const f = (1 - s) ** 1.4 * glow;
+    if (lightTheme) col.setXYZ(i, 1 - f * 0.8, 1 - f * 0.8, 1 - f * 0.8); // ink fading into paper
+    else if (g.dust) col.setXYZ(i, f, f * 0.88, f * 0.7);
+    else col.setXYZ(i, f * 0.6, f * 0.8, f);
+  });
+  pos.needsUpdate = true;
+  col.needsUpdate = true;
 }
 
 // ── Audio ───────────────────────────────────────────────────────────────────────
@@ -1263,8 +1230,11 @@ function focusOnPassion(idx) {
   group.getWorldPosition(worldPos);
 
   // Camera target: offset from sphere
-  const dir = worldPos.clone().normalize();
-  const targetPos = worldPos.clone().add(dir.multiplyScalar(4)).add(new THREE.Vector3(0, 2, 0));
+  const out = worldPos.clone().normalize(); // away from the star
+  const side = new THREE.Vector3(-out.z, 0, out.x);
+  const targetPos = worldPos.clone()
+    .addScaledVector(side, 4.2).addScaledVector(out, -1.4).add(new THREE.Vector3(0, 1.4, 0));
+  controls.minDistance = 3; // the overview limit would hold the camera far from the planet
 
   // Start fly animation
   cameraFrom.copy(camera.position);
@@ -1472,6 +1442,7 @@ function tick() {
         viewState = STATE.FOCUSED;
       } else {
         viewState = STATE.OVERVIEW;
+        controls.minDistance = 10;
         if (!reducedMotion) controls.autoRotate = true;
       }
     } else {
@@ -1481,19 +1452,16 @@ function tick() {
     }
   }
 
-  // Update orbital positions
-  if (!reducedMotion) {
+  // Update orbital positions. They hold still while a planet is focused, so it stays in view.
+  if (!reducedMotion && viewState === STATE.OVERVIEW) {
     passionGroups.forEach((group) => {
-      const ud = group.userData;
-      ud.orbitAngle += ud.orbitSpeed * dt * 0.3;
-      const r = ud.orbitRadius;
-      group.position.set(
-        Math.cos(ud.orbitAngle) * r,
-        Math.sin(ud.orbitTilt) * Math.sin(ud.orbitAngle) * r * 0.3,
-        Math.sin(ud.orbitAngle) * r
-      );
+      group.userData.orbitAngle += group.userData.orbitSpeed * dt;
+      placeOnOrbit(group);
     });
   }
+
+  // Seen up close, a planet's own ring would cut straight through it.
+  ringMeshes.forEach((ring, k) => { ring.visible = PASSIONS[focusedIndex]?.ring !== k; });
 
   // Update sphere scales, sphere glass-opacity, and emoji visibility
   const _worldPos = new THREE.Vector3();
@@ -1513,7 +1481,7 @@ function tick() {
     //   0.18 = glass (close / focused, emoji inside visible)
     let sphereTarget = 1.0;
     if (isFocused) {
-      sphereTarget = 0.18;
+      sphereTarget = 0.38;
     } else if (dist < 7) {
       // Smoothly go glass as camera approaches
       const t = Math.max(0, Math.min(1, (dist - 2.5) / 4.5));
@@ -1523,6 +1491,7 @@ function tick() {
     sMat.opacity += (sphereTarget - sMat.opacity) * 0.1;
     if (ud.glow) ud.glow.visible = !lightTheme && !isFocused; // the halo would hide the emoji
     sMat.depthWrite = sMat.opacity >= 0.95;
+    if (!lightTheme) sMat.emissiveIntensity += ((isFocused ? 0.45 : PLANET_GLOW) - sMat.emissiveIntensity) * 0.1;
 
     // Emoji target opacity: inverse-ish of sphere opacity, gated on proximity
     if (ud.emojiSprite) {
@@ -1616,10 +1585,7 @@ function tick() {
   // Update labels
   updateLabels();
 
-  // Update shooting stars
-  if (!reducedMotion) {
-    updateMeteors(dt);
-  }
+  if (!reducedMotion) updateComet(dt);
 
   // Update audio fade
   updateAudioFade(dt);
