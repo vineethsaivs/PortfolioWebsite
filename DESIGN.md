@@ -17,6 +17,10 @@ Black is the room, white is the voice, red is the signal.
 - Never: red body text, red labels at rest, red gradients or glows.
 - Links are white (black in light) with a quiet underline that turns red.
 - The universe planets are the one place with other colors.
+
+## Universe physics
+
+The scene should survive a physicist. Orbits follow Kepler (speed falls as radius^-1.5), planets ride the same plane as their ring, near-flat. The core is the light source, so planets have a night side. Grid wells fall as 1/distance. The comet solves Kepler's equation and its tails point away from the star. No shooting stars (no air in space). Not to scale on purpose: sizes, planet masses and the light's falloff are stretched to stay visible. Physics claims in the essays must be checkable.
 - Blog: same palette; blue appears only in charts, and small red labels on grey use a lighter tint for contrast.
 - One toggle (top right), one `localStorage` key (`theme`) for the whole site, via `js/theme.js`.
 
@@ -56,4 +60,3 @@ Black is the room, white is the voice, red is the signal.
 ## Known rough edges
 
 - Open-source counts are static (dated on the page).
-- The resume PDF is dated March 2026.
