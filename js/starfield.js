@@ -1,5 +1,5 @@
 /**
- * Starfield , twinkling canvas stars with cursor parallax + glow tracking
+ * Starfield , twinkling canvas stars with cursor parallax
  */
 (function () {
   const canvas = document.getElementById('starfield');
@@ -12,6 +12,15 @@
 
   let width, height, mouseX = 0, mouseY = 0;
   let stars = [];
+
+  let starRGB, starStrength;
+  function readTheme() {
+    const css = getComputedStyle(document.documentElement);
+    starRGB = css.getPropertyValue('--star-rgb').trim();
+    starStrength = Number(css.getPropertyValue('--star-strength'));
+  }
+  window.addEventListener('themechange', readTheme);
+  readTheme();
 
   function resize() {
     width = canvas.width = window.innerWidth;
@@ -36,19 +45,6 @@
 
   function draw(time) {
     ctx.clearRect(0, 0, width, height);
-
-    // Subtle gradient wash , gives depth instead of flat black
-    var grd = ctx.createRadialGradient(width * 0.3, height * 0.2, 0, width * 0.3, height * 0.2, width * 0.7);
-    grd.addColorStop(0, 'rgba(229, 9, 20, 0.015)');
-    grd.addColorStop(1, 'transparent');
-    ctx.fillStyle = grd;
-    ctx.fillRect(0, 0, width, height);
-
-    var grd2 = ctx.createRadialGradient(width * 0.8, height * 0.8, 0, width * 0.8, height * 0.8, width * 0.5);
-    grd2.addColorStop(0, 'rgba(255, 255, 255, 0.008)');
-    grd2.addColorStop(1, 'transparent');
-    ctx.fillStyle = grd2;
-    ctx.fillRect(0, 0, width, height);
 
     const centerX = width / 2;
     const centerY = height / 2;
@@ -76,19 +72,17 @@
       // Draw
       ctx.beginPath();
       ctx.arc(drawX, drawY, star.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(226, 232, 240, ${star.alpha})`;
+      ctx.fillStyle = `rgba(${starRGB}, ${star.alpha * starStrength})`;
       ctx.fill();
     }
 
     requestAnimationFrame(draw);
   }
 
-  // Mouse tracking for parallax + cursor glow CSS vars
+  // Mouse tracking for parallax
   document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-    document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
-    document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
   });
 
   // Resize

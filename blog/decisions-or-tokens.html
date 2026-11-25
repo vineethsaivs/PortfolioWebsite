@@ -7,7 +7,7 @@
   <title>Measuring Progress on ARC-AGI-3 When Every Run Scores Differently | Vineeth</title>
   <meta name="description" content="How to build an agent for a world it has never seen, and how to tell whether a change really helped when every run scores differently. Lessons from an ARC Prize 2026 entry, with diagrams and a simulator.">
   <meta name="author" content="Vineeth">
-  <meta name="theme-color" content="#0a0a0a">
+  <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://vineethsai.me/blog/decisions-or-tokens.html">
 
   <meta property="og:type" content="article">
@@ -22,7 +22,7 @@
   <meta name="twitter:description" content="How to build an agent for a world it has never seen, and how to tell whether a change really helped when every run scores differently. Lessons from an ARC Prize 2026 entry, with diagrams and a simulator.">
   <meta name="twitter:image" content="https://vineethsai.me/img/decisions-or-tokens-cover.png">
 
-  <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
   <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230a0a0a'/><text y='70' x='50' text-anchor='middle' font-size='54' font-family='sans-serif' fill='%23e50914'>V</text></svg>">
@@ -54,7 +54,7 @@
       <p class="hero-dek">Lessons from ARC Prize 2026 on building an agent for a world it has never seen, and on measuring whether a change really helped. Simple first, then deeper.</p>
       <div class="hero-status">
         <span class="status-dot" aria-hidden="true"></span>
-        <span>Peaked at rank 9, finished 26th of 5,073</span>
+        <span>Peaked at rank 9, 26th of 5,073 on the public board</span>
       </div>
       <svg class="hero-wave" data-wave-sweep viewBox="0 0 360 34" preserveAspectRatio="none" aria-hidden="true">
         <path d="M0 17 H70 V6 H82 V17 H110 V6 H122 V17 H150 V6 H162 V17 H360"></path>
@@ -85,7 +85,7 @@
 
       <section id="sec-same" class="article-section" data-toc-section data-reveal>
         <h2>A headline, and a puzzle</h2>
-        <p>In October, a small automated news site announced that I had joined the top ten of a global AI competition. A few weeks later I finished 26th. Both were true, and the gap between them is what this post is about.</p>
+        <p>In October, a small automated news site announced that I had joined the top ten of a global AI competition. A few weeks later I was 26th on the final public board. Both were true, and the gap between them is what this post is about.</p>
         <p>To see why, start with something smaller. I wrote an agent that plays interactive puzzle games and ran it on the 25 public games, 183 levels in all. It cleared 123.</p>
         <p>Then I ran the exact same code again, with the same files, the same settings, the same type of GPU and the same 25 games. It cleared 101.</p>
         <p>That is a gap of 22 levels, with nothing changed. My best guess is the model's own randomness, but I could not prove it.</p>
@@ -262,7 +262,7 @@
 
   </div>
 
-  <script defer src="/blog/theme.js"></script>
+  <script defer src="/js/theme.js"></script>
   <script defer src="/blog/decisions-or-tokens.js"></script>
 </body>
 </html>

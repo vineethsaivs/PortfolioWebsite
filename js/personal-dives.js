@@ -1,5 +1,5 @@
 // Deep-dive essays for Favourite Books & Favourite Sports cards.
-// Click any card in #blogs or #favourite-sports to open its essay.
+// Any element with data-dive opens its essay in the native <dialog id="dive">.
 
 const DIVES = {
   // ── BOOKS ─────────────────────────────────────────────────────────────────
@@ -141,73 +141,34 @@ const DIVES = {
   },
 };
 
-function openDive(key) {
-  const dive = DIVES[key];
-  if (!dive) return;
+// `data` lets the universe open its own essays through the same dialog.
+function openDive(key, data) {
+  const dive = data || DIVES[key];
+  const dialog = document.getElementById('dive');
+  if (!dive || !dialog) return;
 
-  let modal = document.getElementById('content-deep-dive');
-  if (!modal) {
-    modal = document.createElement('div');
-    modal.id = 'content-deep-dive';
-    modal.className = 'content-deep-dive';
-    document.body.appendChild(modal);
-  }
-
-  const paragraphs = dive.paragraphs.map(p => `<p>${p}</p>`).join('');
-  const subline = dive.sub ? `<div class="deep-dive-sub">${dive.sub}</div>` : '';
-
-  modal.innerHTML = `
-    <div class="deep-dive-backdrop"></div>
-    <div class="deep-dive-content">
-      <button class="deep-dive-close" aria-label="Close">&times;</button>
-      <div class="deep-dive-header">
-        <span class="deep-dive-emoji">${dive.emoji}</span>
-        <h2 class="deep-dive-title" style="color: ${dive.color}">${dive.label}</h2>
-        ${subline}
-        <div class="deep-dive-accent" style="background: ${dive.color}"></div>
-      </div>
-      <div class="deep-dive-body">${paragraphs}</div>
-      <div class="deep-dive-quote">Part of what makes me, me.</div>
-    </div>
-  `;
-
-  modal.offsetHeight;
-  modal.classList.add('visible');
-  document.body.style.overflow = 'hidden';
-
-  const close = () => {
-    modal.classList.remove('visible');
-    document.body.style.overflow = '';
-    setTimeout(() => { if (modal.parentNode) modal.parentNode.removeChild(modal); }, 400);
-    document.removeEventListener('keydown', escHandler);
-  };
-
-  const escHandler = (e) => { if (e.key === 'Escape') close(); };
-
-  modal.querySelector('.deep-dive-close').addEventListener('click', close);
-  modal.querySelector('.deep-dive-backdrop').addEventListener('click', close);
-  document.addEventListener('keydown', escHandler);
+  dialog.innerHTML = `
+    <div class="dive-sheet">
+      <button type="button" class="dive-close" aria-label="Close essay" autofocus>&times;</button>
+      <span class="dive-emoji" aria-hidden="true">${dive.emoji}</span>
+      <h2 id="dive-title">${dive.label}</h2>
+      ${dive.sub ? `<p class="dive-sub">${dive.sub}</p>` : ''}
+      <div class="dive-body">${dive.paragraphs.map((p) => `<p>${p}</p>`).join('')}</div>
+      <p class="dive-sign">Part of what makes me, me.</p>
+    </div>`;
+  dialog.showModal();
+  dialog.scrollTop = 0;
 }
 
-function initDives() {
-  document.querySelectorAll('[data-dive]').forEach(card => {
-    card.setAttribute('role', 'button');
-    card.setAttribute('tabindex', '0');
-    card.addEventListener('click', () => openDive(card.dataset.dive));
-    card.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        openDive(card.dataset.dive);
-      }
-    });
-  });
-}
+// showModal() gives focus trapping, Escape and focus return; we add click-outside.
+document.getElementById('dive').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget || e.target.closest('.dive-close')) e.currentTarget.close();
+});
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initDives);
-} else {
-  initDives();
-}
+document.addEventListener('click', (e) => {
+  const trigger = e.target.closest('[data-dive]');
+  if (trigger) openDive(trigger.dataset.dive);
+});
 
-// Exposed so the 3D universe (passions-universe.js) can trigger the Thread dive.
+// Exposed so the 3D universe (passions-universe.js) can open essays.
 window.openDive = openDive;

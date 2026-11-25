@@ -7,7 +7,7 @@
   <title>Running four AI models on a 2-core board, fully offline | Vineeth</title>
   <meta name="description" content="A teardown of Room Sentinel: a fully offline edge-AI room monitor that runs vision, speech, a local LLM, and a voice on one 2-core Synaptics Coralboard. One button, a buzzer, no internet.">
   <meta name="author" content="Vineeth">
-  <meta name="theme-color" content="#0a0a0a">
+  <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://vineethsai.me/blog/room-sentinel.html">
 
   <!-- Open Graph -->
@@ -25,7 +25,7 @@
   <meta name="twitter:image" content="https://vineethsai.me/img/room-sentinel-architecture.png">
 
   <!-- Swap no-js -> js before paint so reveal animations never hide content with JS off -->
-  <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
   <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230a0a0a'/><text y='70' x='50' text-anchor='middle' font-size='54' font-family='sans-serif' font-weight='700' fill='%23e50914'>VS</text></svg>">
@@ -519,7 +519,7 @@ gpioset <span class="tok-key">--mode=signal</span> gpiochip0 <span class="tok-st
 
   </div><!-- /article-shell -->
 
-  <script defer src="/blog/theme.js"></script>
+  <script defer src="/js/theme.js"></script>
   <script defer src="/blog/room-sentinel.js"></script>
 </body>
 </html>
